@@ -33,7 +33,7 @@ const NAV_LINKS = [
     label: "Commission Balance",
     icon: Wallet,
   },
-  { href: "/affiliate/cashout", label: "Cashout (GCash)", icon: CreditCard },
+  { href: "/affiliate/cashout", label: "Cashout (Maya)", icon: CreditCard },
   { href: "/affiliate/courses", label: "Courses", icon: BookOpen },
   { href: "/affiliate/community", label: "Community", icon: Users },
 ];

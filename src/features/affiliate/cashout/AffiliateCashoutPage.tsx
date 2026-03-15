@@ -5,6 +5,7 @@ import { CreditCard, Clock, CheckCircle2, XCircle } from "lucide-react";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { affiliateDashboardService } from "../dashboard/services/affiliate-dashboard.service";
 import type { AffiliateCashout } from "@/types/affiliate-dashboard.types";
+import { Button } from "@/shared/components/ui/Button";
 
 const STATUS_ICONS = {
   pending: <Clock className="w-4 h-4 text-yellow-500" />,
@@ -30,8 +31,8 @@ export const AffiliateCashoutPage = () => {
 
   const [form, setForm] = useState({
     amount: "",
-    gcashNumber: "",
-    gcashName: "",
+    mayaNumber: "",
+    mayaName: "",
   });
 
   const loadCashouts = () => {
@@ -59,11 +60,11 @@ export const AffiliateCashoutPage = () => {
     try {
       await affiliateDashboardService.requestCashout({
         amount,
-        gcashNumber: form.gcashNumber,
-        gcashName: form.gcashName,
+        mayaNumber: form.mayaNumber,
+        mayaName: form.mayaName,
       });
       setSuccess(true);
-      setForm({ amount: "", gcashNumber: "", gcashName: "" });
+      setForm({ amount: "", mayaNumber: "", mayaName: "" });
       loadCashouts();
     } catch {
       setError("Failed to submit cashout request. Please try again.");
@@ -107,7 +108,7 @@ export const AffiliateCashoutPage = () => {
                 <p className="text-sm font-semibold text-gray-800">
                   {fmt(c.amount)}
                 </p>
-                <p className="text-xs text-gray-400">{c.gcashNumber}</p>
+                <p className="text-xs text-gray-400">{c.mayaNumber}</p>
               </div>
             </div>
 
@@ -131,8 +132,8 @@ export const AffiliateCashoutPage = () => {
   return (
     <div>
       <AffiliateTopBar
-        title="Cashout (GCash)"
-        subtitle="Withdraw your available balance to GCash"
+        title="Cashout (Maya)"
+        subtitle="Withdraw your available balance to Maya Wallet"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -167,18 +168,18 @@ export const AffiliateCashoutPage = () => {
             </div>
             <div>
               <label
-                htmlFor="gcashNumber"
+                htmlFor="mayaNumber"
                 className="block text-xs font-medium text-gray-500 mb-1.5"
               >
-                GCash Number
+                Maya Wallet Number
               </label>
               <input
-                id="gcashNumber"
+                id="mayaNumber"
                 type="tel"
                 placeholder="09XXXXXXXXX"
-                value={form.gcashNumber}
+                value={form.mayaNumber}
                 onChange={(e) =>
-                  setForm((f) => ({ ...f, gcashNumber: e.target.value }))
+                  setForm((f) => ({ ...f, mayaNumber: e.target.value }))
                 }
                 className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
@@ -186,18 +187,18 @@ export const AffiliateCashoutPage = () => {
             </div>
             <div>
               <label
-                htmlFor="gcashName"
+                htmlFor="mayaName"
                 className="block text-xs font-medium text-gray-500 mb-1.5"
               >
-                GCash Account Name
+                Maya Account Name
               </label>
               <input
-                id="gcashName"
+                id="mayaName"
                 type="text"
-                placeholder="Full name on GCash"
-                value={form.gcashName}
+                placeholder="Full name on Maya"
+                value={form.mayaName}
                 onChange={(e) =>
-                  setForm((f) => ({ ...f, gcashName: e.target.value }))
+                  setForm((f) => ({ ...f, mayaName: e.target.value }))
                 }
                 className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 required
@@ -211,13 +212,14 @@ export const AffiliateCashoutPage = () => {
               </p>
             )}
 
-            <button
+            <Button
               type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+              variant="purple"
+              loading={isSubmitting}
+              className="w-full"
             >
               {isSubmitting ? "Submitting…" : "Submit Cashout Request"}
-            </button>
+            </Button>
           </form>
         </div>
 

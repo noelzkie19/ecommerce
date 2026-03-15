@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Link2, Copy, CheckCheck, ExternalLink, Store } from "lucide-react";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { affiliateDashboardService } from "../dashboard/services/affiliate-dashboard.service";
+import { Button } from "@/shared/components/ui/Button";
 
 export const AffiliateReferralLinkPage = () => {
   const [referralLink, setReferralLink] = useState("");
@@ -156,7 +157,7 @@ export const AffiliateReferralLinkPage = () => {
               "Share your referral or store link with friends and family",
               "They visit the store — Meta Pixel fires automatically via your Store ID",
               "You earn a commission on every successful sale",
-              "Cashout your earnings via GCash anytime",
+              "Cashout your earnings via Maya Wallet anytime",
             ].map((step, i) => (
               <li
                 key={step}
@@ -173,15 +174,16 @@ export const AffiliateReferralLinkPage = () => {
 
         {/* Open referral link */}
         {referralLink && (
-          <a
-            href={referralLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+          <Button
+            variant="purple"
+            onClick={() => {
+              globalThis.window.open(referralLink, "_blank");
+            }}
+            className="w-full"
           >
             <ExternalLink className="w-4 h-4" />
             Preview Your Referral Link
-          </a>
+          </Button>
         )}
       </div>
     </div>

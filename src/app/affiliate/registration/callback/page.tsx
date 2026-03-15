@@ -43,24 +43,27 @@ function CallbackContent() {
           return;
         }
 
-        // Backend returns { success, status, alreadyConfirmed }
-        // Handle both successful payment and already-confirmed cases
-        const isSuccess =
-          (result.success && result.status === "succeeded") ||
-          result.alreadyConfirmed;
+        // Backend may return { success, status } or { success, message: "Payment status: <status>" }
+        // Normalize the status field from either source
+        const res = result as any;
+        const paymentStatus: string =
+          res.status || res.message?.replace("Payment status: ", "") || "";
 
-        if (isSuccess) {
+        console.log("[AffiliateCallback] Payment status:", paymentStatus);
+
+        // Handle both successful payment and already-confirmed cases
+        if (paymentStatus === "succeeded" || result.alreadyConfirmed) {
           clearInterval(interval);
           setStatus("success");
-          // Redirect to onboarding with paid status - waiting for admin approval
+          // Redirect directly to dashboard - affiliate is activated immediately
           setTimeout(() => {
-            router.push("/affiliate/onboarding?status=paid");
+            router.push("/affiliate/dashboard");
           }, 2000);
-        } else if (result.status === "payment_intent.payment_failed") {
+        } else if (paymentStatus === "payment_intent.payment_failed") {
           clearInterval(interval);
           setStatus("failed");
         } else {
-          // still pending — keep polling
+          // awaiting_next_action or other intermediate states — keep polling
           attempts++;
           if (attempts >= maxAttempts) {
             clearInterval(interval);
@@ -103,7 +106,7 @@ function CallbackContent() {
             Payment Confirmed!
           </h1>
           <p className="text-gray-500 text-center">
-            Your affiliate registration is complete.
+            Your affiliate account is now active.
           </p>
           <p className="text-sm text-purple-600 font-medium">
             Redirecting to your dashboard...

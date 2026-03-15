@@ -60,7 +60,8 @@ export const AffiliateCommissionBalancePage = () => {
           <li className="flex items-start gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
             <span>
-              You can cashout your available balance via GCash at any time.
+              You can cashout your available balance via Maya Wallet at any
+              time.
             </span>
           </li>
         </ul>
