@@ -7,34 +7,33 @@ import type {
 } from "@/types/affiliate-dashboard.types";
 
 export const affiliateDashboardApi = {
-  /** GET /api/affiliate/dashboard — stats + chart for the logged-in affiliate */
-  getDashboard: () =>
-    apiClient.get<AffiliateDashboard>("/api/affiliate/dashboard"),
+  /** GET /api/affiliates/me — Get current user's affiliate status (dashboard data) */
+  getDashboard: () => apiClient.get<AffiliateDashboard>("/api/affiliates/me"),
 
-  /** GET /api/affiliate/profile */
-  getProfile: () => apiClient.get<AffiliateProfile>("/api/affiliate/profile"),
+  /** GET /api/affiliates/me — Get profile */
+  getProfile: () => apiClient.get<AffiliateProfile>("/api/affiliates/me"),
 
-  /** GET /api/affiliate/referral-link */
+  /** GET /api/affiliates/me/link — Get referral link */
   getReferralLink: () =>
     apiClient.get<{ referralLink: string; referralCode: string }>(
-      "/api/affiliate/referral-link",
+      "/api/affiliates/me/link",
     ),
 
-  /** GET /api/affiliate/cashouts */
+  /** GET /api/affiliates/me/cashouts — Get cashout history */
   getCashouts: () =>
-    apiClient.get<AffiliateCashout[]>("/api/affiliate/cashouts"),
+    apiClient.get<AffiliateCashout[]>("/api/affiliates/me/cashouts"),
 
-  /** POST /api/affiliate/cashouts */
+  /** POST /api/affiliates/me/cashouts — Request cashout */
   requestCashout: (dto: AffiliateCashoutRequest) =>
-    apiClient.post<AffiliateCashout>("/api/affiliate/cashouts", dto),
+    apiClient.post<AffiliateCashout>("/api/affiliates/me/cashouts", dto),
 
   /** POST /api/affiliates/payment/create — create PayMongo payment for registration fee */
-  register: () =>
+  register: (callbackUrl?: string, referralCode?: string) =>
     apiClient.post<{
       redirectUrl: string;
       qrCodeUrl?: string;
       paymentIntentId: string;
-    }>("/api/affiliates/payment/create"),
+    }>("/api/affiliates/payment/create", { callbackUrl, referralCode }),
 
   /** GET /api/affiliates/payment/verify — verify registration payment */
   verifyRegistrationPayment: (intentId: string, userId?: string) => {

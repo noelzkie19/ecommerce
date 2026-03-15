@@ -30,16 +30,16 @@ export interface AffiliateProfile {
 
 export interface AffiliateCashoutRequest {
   amount: number;
-  gcashNumber: string;
-  gcashName: string;
+  mayaNumber: string;
+  mayaName: string;
 }
 
 export interface AffiliateCashout {
   id: string;
   affiliateId: string;
   amount: number;
-  gcashNumber: string;
-  gcashName: string;
+  mayaNumber: string;
+  mayaName: string;
   status: "pending" | "approved" | "rejected";
   createdAt: string;
 }

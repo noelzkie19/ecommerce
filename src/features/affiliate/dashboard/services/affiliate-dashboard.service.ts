@@ -46,12 +46,19 @@ export const affiliateDashboardService = {
     return (data as any)?.data ?? data;
   },
 
-  async register(): Promise<{
+  async register(referralCode?: string): Promise<{
     redirectUrl: string;
     qrCodeUrl?: string;
     paymentIntentId: string;
   }> {
-    const { data } = await affiliateDashboardApi.register();
+    // Pass callback URL that includes intent_id after payment (browser only)
+    const callbackUrl = globalThis.window
+      ? `${globalThis.window.location.origin}/affiliate/payment/callback`
+      : undefined;
+    const { data } = await affiliateDashboardApi.register(
+      callbackUrl,
+      referralCode,
+    );
     return (data as any)?.data ?? data;
   },
 
