@@ -1,0 +1,135 @@
+"use client";
+
+import { useState } from "react";
+import {
+  MessageSquare,
+  Loader2,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import TestimonialCard from "./components/TestimonialCard";
+import { useTestimonials } from "./hooks/useTestimonials";
+import WriteTestimonialModal from "./modals/WriteTestimonialModal";
+
+export default function TestimonialsPage() {
+  const [page, setPage] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+
+  const { testimonials, meta, isLoading, error, refetch } = useTestimonials({
+    page,
+    limit: 9,
+  });
+
+  const content = (() => {
+    if (isLoading)
+      return (
+        <div className="flex justify-center py-24">
+          <Loader2 size={24} className="animate-spin text-emerald-500" />
+        </div>
+      );
+    if (error)
+      return (
+        <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-5 py-4 max-w-md mx-auto">
+          {error}
+        </div>
+      );
+    if (testimonials.length === 0)
+      return (
+        <div className="py-24 text-center text-gray-400 text-sm">
+          No testimonials yet. Be the first to share your experience!
+        </div>
+      );
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {testimonials.map((t) => (
+          <TestimonialCard key={t.id} testimonial={t} />
+        ))}
+      </div>
+    );
+  })();
+
+  return (
+    <div className="max-w-6xl mx-auto px-6 py-16 space-y-10">
+      {/* Header */}
+      <div className="text-center space-y-3">
+        <h1 className="text-4xl font-bold text-gray-900">
+          Customer Testimonials
+        </h1>
+        <p className="text-gray-500 text-base">
+          Hear from our happy customers about their wellness journey
+        </p>
+        <button
+          onClick={() => setShowModal(true)}
+          className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full border border-gray-300 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+        >
+          <MessageSquare size={15} />
+          Share Your Experience
+        </button>
+      </div>
+
+      {/* Cards */}
+      {content}
+
+      {/* Pagination */}
+      {meta && meta.totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 pt-4">
+          <button
+            onClick={() => setPage((p) => p - 1)}
+            disabled={page <= 1}
+            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          {Array.from({ length: meta.totalPages }, (_, i) => i + 1)
+            .filter(
+              (p) =>
+                p === 1 || p === meta.totalPages || Math.abs(p - page) <= 1,
+            )
+            .reduce<(number | string)[]>((acc, p, i, arr) => {
+              const prev = arr[i - 1];
+              if (i > 0 && typeof prev === "number" && p - prev > 1)
+                acc.push(`ellipsis-${i}`);
+              acc.push(p);
+              return acc;
+            }, [])
+            .map((p) =>
+              typeof p === "string" ? (
+                <span key={p} className="px-1 text-gray-400 text-sm">
+                  …
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => setPage(p)}
+                  className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
+                    p === page
+                      ? "bg-emerald-500 text-white"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }`}
+                >
+                  {p}
+                </button>
+              ),
+            )}
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            disabled={page >= meta.totalPages}
+            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      )}
+
+      {/* Modal */}
+      {showModal && (
+        <WriteTestimonialModal
+          onClose={() => {
+            setShowModal(false);
+            refetch();
+          }}
+        />
+      )}
+    </div>
+  );
+}
