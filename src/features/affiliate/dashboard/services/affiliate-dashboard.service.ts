@@ -25,7 +25,12 @@ export const affiliateDashboardService = {
     referralCode: string;
   }> {
     const { data } = await affiliateDashboardApi.getReferralLink();
-    return (data as any)?.data ?? data;
+    const body = (data as any)?.data ?? data;
+    // Backend may return affiliateLink instead of referralLink
+    return {
+      referralLink: body.affiliateLink || body.referralLink || "",
+      referralCode: body.affiliateLinkCode || body.referralCode || "",
+    };
   },
 
   async getCashouts(): Promise<AffiliateCashout[]> {

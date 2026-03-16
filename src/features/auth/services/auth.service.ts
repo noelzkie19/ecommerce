@@ -11,6 +11,8 @@ const enrichWithAffiliateStatus = async (user: AuthUser): Promise<AuthUser> => {
     const { data } = await affiliatesApi.getMyStatus();
     const affiliate = (data as any)?.data ?? data;
 
+    console.log("[AuthService] Affiliate status response:", affiliate);
+
     if (affiliate) {
       return {
         ...user,
@@ -19,7 +21,8 @@ const enrichWithAffiliateStatus = async (user: AuthUser): Promise<AuthUser> => {
         affiliatePaymentStatus: affiliate.paymentStatus ?? null,
       };
     }
-  } catch {
+  } catch (err) {
+    console.log("[AuthService] No affiliate record found:", err);
     // No affiliate record — regular user
   }
 
@@ -40,11 +43,25 @@ export const authService = {
     email: string;
     password: string;
     fullName: string;
+    referralCode?: string;
   }) {
     const { data } = await authApi.register(payload);
     const result = (data as any).data ?? data;
+
+    // CRITICAL: Clear any existing tokens first to ensure clean state
+    // This prevents the old user's session from persisting
+    console.log(
+      "[AuthService] Register - clearing old tokens, setting new ones",
+    );
+    tokenStorage.clear(); // Clear any existing tokens first
     tokenStorage.set(result.accessToken, result.refreshToken);
+
     const enriched = await enrichWithAffiliateStatus(result.user);
+    console.log("[AuthService] Registered user with affiliate status:", {
+      isAffiliate: enriched.isAffiliate,
+      affiliateStatus: enriched.affiliateStatus,
+      affiliatePaymentStatus: enriched.affiliatePaymentStatus,
+    });
     useAuthStore.getState().setUser(enriched);
     return { ...result, user: enriched };
   },

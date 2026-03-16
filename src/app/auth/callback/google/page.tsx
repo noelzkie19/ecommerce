@@ -37,6 +37,14 @@ export default function GoogleCallbackPage() {
 
         const user = result.user;
 
+        // Read referral code from sessionStorage (set by GoogleButton or useRegister)
+        let referralCode: string | null = null;
+        try {
+          referralCode = sessionStorage.getItem("affiliate_ref");
+        } catch {
+          // ignore
+        }
+
         if (user?.role === "admin") {
           router.replace("/admin/dashboard");
         } else if (user?.isAffiliate && user?.affiliateStatus === "active") {
@@ -47,7 +55,15 @@ export default function GoogleCallbackPage() {
         ) {
           router.replace("/affiliate/onboarding?status=paid");
         } else if (user?.isAffiliate) {
-          router.replace("/affiliate/onboarding");
+          // Preserve referral code in the onboarding URL if present
+          const onboardingUrl = referralCode
+            ? `/affiliate/onboarding?ref=${encodeURIComponent(referralCode)}`
+            : "/affiliate/onboarding";
+          router.replace(onboardingUrl);
+        } else if (referralCode) {
+          router.replace(
+            `/affiliate/onboarding?ref=${encodeURIComponent(referralCode)}`,
+          );
         } else {
           router.replace("/");
         }

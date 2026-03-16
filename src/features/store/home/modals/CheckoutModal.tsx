@@ -370,6 +370,14 @@ export const CheckoutModal = ({
     }
     setIsSubmitting(true);
     try {
+      // Read affiliate referral code from sessionStorage (set by GoogleButton/useRegister)
+      let referralCode: string | undefined;
+      try {
+        referralCode = sessionStorage.getItem("affiliate_ref") ?? undefined;
+      } catch {
+        // ignore
+      }
+
       await placeOrder({
         fullName: shipping.fullName,
         email: shipping.email ?? "",
@@ -378,6 +386,7 @@ export const CheckoutModal = ({
         orderNotes: shipping.notes || undefined,
         paymentMethod: payment.method,
         discount: payment.method === "gcash" ? PRICING.GCASH_DISCOUNT : 0,
+        referralCode,
       });
 
       // Store order data for Meta Pixel tracking (used by GCash callback)

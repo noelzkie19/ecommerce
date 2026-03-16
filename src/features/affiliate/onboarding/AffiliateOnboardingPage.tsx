@@ -285,8 +285,15 @@ const AffiliateOnboardingContent = () => {
   const paymentStatus = searchParams?.get("status");
   const isPaid = paymentStatus === "paid";
 
-  // Capture referral code from URL (e.g., ?ref=CODE)
-  const referralCode = searchParams?.get("ref") || null;
+  // Capture referral code from URL (e.g., ?ref=CODE) or sessionStorage fallback
+  // (sessionStorage is set by useRegister when a user signs up via a referral link)
+  const urlRef = searchParams?.get("ref") || null;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  const hasSessionStorage = typeof sessionStorage !== "undefined";
+  const sessionRef = hasSessionStorage
+    ? sessionStorage.getItem("affiliate_ref")
+    : null;
+  const referralCode = urlRef || sessionRef || null;
 
   const { user } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -311,6 +318,14 @@ const AffiliateOnboardingContent = () => {
       );
       console.log("[Onboarding] Payment result:", result);
       console.log("[Onboarding] Redirect URL:", result.redirectUrl);
+
+      // Clear the sessionStorage ref now that it has been consumed by the
+      // payment creation request — prevents stale refs on future visits.
+      try {
+        sessionStorage.removeItem("affiliate_ref");
+      } catch {
+        // ignore
+      }
 
       // Priority: Maya Wallet deep link > QR code (fallback)
       // Maya Wallet opens the app directly via deep link

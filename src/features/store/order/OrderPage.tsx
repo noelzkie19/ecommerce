@@ -335,6 +335,14 @@ export default function OrderPage() {
       setStep((s) => s + 1);
       return;
     }
+    // Read affiliate referral code from sessionStorage (set by GoogleButton/useRegister)
+    let referralCode: string | undefined;
+    try {
+      referralCode = sessionStorage.getItem("affiliate_ref") ?? undefined;
+    } catch {
+      // ignore
+    }
+
     await placeOrder({
       fullName: shipping.fullName,
       email: shipping.email ?? "",
@@ -343,6 +351,7 @@ export default function OrderPage() {
       orderNotes: shipping.notes || undefined,
       paymentMethod: payment.method,
       discount: payment.method === "gcash" ? GCASH_DISCOUNT : 0,
+      referralCode,
     });
     // GCash → qrCodeUrl is set in useOrder → QrPaymentModal appears automatically
     // COD → show success modal directly

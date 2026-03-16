@@ -93,15 +93,17 @@ export const AffiliateProfilePage = () => {
   const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      affiliatesApi.getMyStatus(),
-      affiliateDashboardService.getReferralLink(),
-    ])
-      .then(([statusRes, linkRes]) => {
-        const affiliateData = (statusRes.data as any)?.data ?? statusRes.data;
+    affiliatesApi
+      .getMyStatus()
+      .then((res) => {
+        const affiliateData = (res.data as any)?.data ?? res.data;
         setProfile(affiliateData);
         setPixelInput(affiliateData?.pixelId ?? "");
-        setReferralLink(linkRes.referralLink);
+        // Backend returns affiliateLink directly in /me response
+        const link = affiliateData?.affiliateLink;
+        if (link) {
+          setReferralLink(link);
+        }
       })
       .catch(() => {})
       .finally(() => setIsLoading(false));
