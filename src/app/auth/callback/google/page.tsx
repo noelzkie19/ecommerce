@@ -26,17 +26,6 @@ export default function GoogleCallbackPage() {
           supabaseUser.identities?.[0]?.identity_data?.sub ??
           supabaseUser.id;
 
-        const result = await authService.googleLogin({
-          email: supabaseUser.email!,
-          fullName:
-            supabaseUser.user_metadata?.full_name ??
-            supabaseUser.user_metadata?.name ??
-            "",
-          googleId,
-        });
-
-        const user = result.user;
-
         // Read referral code from sessionStorage (set by GoogleButton or useRegister)
         let referralCode: string | null = null;
         try {
@@ -44,6 +33,18 @@ export default function GoogleCallbackPage() {
         } catch {
           // ignore
         }
+
+        const result = await authService.googleLogin({
+          email: supabaseUser.email!,
+          fullName:
+            supabaseUser.user_metadata?.full_name ??
+            supabaseUser.user_metadata?.name ??
+            "",
+          googleId,
+          referralCode: referralCode ?? undefined,
+        });
+
+        const user = result.user;
 
         if (user?.role === "admin") {
           router.replace("/admin/dashboard");

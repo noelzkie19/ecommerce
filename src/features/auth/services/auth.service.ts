@@ -70,6 +70,7 @@ export const authService = {
     email: string;
     fullName: string;
     googleId: string;
+    referralCode?: string;
   }) {
     const { data } = await authApi.google(payload);
     const result = (data as any).data ?? data;

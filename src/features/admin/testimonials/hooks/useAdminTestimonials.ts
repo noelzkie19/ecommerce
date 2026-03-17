@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { testimonialsService } from "../services/testimonials.service";
 import type {

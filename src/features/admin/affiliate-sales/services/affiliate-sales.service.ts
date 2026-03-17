@@ -3,46 +3,55 @@ import type {
   AffiliateSale,
   AffiliateSalesResponse,
   AffiliateSaleStatus,
+  CommissionType,
 } from "@/types/affiliate-sales.types";
 
-// ── Mappers ──────────────────────────────────────────────────────────────────
-
-const mapAffiliateSale = (raw: any): AffiliateSale => ({
-  id: raw.id,
-  affiliateId: raw.affiliate_id,
-  orderId: raw.order_id,
-  orderItemId: raw.order_item_id,
-  productId: raw.product_id,
-  quantity: raw.quantity,
-  saleAmount: raw.sale_amount,
-  commissionType: raw.commission_type,
-  commissionValue: raw.commission_value,
-  commissionEarned: raw.commission_earned,
-  status: raw.status,
-  createdAt: raw.created_at,
-  updatedAt: raw.updated_at,
-  affiliate: raw.affiliate,
-  product: raw.product,
-  order: raw.order,
+const mapAffiliateSale = (raw: Record<string, unknown>): AffiliateSale => ({
+  id: raw.id as string,
+  affiliateId: raw.affiliate_id as string,
+  orderId: raw.order_id as string,
+  orderItemId: raw.order_item_id as string,
+  productId: raw.product_id as string,
+  quantity: raw.quantity as number,
+  saleAmount: raw.sale_amount as number,
+  commissionType: raw.commission_type as CommissionType,
+  commissionValue: raw.commission_value as number,
+  commissionEarned: raw.commission_earned as number,
+  status: raw.status as AffiliateSaleStatus,
+  createdAt: raw.created_at as string,
+  updatedAt: raw.updated_at as string,
+  affiliate: raw.affiliate as AffiliateSale["affiliate"],
+  product: raw.product as AffiliateSale["product"],
+  order: raw.order as AffiliateSale["order"],
 });
 
-const mapAffiliateSalesResponse = (raw: any): AffiliateSalesResponse => {
-  // Handle both { data: { data: [], meta: {} } } and { data: [], meta: {} }
-  const records = raw?.data?.data ?? raw?.data ?? [];
-  const meta = raw?.data?.meta ??
-    raw?.meta ?? {
+const mapAffiliateSalesResponse = (
+  raw: Record<string, unknown>,
+): AffiliateSalesResponse => {
+  const records =
+    (raw.data as Record<string, unknown>)?.data ??
+    (raw.data as unknown[]) ??
+    [];
+  const meta = (raw.data as Record<string, unknown>)?.meta ??
+    (raw.meta as Record<string, unknown>) ?? {
       total: 0,
       page: 1,
       limit: 20,
       totalPages: 0,
     };
   return {
-    data: Array.isArray(records) ? records.map(mapAffiliateSale) : [],
-    meta,
+    data: Array.isArray(records)
+      ? records.map((r) => mapAffiliateSale(r as Record<string, unknown>))
+      : [],
+    meta: meta as AffiliateSalesResponse["meta"],
   };
 };
 
-// ── Service ──────────────────────────────────────────────────────────────────
+const getData = <T>(response: { data: unknown }): T => {
+  const body =
+    (response.data as Record<string, unknown>)?.data ?? response.data;
+  return body as T;
+};
 
 export const affiliateSalesService = {
   getAll: async (params?: {
@@ -52,31 +61,36 @@ export const affiliateSalesService = {
     status?: AffiliateSaleStatus;
     search?: string;
   }): Promise<AffiliateSalesResponse> => {
-    const res = (await affiliateSalesApi.getAll(params)) as any;
-    return mapAffiliateSalesResponse(res.data.data);
+    const response = await affiliateSalesApi.getAll(params);
+    const data = getData<Record<string, unknown>>(response);
+    return mapAffiliateSalesResponse(data);
   },
 
   getById: async (id: string): Promise<AffiliateSale> => {
-    const res = (await affiliateSalesApi.getById(id)) as any;
-    return mapAffiliateSale(res.data.data);
+    const response = await affiliateSalesApi.getById(id);
+    const data = getData<Record<string, unknown>>(response);
+    return mapAffiliateSale(data);
   },
 
   updateStatus: async (
     id: string,
     status: AffiliateSaleStatus,
   ): Promise<AffiliateSale> => {
-    const res = (await affiliateSalesApi.updateStatus(id, status)) as any;
-    return mapAffiliateSale(res.data.data);
+    const response = await affiliateSalesApi.updateStatus(id, status);
+    const data = getData<Record<string, unknown>>(response);
+    return mapAffiliateSale(data);
   },
 
   approve: async (id: string): Promise<AffiliateSale> => {
-    const res = (await affiliateSalesApi.approve(id)) as any;
-    return mapAffiliateSale(res.data.data);
+    const response = await affiliateSalesApi.approve(id);
+    const data = getData<Record<string, unknown>>(response);
+    return mapAffiliateSale(data);
   },
 
   reject: async (id: string): Promise<AffiliateSale> => {
-    const res = (await affiliateSalesApi.reject(id)) as any;
-    return mapAffiliateSale(res.data.data);
+    const response = await affiliateSalesApi.reject(id);
+    const data = getData<Record<string, unknown>>(response);
+    return mapAffiliateSale(data);
   },
 
   delete: async (id: string): Promise<void> => {

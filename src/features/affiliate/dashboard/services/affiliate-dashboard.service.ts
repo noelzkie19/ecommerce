@@ -8,70 +8,90 @@ import type {
   AffiliateCashoutRequest,
 } from "@/types/affiliate-dashboard.types";
 
+const getData = <T>(response: { data: unknown }): T => {
+  const body =
+    (response.data as Record<string, unknown>)?.data ?? response.data;
+  return body as T;
+};
+
 export const affiliateDashboardService = {
-  async getDashboard(): Promise<AffiliateDashboard> {
-    const { data } = await affiliateDashboardApi.getDashboard();
-    const body = (data as any)?.data ?? data;
-    return body;
+  getDashboard: async (): Promise<AffiliateDashboard> => {
+    const response = await affiliateDashboardApi.getDashboard();
+    return getData<AffiliateDashboard>(response);
   },
 
-  async getProfile(): Promise<AffiliateProfile> {
-    const { data } = await affiliateDashboardApi.getProfile();
-    return (data as any)?.data ?? data;
+  getProfile: async (): Promise<AffiliateProfile> => {
+    const response = await affiliateDashboardApi.getProfile();
+    return getData<AffiliateProfile>(response);
   },
 
-  async getReferralLink(): Promise<{
+  getReferralLink: async (): Promise<{
     referralLink: string;
     referralCode: string;
-  }> {
-    const { data } = await affiliateDashboardApi.getReferralLink();
-    const body = (data as any)?.data ?? data;
-    // Backend may return affiliateLink instead of referralLink
+  }> => {
+    const response = await affiliateDashboardApi.getReferralLink();
+    const body = getData<{
+      affiliateLink?: string;
+      referralLink?: string;
+      affiliateLinkCode?: string;
+      referralCode?: string;
+    }>(response);
     return {
       referralLink: body.affiliateLink || body.referralLink || "",
       referralCode: body.affiliateLinkCode || body.referralCode || "",
     };
   },
 
-  async getCashouts(): Promise<AffiliateCashout[]> {
-    const { data } = await affiliateDashboardApi.getCashouts();
-    const body = (data as any)?.data ?? data;
+  getCashouts: async (): Promise<AffiliateCashout[]> => {
+    const response = await affiliateDashboardApi.getCashouts();
+    const body = getData<AffiliateCashout[]>(response);
     return Array.isArray(body) ? body : [];
   },
 
-  async requestCashout(
+  requestCashout: async (
     dto: AffiliateCashoutRequest,
-  ): Promise<AffiliateCashout> {
-    const { data } = await affiliateDashboardApi.requestCashout(dto);
-    return (data as any)?.data ?? data;
+  ): Promise<AffiliateCashout> => {
+    const response = await affiliateDashboardApi.requestCashout(dto);
+    return getData<AffiliateCashout>(response);
   },
 
-  async updatePixelId(pixelId: string): Promise<{ pixelId: string }> {
-    const { data } = await affiliatesApi.updateMyPixelId(pixelId);
-    return (data as any)?.data ?? data;
+  updatePixelId: async (pixelId: string): Promise<{ pixelId: string }> => {
+    const response = await affiliatesApi.updateMyPixelId(pixelId);
+    return getData<{ pixelId: string }>(response);
   },
 
-  async register(referralCode?: string): Promise<{
+  register: async (
+    referralCode?: string,
+  ): Promise<{
     redirectUrl: string;
     qrCodeUrl?: string;
     paymentIntentId: string;
-  }> {
-    // Pass callback URL that includes intent_id after payment (browser only)
-    const callbackUrl = globalThis.window
-      ? `${globalThis.window.location.origin}/affiliate/payment/callback`
+  }> => {
+    const params = new URLSearchParams();
+    if (referralCode) params.set("affiliateLink", referralCode);
+    const callbackUrl = process.env.NEXT_PUBLIC_API_URL
+      ? `${process.env.NEXT_PUBLIC_API_URL}/api/affiliates/payment/verify?${params.toString()}`
       : undefined;
-    const { data } = await affiliateDashboardApi.register(
+    const response = await affiliateDashboardApi.register(
       callbackUrl,
       referralCode,
     );
-    return (data as any)?.data ?? data;
+    return getData<{
+      redirectUrl: string;
+      qrCodeUrl?: string;
+      paymentIntentId: string;
+    }>(response);
   },
 
-  async verifyRegistrationPayment(
+  verifyRegistrationPayment: async (
     intentId: string,
     userId?: string,
-  ): Promise<{ success: boolean; status: string; alreadyConfirmed?: boolean }> {
-    const { data } = await affiliateDashboardApi.verifyRegistrationPayment(
+  ): Promise<{
+    success: boolean;
+    status: string;
+    alreadyConfirmed?: boolean;
+  }> => {
+    const response = await affiliateDashboardApi.verifyRegistrationPayment(
       intentId,
       userId,
     );
@@ -80,7 +100,7 @@ export const affiliateDashboardService = {
         success: boolean;
         status: string;
         alreadyConfirmed?: boolean;
-      }>(data) ?? { success: false, status: "error" }
+      }>(response.data) ?? { success: false, status: "error" }
     );
   },
 };
