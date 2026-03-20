@@ -1,6 +1,6 @@
 "use client";
 
-import { Wallet, TrendingUp, Clock, Percent } from "lucide-react";
+import { Wallet, TrendingUp, Clock, Banknote } from "lucide-react";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { AffiliateStatCard } from "../shared/components/AffiliateStatCard";
 import { useAffiliateDashboard } from "../dashboard/hooks/useAffiliateDashboard";
@@ -38,7 +38,7 @@ export const AffiliateCommissionBalancePage = () => {
         <AffiliateStatCard
           label="Affiliate Commission"
           value={isLoading ? "—" : fmt(stats?.affiliateCommission ?? 0)}
-          icon={Percent}
+          icon={Banknote}
         />
       </div>
 
