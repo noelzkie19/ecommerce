@@ -34,7 +34,7 @@ function RegisterContent() {
   if (!isHydrated || isLoggingOut || !ready) {
     return (
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 flex flex-col items-center gap-4">
+        <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-6 flex flex-col items-center gap-4">
           <Spinner size="lg" />
           <p className="text-sm text-gray-500">
             {isLoggingOut ? "Preparing registration..." : "Loading..."}
@@ -46,7 +46,7 @@ function RegisterContent() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8">
+      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-6">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-gray-100 rounded-full p-4 mb-4">
             <ShoppingCart className="w-10 h-10 text-blue-600" />
@@ -98,7 +98,7 @@ function RegisterContent() {
 function RegisterFallback() {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8 animate-pulse">
+      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-6 animate-pulse">
         <div className="h-10 w-10 bg-gray-200 rounded-full mx-auto mb-4" />
         <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto mb-2" />
         <div className="h-4 bg-gray-200 rounded w-1/2 mx-auto" />

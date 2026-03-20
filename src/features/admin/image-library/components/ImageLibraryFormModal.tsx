@@ -11,6 +11,7 @@ import {
   ImageLibrary,
   IMAGE_LIBRARY_CATEGORIES,
 } from "@/types/image-library.types";
+import ImageUpload from "./ImageUpload";
 
 interface Props {
   readonly image?: ImageLibrary | null;
@@ -36,6 +37,8 @@ export default function ImageLibraryFormModal({
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<ImageLibraryFormValues>({
     resolver: zodResolver(imageLibrarySchema),
@@ -107,17 +110,23 @@ export default function ImageLibraryFormModal({
           </div>
           <div>
             <label
-              htmlFor="imageUrl"
+              htmlFor="image-upload"
               className="block text-sm font-medium text-gray-700 mb-1"
             >
-              Image URL *
+              Image *
             </label>
-            <input
-              id="imageUrl"
-              {...register("imageUrl")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
-              placeholder="https://..."
+            <ImageUpload
+              id="image-upload"
+              value={watch("imageUrl") || ""}
+              onChange={(url, thumbnailUrl) => {
+                setValue("imageUrl", url, { shouldValidate: true });
+                if (thumbnailUrl) {
+                  setValue("thumbnailUrl", thumbnailUrl);
+                }
+              }}
+              disabled={isLoading}
             />
+            <input type="hidden" {...register("imageUrl")} />
             {errors.imageUrl && (
               <p className="text-red-500 text-xs mt-1">
                 {errors.imageUrl.message}

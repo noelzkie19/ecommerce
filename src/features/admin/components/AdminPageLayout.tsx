@@ -27,7 +27,7 @@ export function AdminPageLayout({
   // Loading state
   if (isLoading) {
     return (
-      <div className="p-8">
+      <div className="p-6">
         <div className="flex items-center justify-center h-64">
           <Loader2 size={24} className="animate-spin text-emerald-500" />
         </div>
@@ -38,7 +38,7 @@ export function AdminPageLayout({
   // Error state
   if (error) {
     return (
-      <div className="p-8 space-y-6">
+      <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
@@ -57,7 +57,7 @@ export function AdminPageLayout({
   // If content is provided (for custom rendering), use it
   if (content) {
     return (
-      <div className="p-8 space-y-6">
+      <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
@@ -75,7 +75,7 @@ export function AdminPageLayout({
 
   // Default render with children
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>

@@ -39,7 +39,7 @@ export const CardHeader = ({
 }: CardHeaderProps) => (
   <div
     className={cn(
-      "px-6 py-3 border-b border-gray-100 bg-gray-50/70",
+      "px-6 py-4 border-b border-gray-100 bg-gray-50/70",
       className,
     )}
     {...props}
@@ -71,7 +71,7 @@ export const CardFooter = ({
 }: HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "px-6 py-3 border-t border-gray-100 bg-gray-50/70",
+      "px-6 py-4 border-t border-gray-100 bg-gray-50/70",
       className,
     )}
     {...props}

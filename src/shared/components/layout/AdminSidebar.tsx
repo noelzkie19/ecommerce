@@ -10,7 +10,7 @@ import {
   Users,
   ArrowLeft,
   LogOut,
-  DollarSign,
+  Banknote,
   Link2,
   Video,
   Image,
@@ -27,7 +27,7 @@ const links = [
   {
     href: "/admin/affiliate-sales",
     label: "Affiliate Sales",
-    icon: DollarSign,
+    icon: Banknote,
   },
   { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquare },
   { href: "/admin/community", label: "Community", icon: Link2 },

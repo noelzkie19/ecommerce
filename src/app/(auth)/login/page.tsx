@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8">
+      <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-6">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-gray-100 rounded-full p-4 mb-4">
             <ShoppingCart className="w-10 h-10 text-blue-600" />
