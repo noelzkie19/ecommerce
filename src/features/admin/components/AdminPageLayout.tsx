@@ -4,14 +4,14 @@ import { ReactNode } from "react";
 import { Loader2 } from "lucide-react";
 
 interface AdminPageLayoutProps {
-  title: string;
-  description?: string;
-  children: ReactNode;
-  actions?: ReactNode;
-  filters?: ReactNode;
-  isLoading?: boolean;
-  error?: string | null;
-  content?: ReactNode;
+  readonly title: string;
+  readonly description?: string;
+  readonly children: ReactNode;
+  readonly actions?: ReactNode;
+  readonly filters?: ReactNode;
+  readonly isLoading?: boolean;
+  readonly error?: string | null;
+  readonly content?: ReactNode;
 }
 
 export function AdminPageLayout({

@@ -3,10 +3,9 @@
 import { Search } from "lucide-react";
 
 interface SearchInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-  onSearch?: () => void;
+  readonly value: string;
+  readonly onChange: (value: string) => void;
+  readonly placeholder?: string;
 }
 
 export default function SearchInput({
