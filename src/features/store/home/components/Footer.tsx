@@ -15,7 +15,7 @@ export const Footer = () => (
         <div className="col-span-2 md:col-span-1">
           <Link href="/" className="inline-block mb-3">
             <span className="text-lg font-extrabold text-gray-900 tracking-tight">
-              TriadMarket
+              Triad365
             </span>
           </Link>
           <p className="text-gray-500 text-sm leading-relaxed max-w-[220px]">
@@ -34,7 +34,7 @@ export const Footer = () => (
               <li key={label}>
                 <Link
                   href={label === "Home" ? "/" : `/${label.toLowerCase()}`}
-                  className="text-gray-500 hover:text-purple-600 text-sm font-medium transition-colors"
+                  className="text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
                 >
                   {label}
                 </Link>
@@ -53,7 +53,7 @@ export const Footer = () => (
               <li key={cat}>
                 <Link
                   href="/shop"
-                  className="text-gray-500 hover:text-purple-600 text-sm font-medium transition-colors"
+                  className="text-gray-500 hover:text-blue-600 text-sm font-medium transition-colors"
                 >
                   {cat}
                 </Link>
@@ -69,23 +69,20 @@ export const Footer = () => (
           </h4>
           <ul className="space-y-3">
             <li className="flex items-start gap-2.5 text-gray-500 text-sm">
-              <Mail
-                size={14}
-                className="text-purple-600 flex-shrink-0 mt-0.5"
-              />
+              <Mail size={14} className="text-blue-600 flex-shrink-0 mt-0.5" />
               <a
-                href="mailto:support@triadmarket.com"
+                href="mailto:support@triad365.com"
                 className="hover:text-purple-600 transition-colors"
               >
-                support@triadmarket.com
+                support@triad365.com
               </a>
             </li>
 
             <li className="flex items-center gap-2.5 text-gray-500 text-sm">
-              <Phone size={14} className="text-purple-600 flex-shrink-0" />
+              <Phone size={14} className="text-blue-600 flex-shrink-0" />
               <a
                 href="tel:+639171336767"
-                className="hover:text-purple-600 transition-colors"
+                className="hover:text-blue-600 transition-colors"
               >
                 (+63) 917 133 6767
               </a>
@@ -94,7 +91,7 @@ export const Footer = () => (
             <li className="flex items-start gap-2.5 text-gray-500 text-sm">
               <MapPin
                 size={14}
-                className="text-purple-600 flex-shrink-0 mt-0.5"
+                className="text-blue-600 flex-shrink-0 mt-0.5"
               />
               <span>Manila, Philippines</span>
             </li>
@@ -105,7 +102,7 @@ export const Footer = () => (
       {/* ── Bottom bar ── */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-5">
         <p className="text-gray-400 text-xs text-center sm:text-left">
-          © 2026 TriadMarket. All rights reserved.
+          © 2026 Triad365. All rights reserved.
         </p>
       </div>
     </div>

@@ -15,6 +15,7 @@ import {
   LogOut,
   Menu,
   X,
+  Image,
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { authService } from "@/features/auth";
@@ -23,6 +24,9 @@ const NAV_LINKS = [
   { href: "/affiliate/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/affiliate/profile", label: "Profile", icon: User },
   { href: "/affiliate/referral-link", label: "My Referral Link", icon: Link2 },
+  { href: "/affiliate/courses", label: "Courses", icon: BookOpen },
+  { href: "/affiliate/community", label: "Community", icon: Users },
+  { href: "/affiliate/media-library", label: "Media Library", icon: Image },
   {
     href: "/affiliate/commission-sales",
     label: "Commission Sales",
@@ -34,8 +38,6 @@ const NAV_LINKS = [
     icon: Wallet,
   },
   { href: "/affiliate/cashout", label: "Cashout (Maya)", icon: CreditCard },
-  { href: "/affiliate/courses", label: "Courses", icon: BookOpen },
-  { href: "/affiliate/community", label: "Community", icon: Users },
 ];
 
 interface SidebarContentProps {

@@ -49,7 +49,7 @@ function RegisterContent() {
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-gray-100 rounded-full p-4 mb-4">
-            <ShoppingCart className="w-10 h-10 text-green-600" />
+            <ShoppingCart className="w-10 h-10 text-blue-600" />
           </div>
           <h1 className="text-2xl font-bold text-center text-gray-900">
             Create your account

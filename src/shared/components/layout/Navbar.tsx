@@ -52,9 +52,7 @@ export function Navbar() {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 flex items-center justify-between h-14 sm:h-[64px]">
         {/* ── Logo ── */}
         <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-          <span className="text-xl font-extrabold text-purple-700">
-            TriadMarket
-          </span>
+          <span className="text-xl font-extrabold text-blue-600">Triad365</span>
         </Link>
 
         {/* ── Desktop nav links ── */}
@@ -63,7 +61,7 @@ export function Navbar() {
             <Link
               key={href}
               href={href}
-              className="relative text-sm font-semibold text-gray-600 hover:text-purple-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-purple-600 after:rounded-full after:transition-all hover:after:w-full"
+              className="relative text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-blue-600 after:rounded-full after:transition-all hover:after:w-full"
             >
               {label}
             </Link>
@@ -71,7 +69,7 @@ export function Navbar() {
           {isAdmin() && (
             <Link
               href="/admin/dashboard"
-              className="relative flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-purple-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-purple-600 after:rounded-full after:transition-all hover:after:w-full"
+              className="relative flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-blue-600 after:rounded-full after:transition-all hover:after:w-full"
             >
               <LayoutDashboard size={15} /> Admin
             </Link>
@@ -88,7 +86,7 @@ export function Navbar() {
           >
             <ShoppingCart size={17} />
             {cart.totalQty > 0 && (
-              <span className="absolute top-1 right-1 bg-purple-600 text-white text-[8px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center leading-none">
+              <span className="absolute top-1 right-1 bg-blue-600 text-white text-[8px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center leading-none">
                 {cart.totalQty > 9 ? "9+" : cart.totalQty}
               </span>
             )}
@@ -100,7 +98,7 @@ export function Navbar() {
               <button
                 onClick={() => setProfileOpen((v) => !v)}
                 aria-label="Profile menu"
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-purple-500 to-purple-700 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-md shadow-purple-200 hover:scale-105 transition-transform"
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-200 hover:scale-105 transition-transform"
               >
                 {user.fullName?.[0]?.toUpperCase() ?? "?"}
               </button>
@@ -151,7 +149,7 @@ export function Navbar() {
           ) : (
             <Link
               href="/login"
-              className="ml-0.5 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shadow-purple-200 whitespace-nowrap"
+              className="ml-0.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shadow-blue-200 whitespace-nowrap"
             >
               Sign In
             </Link>
@@ -181,7 +179,7 @@ export function Navbar() {
               key={href}
               href={href}
               onClick={() => setMobileOpen(false)}
-              className="flex items-center text-sm font-semibold text-gray-700 hover:text-purple-600 py-3 border-b border-gray-50 last:border-0 transition-colors"
+              className="flex items-center text-sm font-semibold text-gray-700 hover:text-blue-600 py-3 border-b border-gray-50 last:border-0 transition-colors"
             >
               {label}
             </Link>
@@ -190,7 +188,7 @@ export function Navbar() {
             <Link
               href="/admin/dashboard"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-purple-600 py-3 border-b border-gray-50 transition-colors"
+              className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-blue-600 py-3 border-b border-gray-50 transition-colors"
             >
               <LayoutDashboard size={14} /> Admin
             </Link>
@@ -209,7 +207,7 @@ export function Navbar() {
             <Link
               href="/login"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center text-sm font-semibold text-purple-600 py-3"
+              className="flex items-center text-sm font-semibold text-blue-600 py-3"
             >
               Sign In
             </Link>

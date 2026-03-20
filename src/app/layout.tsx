@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "@/providers";
 
 export const metadata: Metadata = {
-  title: "TriadMarket",
+  title: "Triad365",
   description: "Your premier destination for quality products",
 };
 

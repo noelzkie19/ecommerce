@@ -36,7 +36,7 @@ const BrandHeader = ({ initial }: { initial: string }) => (
       {initial}
     </div>
     <h1 className="text-2xl font-extrabold text-white tracking-tight">
-      TriadMarket
+      Triad365
     </h1>
   </div>
 );
@@ -163,7 +163,7 @@ const QRCard = ({
       <div className="flex flex-col gap-3">
         {pollStatus === "waiting" && (
           <Button
-            variant="purple"
+            variant="primary"
             onClick={onCheckPayment}
             className="w-full flex items-center justify-center gap-2"
           >
