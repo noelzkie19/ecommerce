@@ -1,6 +1,6 @@
 "use client";
 
-import { Wallet, TrendingUp, Clock } from "lucide-react";
+import { Wallet, TrendingUp, Clock, Percent } from "lucide-react";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { AffiliateStatCard } from "../shared/components/AffiliateStatCard";
 import { useAffiliateDashboard } from "../dashboard/hooks/useAffiliateDashboard";
@@ -19,7 +19,7 @@ export const AffiliateCommissionBalancePage = () => {
         subtitle="Track your earnings and available balance"
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
         <AffiliateStatCard
           label="Total Commission Earned"
           value={isLoading ? "—" : fmt(stats?.totalCommission ?? 0)}
@@ -34,6 +34,11 @@ export const AffiliateCommissionBalancePage = () => {
           label="Available Balance"
           value={isLoading ? "—" : fmt(stats?.availableBalance ?? 0)}
           icon={Wallet}
+        />
+        <AffiliateStatCard
+          label="Affiliate Commission"
+          value={isLoading ? "—" : fmt(stats?.affiliateCommission ?? 0)}
+          icon={Percent}
         />
       </div>
 

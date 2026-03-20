@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { Order, OrderMeta, OrderStatus } from "@/types/order.types";
 import { adminOrdersService } from "../services/admin-order.service";

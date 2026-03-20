@@ -4,24 +4,42 @@ import type {
   TestimonialStatus,
 } from "@/types/testimonial.types";
 
+const getData = <T>(response: { data: unknown }): T => {
+  const body =
+    (response.data as Record<string, unknown>)?.data ?? response.data;
+  return body as T;
+};
+
 export const testimonialsService = {
-  async getAll(params?: {
+  getAll: async (params?: {
     page?: number;
     limit?: number;
     search?: string;
     status?: TestimonialStatus;
-  }): Promise<TestimonialResponse> {
-    const { data } = await testimonialApi.getAll(params);
+  }): Promise<TestimonialResponse> => {
+    const response = await testimonialApi.getAll(params);
+    const data = getData<{
+      testimonials?: unknown[];
+      stats?: {
+        total: number;
+        pending: number;
+        approved: number;
+        rejected: number;
+        averageRating: number;
+      };
+      meta?: { total: number; page: number; limit: number; totalPages: number };
+    }>(response);
     return {
-      testimonials: (data as any).data?.testimonials ?? [],
-      stats: (data as any).data?.stats ?? {
+      testimonials:
+        (data.testimonials as TestimonialResponse["testimonials"]) ?? [],
+      stats: data.stats ?? {
         total: 0,
         pending: 0,
         approved: 0,
         rejected: 0,
         averageRating: 0,
       },
-      meta: (data as any).data?.meta ?? {
+      meta: data.meta ?? {
         total: 0,
         page: 1,
         limit: 10,
@@ -30,15 +48,15 @@ export const testimonialsService = {
     };
   },
 
-  async approve(id: string): Promise<void> {
+  approve: async (id: string): Promise<void> => {
     await testimonialApi.approve(id);
   },
 
-  async reject(id: string): Promise<void> {
+  reject: async (id: string): Promise<void> => {
     await testimonialApi.reject(id);
   },
 
-  async delete(id: string): Promise<void> {
+  delete: async (id: string): Promise<void> => {
     await testimonialApi.delete(id);
   },
 };

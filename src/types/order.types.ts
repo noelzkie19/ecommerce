@@ -53,6 +53,8 @@ export interface CreateOrderPayload {
   orderNotes?: string;
   paymentMethod: PaymentMethod;
   discount?: number;
+  /** Affiliate referral code — read from sessionStorage and sent to backend for commission tracking */
+  referralCode?: string;
 }
 
 // ── PlaceOrder result shape from BE ──────────────────────────────────────────

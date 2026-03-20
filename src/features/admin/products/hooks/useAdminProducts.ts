@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { Product, ProductMeta } from "@/types/product.types";
 import { productsService } from "../../../shared/services/products.service";

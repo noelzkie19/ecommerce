@@ -15,9 +15,12 @@ export const affiliateDashboardApi = {
 
   /** GET /api/affiliates/me/link — Get referral link */
   getReferralLink: () =>
-    apiClient.get<{ referralLink: string; referralCode: string }>(
-      "/api/affiliates/me/link",
-    ),
+    apiClient.get<{
+      referralLink: string;
+      referralCode: string;
+      affiliateLink?: string;
+      affiliateLinkCode?: string;
+    }>("/api/affiliates/me/link"),
 
   /** GET /api/affiliates/me/cashouts — Get cashout history */
   getCashouts: () =>

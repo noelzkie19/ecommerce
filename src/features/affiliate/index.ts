@@ -23,5 +23,8 @@ export { AffiliateCoursesPage } from "./courses/AffiliateCoursesPage";
 // Community
 export { AffiliateCommunityPage } from "./community/AffiliateCommunityPage";
 
+// Media Library
+export { AffiliateMediaLibraryPage } from "./media-library/AffiliateMediaLibraryPage";
+
 // Shared layout
 export { AffiliateSidebar } from "./shared/components/AffiliateSidebar";

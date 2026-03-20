@@ -11,6 +11,9 @@ import {
   ArrowLeft,
   LogOut,
   DollarSign,
+  Link2,
+  Video,
+  Image,
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { authService } from "@/features/auth";
@@ -27,6 +30,9 @@ const links = [
     icon: DollarSign,
   },
   { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquare },
+  { href: "/admin/community", label: "Community", icon: Link2 },
+  { href: "/admin/courses", label: "Courses", icon: Video },
+  { href: "/admin/media-library", label: "Media Library", icon: Image },
 ];
 
 export const AdminSidebar = () => {

@@ -4,6 +4,7 @@ export interface AffiliateDashboardStats {
   pendingCommission: number;
   availableBalance: number;
   totalReferrals: number;
+  affiliateCommission: number;
 }
 
 export interface AffiliateSaleChartPoint {

@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect, useCallback } from "react";
 import type { AffiliateDashboard } from "@/types/affiliate-dashboard.types";
 import { affiliateDashboardService } from "../services/affiliate-dashboard.service";

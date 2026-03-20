@@ -18,7 +18,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-8">
         <div className="flex flex-col items-center mb-6">
           <div className="bg-gray-100 rounded-full p-4 mb-4">
-            <ShoppingCart className="w-10 h-10 text-green-600" />
+            <ShoppingCart className="w-10 h-10 text-blue-600" />
           </div>
           <h1 className="text-2xl font-bold text-center text-gray-900">
             Welcome to Triad E-Commerce
@@ -56,7 +56,7 @@ export default function LoginPage() {
                 value={forgotEmail}
                 onChange={(e) => setForgotEmail(e.target.value)}
                 placeholder="you@example.com"
-                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             {message && (

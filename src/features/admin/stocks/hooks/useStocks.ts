@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from "react";
 import { stocksService } from "../services/stocks.service";
 import { StockItem, StockStats, StockMeta } from "@/types/stock.types";

@@ -26,6 +26,14 @@ export default function GoogleCallbackPage() {
           supabaseUser.identities?.[0]?.identity_data?.sub ??
           supabaseUser.id;
 
+        // Read referral code from sessionStorage (set by GoogleButton or useRegister)
+        let referralCode: string | null = null;
+        try {
+          referralCode = sessionStorage.getItem("affiliate_ref");
+        } catch {
+          // ignore
+        }
+
         const result = await authService.googleLogin({
           email: supabaseUser.email!,
           fullName:
@@ -33,6 +41,7 @@ export default function GoogleCallbackPage() {
             supabaseUser.user_metadata?.name ??
             "",
           googleId,
+          referralCode: referralCode ?? undefined,
         });
 
         const user = result.user;
@@ -47,7 +56,15 @@ export default function GoogleCallbackPage() {
         ) {
           router.replace("/affiliate/onboarding?status=paid");
         } else if (user?.isAffiliate) {
-          router.replace("/affiliate/onboarding");
+          // Preserve referral code in the onboarding URL if present
+          const onboardingUrl = referralCode
+            ? `/affiliate/onboarding?ref=${encodeURIComponent(referralCode)}`
+            : "/affiliate/onboarding";
+          router.replace(onboardingUrl);
+        } else if (referralCode) {
+          router.replace(
+            `/affiliate/onboarding?ref=${encodeURIComponent(referralCode)}`,
+          );
         } else {
           router.replace("/");
         }

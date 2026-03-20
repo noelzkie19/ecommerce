@@ -14,7 +14,7 @@ export function AdminTopBar() {
         <div className="relative">
           <button
             onClick={() => setOpen(!open)}
-            className="w-9 h-9 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm hover:bg-green-700"
+            className="w-9 h-9 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm hover:bg-blue-700"
           >
             {user.fullName?.[0]?.toUpperCase() ?? "A"}
           </button>

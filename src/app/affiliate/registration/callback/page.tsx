@@ -13,10 +13,24 @@ function CallbackContent() {
   const router = useRouter();
   const intentId = searchParams.get("intent_id");
   const userId = searchParams.get("user_id");
+  const statusParam = searchParams.get("status");
 
   const [status, setStatus] = useState<Status>("checking");
 
+  // If Express passes status=success, redirect directly to dashboard
   useEffect(() => {
+    if (statusParam === "success") {
+      setStatus("success");
+      setTimeout(() => {
+        router.push("/affiliate/dashboard");
+      }, 2000);
+    }
+  }, [statusParam, router]);
+
+  useEffect(() => {
+    // If already success from status param, don't poll
+    if (statusParam === "success") return;
+
     if (!intentId) {
       setStatus("error");
       return;

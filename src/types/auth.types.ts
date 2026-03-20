@@ -24,4 +24,6 @@ export interface RegisterPayload {
   email: string;
   password: string;
   fullName: string;
+  /** Affiliate referral code — passed via ?ref= on the /register page */
+  referralCode?: string;
 }
