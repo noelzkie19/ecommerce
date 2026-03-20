@@ -49,7 +49,7 @@ export const AdminSidebar = () => {
           </div>
           <div>
             <p className="font-bold text-white text-sm leading-tight">
-              Triad Market
+              Triad 365
             </p>
             <p className="text-gray-400 text-xs">Admin Panel</p>
           </div>

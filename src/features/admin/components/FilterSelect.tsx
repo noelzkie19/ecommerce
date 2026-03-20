@@ -1,10 +1,10 @@
 "use client";
 
 interface FilterSelectProps {
-  value: string;
-  onChange: (value: string) => void;
-  options: { label: string; value: string }[];
-  placeholder?: string;
+  readonly value: string;
+  readonly onChange: (value: string) => void;
+  readonly options: readonly { label: string; value: string }[];
+  readonly placeholder?: string;
 }
 
 export default function FilterSelect({
