@@ -17,7 +17,46 @@ const getData = <T>(response: { data: unknown }): T => {
 export const affiliateDashboardService = {
   getDashboard: async (): Promise<AffiliateDashboard> => {
     const response = await affiliateDashboardApi.getDashboard();
-    return getData<AffiliateDashboard>(response);
+    const body = getData<{
+      stats?: {
+        totalSales: number;
+        totalCommission: number;
+        pendingCommission: number;
+        availableBalance: number;
+        totalReferrals: number;
+        affiliate_commission?: number;
+        affiliateCommission?: number;
+      };
+      salesChart: { date: string; sales: number }[];
+      // Also handle top-level affiliateCommission from API
+      affiliateCommission?: number;
+    }>(response);
+
+    // Map affiliateCommission from top-level response to stats.affiliateCommission
+    if (body) {
+      const affiliateCommission =
+        body.stats?.affiliateCommission ??
+        body.stats?.affiliate_commission ??
+        body.affiliateCommission ??
+        0;
+
+      // If stats exists, update affiliateCommission
+      if (body.stats) {
+        body.stats.affiliateCommission = affiliateCommission;
+      } else if (body.affiliateCommission !== undefined) {
+        // Create stats object if it doesn't exist
+        body.stats = {
+          totalSales: 0,
+          totalCommission: 0,
+          pendingCommission: 0,
+          availableBalance: 0,
+          totalReferrals: 0,
+          affiliateCommission: body.affiliateCommission,
+        };
+      }
+    }
+
+    return body as AffiliateDashboard;
   },
 
   getProfile: async (): Promise<AffiliateProfile> => {
