@@ -33,7 +33,7 @@ export const AffiliateCommissionSalesPage = () => {
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="p-8 space-y-3">
+        <div className="p-6 space-y-3">
           {[1, 2, 3].map((i) => (
             <div
               key={i}

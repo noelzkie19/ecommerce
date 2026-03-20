@@ -7,7 +7,7 @@ import {
   LayoutDashboard,
   User,
   Link2,
-  DollarSign,
+  Banknote,
   Wallet,
   CreditCard,
   BookOpen,
@@ -30,7 +30,7 @@ const NAV_LINKS = [
   {
     href: "/affiliate/commission-sales",
     label: "Commission Sales",
-    icon: DollarSign,
+    icon: Banknote,
   },
   {
     href: "/affiliate/commission-balance",

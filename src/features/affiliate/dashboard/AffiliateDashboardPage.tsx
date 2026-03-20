@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ShoppingBag,
-  DollarSign,
-  TrendingUp,
-  Wallet,
-  Users,
-} from "lucide-react";
+import { ShoppingBag, Banknote, TrendingUp, Wallet, Users } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { AffiliateStatCard } from "../shared/components/AffiliateStatCard";
@@ -50,7 +44,7 @@ export const AffiliateDashboardPage = () => {
         <AffiliateStatCard
           label="Total Commission"
           value={isLoading ? "—" : fmt(stats?.totalCommission ?? 0)}
-          icon={DollarSign}
+          icon={Banknote}
         />
         <AffiliateStatCard
           label="Pending Commission"

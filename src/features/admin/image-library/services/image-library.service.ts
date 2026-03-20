@@ -54,8 +54,8 @@ const getData = <T>(response: { data: unknown }): T => {
 export const imageLibraryService = {
   getAll: async (params?: GetAllParams): Promise<ImageLibraryResponse> => {
     const response = await imageLibraryApi.getAll(params);
-    const data = getData<Record<string, unknown>>(response);
-    return mapResponse(data);
+    // The API already returns { success, data, meta }, pass it directly to mapResponse
+    return mapResponse(response as unknown as Record<string, unknown>);
   },
   getById: async (id: string): Promise<ImageLibrary> => {
     const response = await imageLibraryApi.getById(id);

@@ -47,7 +47,7 @@ export default function StocksPage() {
   })();
 
   return (
-    <div className="p-8 space-y-6">
+    <div className="p-6 space-y-6">
       <div>
         <h1 className="text-2xl font-semibold text-gray-900">
           Stock Monitor / POS
