@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { orderService } from "@/features/store/order/services/order.service";
-import { trackPurchase } from "@/lib/meta-pixel";
+import { trackPurchase, trackLead } from "@/lib/meta-pixel";
 
 type Status = "checking" | "success" | "failed" | "pending" | "error";
 
@@ -34,6 +34,14 @@ function CallbackContent() {
       }
 
       trackPurchase(orderData.total, orderData.items);
+
+      // Track Lead event for first-time buyers
+      const hasPurchasedBefore = localStorage.getItem("hasPurchased");
+      if (!hasPurchasedBefore) {
+        trackLead();
+        localStorage.setItem("hasPurchased", "true");
+      }
+
       sessionStorage.removeItem("pending_order");
     } catch (e) {
       console.error("Failed to track purchase:", e);
