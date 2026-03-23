@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
+import { trackInitiateCheckout } from "@/lib/meta-pixel";
 
 const FREE_SHIPPING_THRESHOLD = 1500;
 
@@ -12,8 +14,41 @@ interface Props {
 }
 
 export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
+  const router = useRouter();
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 150;
   const total = subtotal + shipping;
+
+  const handleCheckoutClick = () => {
+    if (itemCount > 0) {
+      // Get item details from cart stored in localStorage
+      const cartData =
+        globalThis.window === undefined
+          ? null
+          : localStorage.getItem("shopping-cart");
+      let items: Array<{ id: string; quantity: number; price: number }> = [];
+
+      if (cartData) {
+        try {
+          const parsed = JSON.parse(cartData);
+          items = parsed.map(
+            (item: { id: string; price: number; quantity: number }) => ({
+              id: item.id,
+              quantity: item.quantity,
+              price: item.price || subtotal / totalQty,
+            }),
+          );
+        } catch {
+          // Fallback: use subtotal as single item
+          items = [{ id: "cart", quantity: totalQty, price: subtotal }];
+        }
+      } else {
+        items = [{ id: "cart", quantity: totalQty, price: subtotal }];
+      }
+
+      trackInitiateCheckout(subtotal, items, "PHP");
+      router.push("/order");
+    }
+  };
 
   return (
     <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm sticky top-24">
@@ -57,19 +92,19 @@ export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
         </span>
       </div>
 
-      <Link
-        href={itemCount > 0 ? "/order" : "#"}
-        aria-disabled={itemCount === 0}
+      <button
+        onClick={handleCheckoutClick}
+        disabled={itemCount === 0}
         className={[
           "w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all shadow-md",
           itemCount > 0
-            ? "bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white shadow-purple-200"
+            ? "bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white shadow-purple-200 cursor-pointer"
             : "bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none",
         ].join(" ")}
       >
         <ShoppingBag size={16} />
         Proceed to Checkout
-      </Link>
+      </button>
 
       <Link
         href="/shop"
