@@ -26,7 +26,8 @@ export const shopService = {
   },
 
   async getStockByProductId(productId: string): Promise<number> {
-    const { data } = await productsApi.getStockByProductId(productId);
-    return (data as { data?: { quantity?: number } }).data?.quantity ?? 0;
+    // Use public availability endpoint that doesn't require auth
+    const { data } = await productsApi.getStockAvailability(productId);
+    return (data as { data?: { available?: boolean } }).data?.available ? 1 : 0;
   },
 };

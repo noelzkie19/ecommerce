@@ -23,60 +23,61 @@ import type {
 export const HOME_NAV_LINKS: HomeNavLink[] = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
+  { href: "/orders", label: "Orders" },
   { href: "/testimonials", label: "Testimonials" },
 ];
 
 export const HOME_STATS: HomeStat[] = [
-  { value: "20+", label: "Products", icon: <Sparkles size={20} /> },
-  { value: "5+", label: "Years in Wellness", icon: <TrendingUp size={20} /> },
+  { value: "100+", label: "Products", icon: <Sparkles size={20} /> },
+  { value: "5+", label: "Years Experience", icon: <TrendingUp size={20} /> },
 ];
 
 export const HOME_BENEFITS: HomeBenefit[] = [
   {
     icon: <Shield size={24} />,
-    title: "Immune Support",
+    title: "Quality Products",
     description:
-      "Strengthen your body's natural defenses with powerful antiviral compounds found in local Filipino herbs.",
+      "Carefully selected products that meet our high standards for quality and value.",
     iconBg: "bg-purple-50",
     iconColor: "text-purple-500",
   },
   {
     icon: <Zap size={24} />,
-    title: "Natural Energy",
+    title: "Fast Delivery",
     description:
-      "Boost vitality without caffeine crashes using nutrient-dense superfoods harvested from Philippine soil.",
+      "Quick and reliable shipping to get your products to you as soon as possible.",
     iconBg: "bg-amber-50",
     iconColor: "text-amber-500",
   },
   {
     icon: <Leaf size={24} />,
-    title: "100% Natural",
+    title: "Great Value",
     description:
-      "Pure ingredients sourced from certified organic local Philippine farms with zero synthetic additives.",
+      "Competitive pricing on quality products to give you the best value for your money.",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-500",
   },
   {
     icon: <Heart size={24} />,
-    title: "Heart Health",
+    title: "Customer Support",
     description:
-      "Support cardiovascular wellness with essential nutrients, omega acids, and powerful antioxidants.",
+      "Dedicated support team ready to help you with any questions or concerns.",
     iconBg: "bg-rose-50",
     iconColor: "text-rose-500",
   },
   {
     icon: <Sparkles size={24} />,
-    title: "Cellular Repair",
+    title: "Secure Shopping",
     description:
-      "Promote cellular regeneration and deep nourishment at the molecular level for lasting vitality.",
+      "Safe and secure payment options including Maya, COD, and bank transfers.",
     iconBg: "bg-violet-50",
     iconColor: "text-violet-500",
   },
   {
     icon: <FlaskConical size={24} />,
-    title: "Lab Tested",
+    title: "Easy Returns",
     description:
-      "Every single batch is rigorously third-party tested for purity, safety, and verified potency.",
+      "Hassle-free returns within 30 days if you're not completely satisfied.",
     iconBg: "bg-sky-50",
     iconColor: "text-sky-500",
   },
@@ -85,9 +86,9 @@ export const HOME_BENEFITS: HomeBenefit[] = [
 export const HOME_PRODUCTS: HomeProduct[] = [
   {
     id: "1",
-    name: "SPIRULINA FILIPINA 200 Tablets",
+    name: "Premium Product 1",
     description:
-      "Premium Filipino spirulina packed with nutrients for complete daily nutrition.",
+      "High-quality product with excellent features and great value.",
     price: 1218,
     rating: 4.9,
     badge: "New",
@@ -96,9 +97,8 @@ export const HOME_PRODUCTS: HomeProduct[] = [
   },
   {
     id: "2",
-    name: "VIRAMED",
-    description:
-      "Essential oils fuel cellular repair with antiviral properties from natural herbs.",
+    name: "Popular Item",
+    description: "Customer favorite product with outstanding reviews.",
     price: 975,
     rating: 4.9,
     badge: "Bestseller",
@@ -107,9 +107,9 @@ export const HOME_PRODUCTS: HomeProduct[] = [
   },
   {
     id: "3",
-    name: "ULTIMA 17",
+    name: "Top Rated Product",
     description:
-      "Premium wellness supplement with 17 powerful natural ingredients for total body support.",
+      "Premium item with exceptional quality and customer satisfaction.",
     price: 3750,
     rating: 4.9,
     badge: "Bestseller",
@@ -123,35 +123,35 @@ export const HOME_TESTIMONIALS: HomeTestimonial[] = [
     id: "1",
     name: "Roberto Bautista",
     location: "Quezon City",
-    product: "KAFÉ LATTE",
+    product: "Product A",
     message:
-      "The Kafé Latte is my morning ritual now. It tastes great and I love knowing I'm starting my day with health benefits instead of just caffeine.",
+      "Great shopping experience! The product exceeded my expectations and arrived quickly. Highly recommend!",
     rating: 5,
   },
   {
     id: "2",
     name: "Jose Reyes",
     location: "Cebu",
-    product: "SPIRULINA FILIPINA",
+    product: "Product B",
     message:
-      "I've been taking Spirulina Filipina for 3 months and I feel so much more energized throughout the day. Highly recommend to anyone looking for a natural energy boost!",
+      "I'm very satisfied with my purchase. The quality is excellent and the customer service was outstanding!",
     rating: 5,
   },
   {
     id: "3",
     name: "Ana Dela Cruz",
     location: "Davao",
-    product: "ULTIMA 17",
+    product: "Product C",
     message:
-      "Ultima 17 is absolutely worth every peso. My doctor even noticed the improvement in my bloodwork. This product genuinely delivers on its promises.",
+      "This is my go-to store now. Great products, fast delivery, and excellent value for money. Very happy!",
     rating: 5,
   },
 ];
 
 export const HERO_PERKS = [
-  "FDA certified natural ingredients",
-  "Locally sourced from Philippine farms",
-  "Free shipping on orders over ₱1,500",
+  "Quality guaranteed",
+  "Fast delivery nationwide",
+  "Secure payment options",
 ] as const;
 
 export const HERO_AVATARS: HomeAvatar[] = [
@@ -160,12 +160,17 @@ export const HERO_AVATARS: HomeAvatar[] = [
   { color: "bg-indigo-400", label: "A" },
 ];
 
-export const FOOTER_QUICK_LINKS = ["Home", "Shop", "Testimonials"] as const;
+export const FOOTER_QUICK_LINKS = [
+  "Home",
+  "Shop",
+  "Orders",
+  "Testimonials",
+] as const;
 export const FOOTER_CATEGORIES = [
-  "Supplements",
-  "Superfoods",
-  "Beverages",
-  "Wellness",
+  "Electronics",
+  "Fashion",
+  "Home & Living",
+  "Beauty",
 ] as const;
 
 export const FOOTER_CONTACT_ITEMS: HomeContactItem[] = [

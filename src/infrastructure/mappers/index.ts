@@ -30,8 +30,8 @@ import type { Product as ProductDto } from "@/types/product.types";
 const mapOrderProduct = (dto: OrderProduct): Product => ({
   id: dto.id,
   name: dto.name,
-  price: dto.price,
-  imageUrl: dto.image_url,
+  price: dto.price ?? 0,
+  imageUrl: dto.image_url ?? null,
   images: dto.images?.map((img) => ({
     id: img.id,
     url: img.url,
@@ -44,34 +44,35 @@ const mapOrderProduct = (dto: OrderProduct): Product => ({
  */
 const mapOrderItem = (dto: OrderItemDto): OrderItem => ({
   id: dto.id,
-  orderId: dto.orderId,
-  productId: dto.productId,
-  quantity: dto.quantity,
-  unitPrice: dto.unitPrice,
+  orderId: dto.order_id ?? dto.orderId ?? "",
+  productId: dto.product_id ?? dto.productId ?? "",
+  quantity: dto.quantity ?? 0,
+  unitPrice: dto.unit_price ?? dto.unitPrice ?? 0,
   product: mapOrderProduct(dto.product),
 });
 
 /**
  * Map API order response to domain order entity
+ * Handles both snake_case (from API) and camelCase (from types)
  */
 export const mapOrderDtoToEntity = (dto: OrderDto): Order => ({
   id: dto.id,
-  userId: dto.userId,
-  guestId: dto.guestId,
-  fullName: dto.fullName,
-  email: dto.email,
-  phoneNumber: dto.phoneNumber,
-  shippingAddress: dto.shippingAddress,
-  orderNotes: dto.orderNotes,
-  paymentMethod: dto.paymentMethod,
-  paymentStatus: dto.paymentStatus,
-  status: dto.status,
-  subtotal: dto.subtotal,
-  total: dto.total,
-  payment_intent_id: dto.payment_intent_id,
-  createdAt: dto.createdAt,
-  updatedAt: dto.updatedAt,
-  items: dto.items.map(mapOrderItem),
+  userId: dto.user_id ?? dto.userId ?? null,
+  guestId: dto.guest_id ?? dto.guestId ?? null,
+  fullName: dto.full_name ?? dto.fullName ?? "",
+  email: dto.email ?? "",
+  phoneNumber: dto.phone_number ?? dto.phoneNumber ?? "",
+  shippingAddress: dto.shipping_address ?? dto.shippingAddress ?? "",
+  orderNotes: dto.order_notes ?? dto.orderNotes ?? null,
+  paymentMethod: dto.payment_method ?? dto.paymentMethod ?? "cod",
+  paymentStatus: dto.payment_status ?? dto.paymentStatus ?? "pending",
+  status: dto.status ?? "pending",
+  subtotal: dto.subtotal ?? 0,
+  total: dto.total ?? 0,
+  payment_intent_id: dto.payment_intent_id ?? dto.paymentIntentId ?? null,
+  createdAt: dto.created_at ?? dto.createdAt ?? new Date().toISOString(),
+  updatedAt: dto.updated_at ?? dto.updatedAt ?? new Date().toISOString(),
+  items: (dto.items ?? []).map(mapOrderItem),
 });
 
 /**

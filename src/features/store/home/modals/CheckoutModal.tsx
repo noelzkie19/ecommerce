@@ -29,7 +29,7 @@ import { STEPS } from "@/shared/utils/checkout.constants";
 import { CartStep } from "../../order/components/CartStep";
 import { ShippingStep } from "../../order/components/ShippingStep";
 import { PaymentStep } from "../../order/components/PaymentStep";
-import { trackPurchase } from "@/lib/meta-pixel";
+import { trackPurchase, trackInitiateCheckout } from "@/lib/meta-pixel";
 
 // ─── Step Indicator ───────────────────────────────────────────────────────────
 const StepIndicator = ({ current }: { readonly current: number }) => (
@@ -163,7 +163,7 @@ const QrPaymentScreen = ({
     intervalRef.current = setInterval(async () => {
       attempts++;
       try {
-        const result = await orderService.verifyGCash(intentId);
+        const result = await orderService.verifyMaya(intentId);
         if (result.status === "succeeded" || result.alreadyConfirmed) {
           clearInterval(intervalRef.current!);
           setPollStatus("paid");
@@ -219,18 +219,18 @@ const QrPaymentScreen = ({
       <div className="flex items-center gap-2">
         <QrCode size={18} className="text-blue-500 shrink-0" />
         <h3 className="text-sm sm:text-base font-extrabold text-gray-900">
-          Scan to Pay via GCash
+          Scan to Pay via Maya
         </h3>
       </div>
       <p className="text-xs text-gray-500 leading-relaxed max-w-xs">
-        Open your <span className="font-bold text-blue-600">GCash app</span> and
+        Open your <span className="font-bold text-blue-600">Maya app</span> and
         scan the QR code to complete your payment.
       </p>
       {/* QR code — smaller on mobile to fit without scroll */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={qrCodeUrl}
-        alt="GCash QR Code"
+        alt="Maya QR Code"
         className="w-36 h-36 sm:w-48 sm:h-48 rounded-2xl border border-gray-100 shadow"
       />
       <div className="flex items-center gap-2 bg-blue-50 rounded-xl px-4 py-2.5 w-full justify-center">
@@ -299,6 +299,22 @@ export const CheckoutModal = ({
       });
       setPayment({ method: "cod" });
       dialogRef.current?.showModal();
+
+      // Track InitiateCheckout event when checkout modal opens
+      if (items && items.length > 0) {
+        const total = items.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        );
+        trackInitiateCheckout(
+          total,
+          items.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            price: item.price,
+          })),
+        );
+      }
     } else {
       dialogRef.current?.close();
     }
@@ -341,7 +357,6 @@ export const CheckoutModal = ({
       );
       trackPurchase(
         total,
-        "PHP",
         items.map((item) => ({
           id: item.id,
           quantity: item.quantity,
@@ -385,11 +400,11 @@ export const CheckoutModal = ({
         shippingAddress: shipping.address,
         orderNotes: shipping.notes || undefined,
         paymentMethod: payment.method,
-        discount: payment.method === "gcash" ? PRICING.GCASH_DISCOUNT : 0,
+        discount: payment.method === "maya" ? PRICING.MAYA_DISCOUNT : 0,
         referralCode,
       });
 
-      // Store order data for Meta Pixel tracking (used by GCash callback)
+      // Store order data for Meta Pixel tracking (used by Maya callback)
       if (typeof sessionStorage !== "undefined") {
         const orderData = {
           items: items.map((item) => ({

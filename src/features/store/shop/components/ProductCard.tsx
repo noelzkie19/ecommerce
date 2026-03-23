@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Eye, ShoppingCart, Loader2, Star } from "lucide-react";
 import type { Product } from "@/types/product.types";
 import { useCartStore } from "@/store/cart.store";
+import { trackAddToCart } from "@/lib/meta-pixel";
 import {
   getStockColorClass,
   getStockLabel,
@@ -78,6 +79,10 @@ export default function ProductCard({
     setIsAdding(true);
     try {
       await addToCart({ productId: product.id, quantity: 1 });
+      // Track AddToCart event
+      trackAddToCart(product.price, [
+        { id: product.id, quantity: 1, price: product.price },
+      ]);
       onAddSuccess?.();
     } finally {
       setIsAdding(false);

@@ -16,7 +16,7 @@ const PAYMENT_ICONS: Record<
   { Icon: React.ElementType; color: string }
 > = {
   cod: { Icon: Banknote, color: "text-amber-500" },
-  gcash: { Icon: Smartphone, color: "text-blue-500" },
+  maya: { Icon: Smartphone, color: "text-blue-500" },
 };
 
 interface Props {
@@ -35,8 +35,8 @@ export const PaymentStep = ({
   const subtotal = calcSubtotal(items);
   const shipping = calcShipping(subtotal);
   const baseTotal = calcTotal(subtotal);
-  const isGCash = data.method === "gcash";
-  const discount = isGCash ? PRICING.GCASH_DISCOUNT : 0;
+  const isMaya = data.method === "maya";
+  const discount = isMaya ? PRICING.MAYA_DISCOUNT : 0;
   const total = baseTotal - discount;
 
   return (
@@ -74,9 +74,9 @@ export const PaymentStep = ({
                   >
                     {label}
                   </p>
-                  {id === "gcash" && (
+                  {id === "maya" && (
                     <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full">
-                      <Tag size={9} />₱{PRICING.GCASH_DISCOUNT} OFF
+                      <Tag size={9} />₱{PRICING.MAYA_DISCOUNT} OFF
                     </span>
                   )}
                 </div>
@@ -99,18 +99,18 @@ export const PaymentStep = ({
         })}
       </div>
 
-      {/* ── GCash / QR PH info banner ─────────────────────────────────────── */}
-      {isGCash && (
+      {/* ── Maya / QR PH info banner ─────────────────────────────────────── */}
+      {isMaya && (
         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex flex-col gap-2">
           <div className="flex items-center gap-2">
             <QrCode size={16} className="text-blue-500 flex-shrink-0" />
             <p className="text-sm font-bold text-blue-700">
-              Pay securely via GCash
+              Pay securely via Maya
             </p>
           </div>
           <p className="text-xs text-blue-500 leading-relaxed">
             A QR code will appear after placing your order. Open your{" "}
-            <span className="font-bold text-blue-700">GCash app</span> and scan
+            <span className="font-bold text-blue-700">Maya app</span> and scan
             it to complete your payment of{" "}
             <span className="font-bold text-blue-700">
               ₱{total.toLocaleString()}
@@ -159,21 +159,21 @@ export const PaymentStep = ({
               </span>
             )}
           </div>
-          {isGCash && (
+          {isMaya && (
             <div className="flex justify-between text-blue-500">
               <span className="flex items-center gap-1">
                 <Tag size={12} />
-                GCash Discount
+                Maya Discount
               </span>
               <span className="font-semibold text-blue-600">
-                −₱{PRICING.GCASH_DISCOUNT.toLocaleString()}
+                −₱{PRICING.MAYA_DISCOUNT.toLocaleString()}
               </span>
             </div>
           )}
           <div className="flex justify-between font-extrabold text-gray-900 pt-2 border-t border-gray-100">
             <span>Total</span>
             <div className="flex items-center gap-2">
-              {isGCash && (
+              {isMaya && (
                 <span className="text-sm font-semibold text-gray-400 line-through">
                   ₱{baseTotal.toLocaleString()}
                 </span>

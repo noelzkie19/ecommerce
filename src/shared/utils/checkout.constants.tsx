@@ -15,8 +15,8 @@ export const PAYMENT_OPTIONS = [
     description: "Pay when you receive your order",
   },
   {
-    id: "gcash" as PaymentMethod,
-    label: "GCash",
-    description: "Pay via GCash mobile wallet",
+    id: "maya" as PaymentMethod,
+    label: "Maya",
+    description: "Pay via Maya mobile wallet",
   },
 ] as const;

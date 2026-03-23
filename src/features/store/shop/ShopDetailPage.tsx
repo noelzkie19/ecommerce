@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -27,6 +27,7 @@ import {
   getCartButtonLabel,
 } from "@/utils/stock.utils";
 import { ModalCartItem } from "@/types/checkout.types";
+import { trackViewContent, trackAddToCart } from "@/lib/meta-pixel";
 import TestimonialCarousel from "./components/TestimonialCarousel";
 import MoneyBackGuarantee from "./components/MoneyBackGuarantee";
 import YoutubeTestimonials from "./components/YoutubeTestimonials";
@@ -130,6 +131,13 @@ export default function ShopDetailPage() {
 
   const { cart, addToCart, updateItem, removeItem, clearCart } = useCartStore();
 
+  // Track ViewContent when product is loaded
+  useEffect(() => {
+    if (product?.id && product.price) {
+      trackViewContent(product.id, product.price, "PHP");
+    }
+  }, [product?.id, product?.price]);
+
   const outOfStock = stock !== null && stock === 0;
   const atCapacity =
     stock !== null &&
@@ -163,6 +171,10 @@ export default function ShopDetailPage() {
   const handleAddToCart = async () => {
     if (!product || outOfStock || atCapacity || overStock) return;
     await addToCart({ productId: product.id, quantity: qty });
+    // Track AddToCart event
+    trackAddToCart(product.price * qty, [
+      { id: product.id, quantity: qty, price: product.price },
+    ]);
     setCheckoutOpen(true);
   };
 
@@ -248,15 +260,15 @@ export default function ShopDetailPage() {
             </h1>
 
             {/* Rating */}
-            {product.rating !== null && (
+            {product.rating != null && (
               <div className="flex items-center gap-2 flex-wrap">
                 <StarRating rating={product.rating} />
                 <span className="text-sm font-semibold text-gray-700">
-                  {product.rating.toFixed(1)}
+                  {Number(product.rating).toFixed(1)}
                 </span>
-                {product.review_count !== null && (
+                {product.review_count != null && (
                   <span className="text-sm text-gray-400">
-                    ({product.review_count.toLocaleString()} reviews)
+                    ({Number(product.review_count).toLocaleString()} reviews)
                   </span>
                 )}
               </div>

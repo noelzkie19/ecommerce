@@ -32,10 +32,10 @@ export const useOrder = () => {
           await orderService.placeOrder(payload);
         setOrder(result.order);
 
-        if (payload.paymentMethod === "gcash") {
-          if (result.gcashRedirectUrl) {
-            // Redirect flow (legacy gcash)
-            globalThis.window.location.href = result.gcashRedirectUrl;
+        if (payload.paymentMethod === "maya") {
+          if (result.mayaRedirectUrl) {
+            // Redirect flow (legacy maya)
+            globalThis.window.location.href = result.mayaRedirectUrl;
           } else if (result.qrCodeUrl) {
             // QR PH — store QR URL so the page can display it
             setQrCodeUrl(result.qrCodeUrl);

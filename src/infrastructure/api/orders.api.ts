@@ -3,7 +3,7 @@ import type {
   Order,
   CreateOrderPayload,
   PlaceOrderResult,
-  VerifyGCashResult,
+  VerifyMayaResult,
 } from "@/types/order.types";
 import { getGuestId } from "@/utils/guest.utils";
 
@@ -14,7 +14,7 @@ const guestHeaders = () => {
 
 export const orderApi = {
   // ── Place order ─────────────────────────────────────────────────────────────
-  // Returns { order, gcashRedirectUrl } — gcashRedirectUrl is null for COD/card
+  // Returns { order, mayaRedirectUrl } — mayaRedirectUrl is null for COD/card
   placeOrder: (payload: CreateOrderPayload) =>
     apiClient.post<PlaceOrderResult>("/api/orders", payload, {
       headers: guestHeaders(),
@@ -32,10 +32,10 @@ export const orderApi = {
       headers: guestHeaders(),
     }),
 
-  // ── Verify GCash payment after redirect back from GCash ─────────────────────
+  // ── Verify Maya payment after redirect back from Maya ─────────────────────
   // Called by the callback page with the intent_id from the URL
-  verifyGCash: (intentId: string) =>
-    apiClient.get<VerifyGCashResult>(`/api/orders/verify-gcash/${intentId}`, {
+  verifyMaya: (intentId: string) =>
+    apiClient.get<VerifyMayaResult>(`/api/orders/verify-maya/${intentId}`, {
       headers: guestHeaders(),
     }),
 };

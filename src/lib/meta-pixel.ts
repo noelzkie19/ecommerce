@@ -44,7 +44,7 @@ export function initMetaPixel(pixelId: string, referralCode?: string): void {
   currentReferralCode = referralCode || null;
 
   // Initialize the Meta Pixel script
-  if (typeof globalThis.window !== "undefined") {
+  if (globalThis.window != null) {
     initPixelScript(pixelId);
   }
 }
@@ -76,7 +76,7 @@ export function clearMetaPixel(): void {
  */
 function initPixelScript(pixelId: string): void {
   // Check if script already exists
-  if (typeof globalThis.document === "undefined") {
+  if (globalThis.document == null) {
     return;
   }
   if (globalThis.document.getElementById("meta-pixel-script")) {
@@ -119,7 +119,7 @@ export function trackMetaPixelEvent(
     return;
   }
 
-  if (typeof globalThis.document === "undefined") {
+  if (globalThis.document == null) {
     return;
   }
 
@@ -163,8 +163,8 @@ export function trackPageView(): void {
  */
 export function trackPurchase(
   value: number,
-  currency: string = "PHP",
   items: Array<{ id: string; quantity: number; price: number }>,
+  currency: string = "PHP",
 ): void {
   trackMetaPixelEvent("Purchase", {
     value,
@@ -181,15 +181,38 @@ export function trackPurchase(
 /**
  * Track an AddToCart event
  * @param value - Value of the items added
- * @param currency - Currency code
  * @param items - Items added to cart
+ * @param currency - Currency code
  */
 export function trackAddToCart(
   value: number,
-  currency: string = "PHP",
   items: Array<{ id: string; quantity: number; price: number }>,
+  currency: string = "PHP",
 ): void {
   trackMetaPixelEvent("AddToCart", {
+    value,
+    currency,
+    contents: items.map((item) => ({
+      id: item.id,
+      quantity: item.quantity,
+      item_price: item.price,
+    })),
+    num_items: items.reduce((sum, item) => sum + item.quantity, 0),
+  });
+}
+
+/**
+ * Track an InitiateCheckout event (when user starts checkout)
+ * @param value - Total value of the cart
+ * @param items - Items in the cart
+ * @param currency - Currency code
+ */
+export function trackInitiateCheckout(
+  value: number,
+  items: Array<{ id: string; quantity: number; price: number }>,
+  currency: string = "PHP",
+): void {
+  trackMetaPixelEvent("InitiateCheckout", {
     value,
     currency,
     contents: items.map((item) => ({

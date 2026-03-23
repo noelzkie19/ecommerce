@@ -12,8 +12,8 @@ import type { CartItem, Pricing, PaymentMethod } from "../entities";
  * Pricing constants - all price-related values in one place
  */
 export const PRICING = {
-  /** Discount amount for GCash payments */
-  GCASH_DISCOUNT: 50,
+  /** Discount amount for Maya payments */
+  MAYA_DISCOUNT: 50,
 
   /** Minimum order amount for free shipping */
   FREE_SHIPPING_THRESHOLD: 50,
@@ -34,7 +34,7 @@ export const CHECKOUT = {
 
   PAYMENT_METHODS: {
     COD: "cod" as PaymentMethod,
-    GCASH: "gcash" as PaymentMethod,
+    MAYA: "maya" as PaymentMethod,
   },
 
   PAYMENT_OPTIONS: [
@@ -44,9 +44,9 @@ export const CHECKOUT = {
       description: "Pay when you receive your order",
     },
     {
-      id: "gcash" as PaymentMethod,
-      label: "GCash",
-      description: "Pay via GCash mobile wallet",
+      id: "maya" as PaymentMethod,
+      label: "Maya",
+      description: "Pay via Maya mobile wallet",
     },
   ] as const,
 } as const;
@@ -82,7 +82,7 @@ export const calculateBaseTotal = (
  * Calculate discount based on payment method
  */
 export const calculateDiscount = (paymentMethod: PaymentMethod): number => {
-  return paymentMethod === "gcash" ? PRICING.GCASH_DISCOUNT : 0;
+  return paymentMethod === "maya" ? PRICING.MAYA_DISCOUNT : 0;
 };
 
 /**
@@ -107,14 +107,14 @@ export const calculatePricing = (
 };
 
 /**
- * Calculate total with GCash discount applied
+ * Calculate total with Maya discount applied
  * Convenience function for displaying the discounted total
  */
-export const calculateGCashTotal = (
+export const calculateMayaTotal = (
   subtotal: number,
   shipping: number,
 ): number => {
-  return subtotal + shipping - PRICING.GCASH_DISCOUNT;
+  return subtotal + shipping - PRICING.MAYA_DISCOUNT;
 };
 
 /**
@@ -155,7 +155,7 @@ export const validateShipping = (shipping: {
 export const getPaymentMethodLabel = (method: PaymentMethod): string => {
   const labels: Record<PaymentMethod, string> = {
     cod: "Cash on Delivery",
-    gcash: "GCash",
+    maya: "Maya",
   };
   return labels[method];
 };

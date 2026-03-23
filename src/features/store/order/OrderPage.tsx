@@ -123,7 +123,7 @@ const QrPaymentModal = ({
     intervalRef.current = setInterval(async () => {
       attempts++;
       try {
-        const result = await orderService.verifyGCash(intentId);
+        const result = await orderService.verifyMaya(intentId);
         if (result.status === "succeeded" || result.alreadyConfirmed) {
           clearInterval(intervalRef.current!);
           setPollStatus("paid");
@@ -174,18 +174,18 @@ const QrPaymentModal = ({
             <div className="flex items-center gap-2">
               <QrCode size={20} className="text-blue-500 shrink-0" />
               <h2 className="text-lg font-extrabold text-gray-900">
-                Scan to Pay via GCash
+                Scan to Pay via Maya
               </h2>
             </div>
             <p className="text-gray-500 text-sm text-center leading-relaxed">
               Open your{" "}
-              <span className="font-bold text-blue-600">GCash app</span> and
-              scan the QR code below to complete your payment.
+              <span className="font-bold text-blue-600">Maya app</span> and scan
+              the QR code below to complete your payment.
             </p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={qrCodeUrl}
-              alt="GCash QR Code"
+              alt="Maya QR Code"
               className="w-56 h-56 rounded-2xl border border-gray-100 shadow"
             />
             <div className="flex items-center gap-2 bg-blue-50 rounded-xl px-4 py-2.5 w-full">
@@ -329,7 +329,7 @@ export default function OrderPage() {
     if (step === 2) return isShippingValid;
     return true;
   };
-  const GCASH_DISCOUNT = 50;
+  const MAYA_DISCOUNT = 50;
   const handleContinue = async () => {
     if (step < 3) {
       setStep((s) => s + 1);
@@ -350,10 +350,10 @@ export default function OrderPage() {
       shippingAddress: shipping.address,
       orderNotes: shipping.notes || undefined,
       paymentMethod: payment.method,
-      discount: payment.method === "gcash" ? GCASH_DISCOUNT : 0,
+      discount: payment.method === "maya" ? MAYA_DISCOUNT : 0,
       referralCode,
     });
-    // GCash → qrCodeUrl is set in useOrder → QrPaymentModal appears automatically
+    // Maya → qrCodeUrl is set in useOrder → QrPaymentModal appears automatically
     // COD → show success modal directly
     if (payment.method === "cod") setShowSuccess(true);
   };
@@ -375,7 +375,7 @@ export default function OrderPage() {
         onContinue={() => router.push("/shop")}
       />
 
-      {/* GCash: QR modal → polls PayMongo → on paid shows success modal */}
+      {/* Maya: QR modal → polls PayMongo → on paid shows success modal */}
       {qrCodeUrl && !showSuccess && (
         <QrPaymentModal
           qrCodeUrl={qrCodeUrl}
