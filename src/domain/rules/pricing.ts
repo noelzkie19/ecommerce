@@ -15,6 +15,9 @@ export const PRICING = {
   /** Discount amount for Maya payments */
   MAYA_DISCOUNT: 50,
 
+  /** Discount amount for GCash payments */
+  GCASH_DISCOUNT: 50,
+
   /** Minimum order amount for free shipping */
   FREE_SHIPPING_THRESHOLD: 50,
 
@@ -115,6 +118,17 @@ export const calculateMayaTotal = (
   shipping: number,
 ): number => {
   return subtotal + shipping - PRICING.MAYA_DISCOUNT;
+};
+
+/**
+ * Calculate total with GCash discount applied
+ * Convenience function for displaying the discounted total
+ */
+export const calculateGCashTotal = (
+  subtotal: number,
+  shipping: number,
+): number => {
+  return subtotal + shipping - PRICING.GCASH_DISCOUNT;
 };
 
 /**
