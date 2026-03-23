@@ -5,7 +5,7 @@
  * any framework or infrastructure concerns.
  */
 
-export type PaymentMethod = "cod" | "gcash";
+export type PaymentMethod = "cod" | "maya";
 
 export type OrderStatus =
   | "pending"

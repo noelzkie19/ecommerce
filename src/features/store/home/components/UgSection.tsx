@@ -8,27 +8,27 @@ const UGC_ITEMS = [
     id: "1",
     name: "Julianne Louise Dionaldo",
     location: "Manila",
-    product: "ULTIMA 17",
+    product: "Product A",
     rating: 5,
-    quote: "Brain Tumor Survivor at a very young age.",
+    quote: "Great product! Highly recommend.",
     img: "/images/julianne.jpg",
   },
   {
     id: "2",
     name: "Irene Quiliste",
     location: "Manila",
-    product: "ULTIMA 17",
+    product: "Product B",
     rating: 5,
-    quote: "I Survived Chemotherapy with this.",
+    quote: "Excellent quality and fast delivery.",
     img: "/images/irene.jpg",
   },
   {
     id: "3",
     name: "Aurelia Bernat",
     location: "Manila",
-    product: "ULTIMA 17",
+    product: "Product C",
     rating: 5,
-    quote: "I Defeated Leukemia with this.",
+    quote: "Very satisfied with my purchase!",
     img: "/images/aurelia.jpg",
   },
 ] as const;
@@ -55,8 +55,8 @@ export const UGCSection = () => (
           </h2>
         </div>
         <p className="text-gray-500 text-base sm:text-lg max-w-md leading-relaxed lg:text-right">
-          Unfiltered stories from real Filipinos — genuine health
-          transformations, in their own words.
+          Read authentic reviews from our satisfied customers across the
+          Philippines.
         </p>
       </FadeIn>
 

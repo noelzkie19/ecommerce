@@ -33,7 +33,7 @@ function CallbackContent() {
         return;
       }
 
-      trackPurchase(orderData.total, "PHP", orderData.items);
+      trackPurchase(orderData.total, orderData.items);
       sessionStorage.removeItem("pending_order");
     } catch (e) {
       console.error("Failed to track purchase:", e);
@@ -52,7 +52,7 @@ function CallbackContent() {
 
     const verify = async () => {
       try {
-        const result = await orderService.verifyGCash(intentId);
+        const result = await orderService.verifyMaya(intentId);
         setOrderId(result.orderId);
 
         if (result.status === "succeeded") {

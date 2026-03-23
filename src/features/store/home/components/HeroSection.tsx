@@ -7,22 +7,22 @@ const WHY_JOIN = [
   {
     id: "top-notch",
     num: 1,
-    text: "Top-notch Products: Only our premium range of natural nutritional products on offer.",
+    text: "Quality Products: Browse our premium selection of products at competitive prices.",
   },
   {
     id: "commissions",
     num: 2,
-    text: "Generous Commissions: Enjoy competitive commissions on every sale generated through your referral link.",
+    text: "Earn Rewards: Enjoy competitive commissions on every sale through your referral link.",
   },
   {
     id: "payments",
     num: 3,
-    text: "Reliable Payments: Choose between bank transfer for affiliate packages and COD for loose products.",
+    text: "Secure Payments: Multiple payment options including GCash, COD, and bank transfer.",
   },
   {
     id: "support",
     num: 4,
-    text: "Dedicated Support: Access continuous support and resources to help you succeed.",
+    text: "Dedicated Support: We're here to help you with any questions or concerns.",
   },
 ];
 
@@ -39,9 +39,9 @@ export const HeroSection = () => (
           className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 leading-[1.25] tracking-tight mb-4"
           style={{ animation: "fadeSlideUp .5s ease both" }}
         >
-          Triad Markey:{" "}
+          Triad Market:{" "}
           <span className="text-purple-600">
-            Natural Nutrition Delivered to Your Doorstep
+            Quality Products at Your Fingertips
           </span>
         </h1>
 
@@ -49,11 +49,9 @@ export const HeroSection = () => (
           className="text-gray-500 text-sm leading-relaxed mb-3 max-w-lg mx-auto lg:mx-0"
           style={{ animation: "fadeSlideUp .5s ease .1s both" }}
         >
-          Nanuhealthshop is committed to providing high-quality nutritional
-          products conveniently delivered to homes across the Philippines. Our
-          over 17 years in the health and wellness space is a testament to the
-          stellar reputation of our company and the high quality of our
-          products.
+          Shop top-quality products with fast delivery across the Philippines.
+          We\n offer a curated selection of items to meet your everyday needs
+          with reliable service and secure payments.
         </p>
 
         <div
@@ -61,7 +59,7 @@ export const HeroSection = () => (
           style={{ animation: "fadeSlideUp .5s ease .15s both" }}
         >
           <p className="text-sm font-bold text-gray-800 mb-2">
-            Why Join Nanuhealthshop?
+            Why Choose Triad Market?
           </p>
           <ol className="space-y-1.5 list-none">
             {WHY_JOIN.map(({ id, num, text }) => (

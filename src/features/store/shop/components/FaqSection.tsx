@@ -5,28 +5,28 @@ import { ChevronDown } from "lucide-react";
 
 const FAQS = [
   {
-    q: "What is this product made of?",
-    a: "Our product is crafted from 100% natural, doctor-formulated ingredients. Every batch is manufactured in FDA-approved, CGMP-certified facilities to ensure the highest quality and safety standards.",
+    q: "What is the quality of your products?",
+    a: "All our products are carefully selected and quality-tested to ensure they meet our high standards. We work with trusted suppliers and manufacturers.",
   },
   {
-    q: "How long before I see results?",
-    a: "Most customers notice improvements within 2–4 weeks of consistent daily use. For optimal results, we recommend taking the full 90-day course.",
+    q: "How long does delivery take?",
+    a: "Standard delivery takes 3-7 business days. Express shipping options are available at checkout for faster delivery.",
   },
   {
-    q: "Are there any side effects?",
-    a: "Our formula uses only natural ingredients and is free from artificial additives. It is generally well-tolerated. If you have a specific medical condition or are pregnant, please consult your doctor before use.",
+    q: "What payment methods do you accept?",
+    a: "We accept multiple payment methods including GCash, credit/debit cards, bank transfer, and Cash on Delivery (COD).",
   },
   {
-    q: "How do I take this supplement?",
-    a: "Take 1–2 capsules daily with a full glass of water, preferably with a meal. Do not exceed the recommended daily dose.",
+    q: "How can I track my order?",
+    a: "Once your order ships, you'll receive a tracking number via email. You can also track your order through our website using your order ID.",
   },
   {
     q: "Do you ship nationwide?",
-    a: "Yes! We ship to all provinces across the Philippines. Orders above ₱2,500 qualify for FREE shipping. Standard delivery takes 3–7 business days.",
+    a: "Yes! We ship to all provinces across the Philippines. Orders above ₱2,500 qualify for FREE shipping.",
   },
   {
-    q: "What if I'm not satisfied?",
-    a: "We stand behind our product with a 30-day Money Back Guarantee. If you're not 100% satisfied, contact our support team for a full refund — no questions asked.",
+    q: "What is your return policy?",
+    a: "We offer a 30-day return policy for most items. If you're not satisfied, contact our support team for assistance with returns or exchanges.",
   },
 ];
 

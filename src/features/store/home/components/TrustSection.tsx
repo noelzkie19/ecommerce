@@ -25,9 +25,8 @@ export const MoneyBackSection = () => (
           Money Back Guarantee
         </h2>
         <p className="text-purple-100 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
-          Your Health, Our Promise: Try Ultima17 Risk Free. If you're not fully
-          satisfied with your energy, immunity, and overall wellness within 30
-          days, we'll give you your money back — no questions asked.
+          Shop with confidence. If you're not satisfied with your purchase
+          within 30 days, we'll give you your money back — no questions asked.
         </p>
         <Link
           href="/shop"
@@ -45,43 +44,43 @@ export const MoneyBackSection = () => (
 const DIFFERENTIATORS = [
   {
     icon: <Shield size={22} />,
-    title: "FDA Registered",
-    body: "Every product manufactured in an FDA registered facility meeting the highest pharmaceutical standards.",
+    title: "Quality Assured",
+    body: "Every product meets strict quality standards for your peace of mind and satisfaction.",
     iconBg: "bg-purple-50",
     iconColor: "text-purple-600",
   },
   {
     icon: <Leaf size={22} />,
-    title: "100% Organic",
-    body: "Sourced from certified organic Philippine farms — no synthetic additives, fillers, or artificial colors.",
+    title: "Carefully Selected",
+    body: "We curate products that meet our high standards for quality and value.",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-600",
   },
   {
     icon: <Zap size={22} />,
-    title: "Doctor Formulated",
-    body: "Developed by licensed Filipino physicians and nutrition scientists for clinical-grade efficacy.",
+    title: "Fast Delivery",
+    body: "Quick and reliable shipping to get your products to you as soon as possible.",
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
   },
   {
     icon: <FlaskConical size={22} />,
-    title: "CGMP Certified",
-    body: "Manufactured under Current Good Manufacturing Practice regulations for consistent quality and safety.",
+    title: "Secure Payments",
+    body: "Multiple secure payment options including GCash, COD, and bank transfers.",
     iconBg: "bg-sky-50",
     iconColor: "text-sky-600",
   },
   {
     icon: <Heart size={22} />,
-    title: "Clinically Studied",
-    body: "Key ingredients backed by peer-reviewed research demonstrating measurable health improvements.",
+    title: "Customer First",
+    body: "Dedicated support team ready to help you with any questions or concerns.",
     iconBg: "bg-rose-50",
     iconColor: "text-rose-600",
   },
   {
     icon: <Sparkles size={22} />,
-    title: "No Harmful Additives",
-    body: "Zero artificial preservatives, colors, or sweeteners — just pure, bioavailable nutrition your body recognizes.",
+    title: "Best Prices",
+    body: "Competitive pricing on quality products to give you the best value for your money.",
     iconBg: "bg-violet-50",
     iconColor: "text-violet-600",
   },
@@ -91,10 +90,10 @@ export const DifferentiatorsSection = () => (
   <section className="bg-white py-20 sm:py-28 lg:py-32">
     <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
       <FadeIn className="text-center mb-12 sm:mb-16 lg:mb-20">
-        <SectionLabel>Why Ultima 17</SectionLabel>
+        <SectionLabel>Why Choose Us</SectionLabel>
         <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-extrabold text-gray-900 mt-4 sm:mt-6 tracking-tight">
-          Doctor formulated, 100% organic,
-          <br className="hidden sm:block" /> FDA &amp; CGMP certified
+          Quality products at great prices
+          <br className="hidden sm:block" /> with excellent service
         </h2>
       </FadeIn>
 

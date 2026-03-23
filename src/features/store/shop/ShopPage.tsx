@@ -77,8 +77,7 @@ export default function ShopPage() {
             Shop
           </h1>
           <p className="text-gray-500 text-sm mt-1">
-            Premium health supplements crafted from nature&apos;s finest
-            ingredients
+            Browse our collection of premium products at great prices
           </p>
         </div>
 

@@ -20,6 +20,7 @@ export interface Product {
   affiliate_link: string | null;
   created_at: string;
   images: ProductImage[];
+  stock?: number;
 }
 
 export interface ProductFilters {

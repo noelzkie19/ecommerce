@@ -1,15 +1,161 @@
 "use client";
 
-import { Pencil, Trash2, Images } from "lucide-react";
+import { useState } from "react";
+import { Pencil, Trash2, Images, Loader2 } from "lucide-react";
 import { Product } from "@/types/product.types";
+import { useStockMutation } from "../../stocks/hooks/useStockMutation";
 
 interface Props {
   readonly products: Product[];
   readonly onEdit: (product: Product) => void;
   readonly onDelete: (product: Product) => void;
+  readonly onStockUpdate: () => void;
 }
 
-export default function ProductsTable({ products, onEdit, onDelete }: Props) {
+const getQuantityColor = (quantity: number): string => {
+  if (quantity === 0) return "text-red-500";
+  if (quantity <= 5) return "text-yellow-500";
+  return "text-emerald-600";
+};
+
+const StatusBadge = ({ quantity }: { readonly quantity: number }) => {
+  if (quantity === 0)
+    return (
+      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-100 text-red-600">
+        Out
+      </span>
+    );
+  if (quantity <= 5)
+    return (
+      <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-yellow-100 text-yellow-600">
+        Low
+      </span>
+    );
+  return (
+    <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-600">
+      OK
+    </span>
+  );
+};
+
+const StockCell = ({
+  product,
+  onSuccess,
+}: {
+  readonly product: Product;
+  readonly onSuccess: () => void;
+}) => {
+  const [editing, setEditing] = useState(false);
+  const [value, setValue] = useState(String(product.stock ?? 0));
+  const { updateStock, isLoading } = useStockMutation(() => {
+    setEditing(false);
+    onSuccess();
+  });
+
+  const handleSave = () => {
+    const qty = Number.parseInt(value, 10);
+    if (!Number.isNaN(qty) && qty >= 0) updateStock(product.id, qty);
+  };
+
+  const handleCancel = () => {
+    setValue(String(product.stock ?? 0));
+    setEditing(false);
+  };
+
+  const stock = product.stock ?? 0;
+
+  // Quick adjust buttons
+  const handleAdjust = (amount: number) => {
+    const newValue = Math.max(0, stock + amount);
+    updateStock(product.id, newValue);
+  };
+
+  if (editing) {
+    return (
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setValue(String(Math.max(0, Number(value) - 1)))}
+            className="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-gray-300 transition-colors"
+          >
+            −
+          </button>
+          <input
+            type="number"
+            min="0"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            className="w-16 text-center border border-gray-200 rounded-lg py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          />
+          <button
+            onClick={() => setValue(String(Number(value) + 1))}
+            className="w-7 h-7 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 hover:border-gray-300 transition-colors"
+          >
+            +
+          </button>
+        </div>
+        <div className="flex items-center justify-end gap-1.5">
+          <button
+            onClick={handleCancel}
+            className="text-xs text-gray-500 hover:text-gray-700 px-2 py-1 rounded-lg hover:bg-gray-100 transition"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={isLoading}
+            className="flex items-center gap-1 text-xs bg-emerald-500 hover:bg-emerald-600 disabled:opacity-60 text-white px-3 py-1 rounded-lg transition"
+          >
+            {isLoading && <Loader2 size={12} className="animate-spin" />}
+            Save
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
+        <button
+          onClick={() => handleAdjust(-1)}
+          disabled={stock === 0}
+          className="w-6 h-6 flex items-center justify-center rounded-md border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          title="Decrease stock"
+        >
+          −
+        </button>
+        <span
+          className={`min-w-[32px] text-center text-sm font-semibold ${getQuantityColor(stock)}`}
+        >
+          {stock}
+        </span>
+        <button
+          onClick={() => handleAdjust(1)}
+          className="w-6 h-6 flex items-center justify-center rounded-md border border-gray-200 text-gray-400 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-600 transition-colors"
+          title="Increase stock"
+        >
+          +
+        </button>
+      </div>
+      <StatusBadge quantity={stock} />
+      <button
+        onClick={() => setEditing(true)}
+        className="text-xs text-gray-400 hover:text-emerald-600 transition-colors ml-1"
+        title="Edit stock"
+      >
+        <Pencil size={12} />
+      </button>
+    </div>
+  );
+};
+
+export default function ProductsTable({
+  products,
+  onEdit,
+  onDelete,
+  onStockUpdate,
+}: Props) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
       <table className="w-full text-sm">
@@ -26,6 +172,9 @@ export default function ProductsTable({ products, onEdit, onDelete }: Props) {
             </th>
             <th className="text-left px-6 py-4 text-gray-500 font-medium">
               Badge
+            </th>
+            <th className="text-left px-6 py-4 text-gray-500 font-medium">
+              Stock
             </th>
             <th className="text-right px-6 py-4 text-gray-500 font-medium">
               Actions
@@ -111,6 +260,9 @@ export default function ProductsTable({ products, onEdit, onDelete }: Props) {
                   ) : (
                     <span className="text-gray-300">—</span>
                   )}
+                </td>
+                <td className="px-6 py-4">
+                  <StockCell product={product} onSuccess={onStockUpdate} />
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center justify-end gap-1">

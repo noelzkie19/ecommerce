@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Plus, Search, Loader2 } from "lucide-react";
 import { useAdminProducts } from "./hooks/useAdminProducts";
+import { useStock } from "../stocks/hooks/useStocks";
 import { Product } from "@/types/product.types";
 import ProductsTable from "./components/ProductsTable";
 import ProductFormModal from "./components/ProductFormModal";
@@ -25,10 +26,34 @@ export default function ProductsPage() {
     category: category || undefined,
   });
 
+  // Fetch stock data for all products
+  const { stock, refetch: refetchStock } = useStock({
+    page: 1,
+    limit: 100, // Get all stock data
+  });
+
+  // Merge stock data into products
+  const productsWithStock = useMemo(() => {
+    if (!products || stock.length === 0) return products || [];
+
+    const stockMap = new Map(stock.map((s) => [s.product_id, s.quantity]));
+
+    return products.map((product) => ({
+      ...product,
+      stock: stockMap.get(product.id) ?? 0,
+    }));
+  }, [products, stock]);
+
+  // Combined refetch function
+  const handleRefetch = useCallback(() => {
+    refetch();
+    refetchStock();
+  }, [refetch, refetchStock]);
+
   const { deleteProduct: doDelete, isLoading: isDeleting } =
     useProductMutations(() => {
       setDeleteProduct(null);
-      refetch();
+      handleRefetch();
     });
 
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,9 +85,10 @@ export default function ProductsPage() {
     return (
       <>
         <ProductsTable
-          products={products}
+          products={productsWithStock}
           onEdit={setEditProduct}
           onDelete={setDeleteProduct}
+          onStockUpdate={handleRefetch}
         />
         {meta && meta.totalPages > 1 && (
           <Pagination meta={meta} onPageChange={setPage} />
@@ -125,7 +151,7 @@ export default function ProductsPage() {
           onClose={() => setShowAddModal(false)}
           onSuccess={() => {
             setShowAddModal(false);
-            refetch();
+            handleRefetch();
           }}
         />
       )}
@@ -135,7 +161,7 @@ export default function ProductsPage() {
           onClose={() => setEditProduct(null)}
           onSuccess={() => {
             setEditProduct(null);
-            refetch();
+            handleRefetch();
           }}
         />
       )}

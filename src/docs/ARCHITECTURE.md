@@ -331,7 +331,7 @@ Unregistered → Register → Pending Payment → Active
   items: OrderItem[];
   total: number;
   status: 'pending' | 'paid' | 'shipped' | 'delivered' | 'cancelled';
-  paymentMethod: 'gcash' | 'cod' | 'card';
+  paymentMethod: 'maya' | 'cod' | 'card';
   paymentStatus: 'pending' | 'paid' | 'failed';
   createdAt: Date;
 }

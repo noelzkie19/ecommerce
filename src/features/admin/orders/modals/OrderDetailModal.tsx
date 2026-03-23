@@ -5,7 +5,7 @@ import { Order } from "@/types/order.types";
 
 const PAYMENT_LABELS: Record<string, string> = {
   cod: "COD",
-  gcash: "GCash",
+  maya: "Maya",
   card: "Credit Card",
 };
 

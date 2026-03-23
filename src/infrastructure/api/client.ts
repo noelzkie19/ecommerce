@@ -28,7 +28,10 @@ apiClient.interceptors.response.use(
       original.url?.includes("/api/cart") ||
       original.url?.includes("/api/testimonials") ||
       // Affiliate payment verification is public (callback from PayMongo)
-      original.url?.includes("/api/affiliates/payment/verify");
+      original.url?.includes("/api/affiliates/payment/verify") ||
+      // Products and stocks are public - allow guest users to browse shop
+      original.url?.includes("/api/products") ||
+      original.url?.includes("/api/stocks/availability");
 
     if (
       error.response?.status === 401 &&

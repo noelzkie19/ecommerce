@@ -29,22 +29,22 @@ export const FDASection = () => (
 
         {/* Copy */}
         <FadeIn delay={150} className="text-center lg:text-left">
-          <SectionLabel>Certified Quality</SectionLabel>
+          <SectionLabel>Quality Assured</SectionLabel>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mt-5 sm:mt-6 tracking-tight leading-tight">
-            Backed by FDA and CGMP
-            <br className="hidden sm:block" /> certified manufacturing
+            Premium Quality Products
+            <br className="hidden sm:block" /> You Can Trust
           </h2>
           <p className="text-gray-500 text-base sm:text-lg mt-4 sm:mt-6 leading-relaxed max-w-lg mx-auto lg:mx-0">
-            Feel stronger, energized, and protected from illness every day by
-            repairing your body at the cellular level with doctor-formulated
-            Ultima17 nutrition, backed by FDA and CGMP certified manufacturing.
+            Discover our curated selection of quality products designed to meet
+            your everyday needs. Every item is carefully selected for its value
+            and reliability.
           </p>
           <div className="flex flex-col gap-3 mt-6 sm:mt-8 mb-8 sm:mb-10 text-left max-w-sm mx-auto lg:mx-0">
             {[
-              "FDA Registered Facility",
-              "CGMP Certified Manufacturing",
-              "HACCP Food Safety Standards",
-              "Third-Party Lab Tested",
+              "Quality Guaranteed",
+              "Fast Delivery",
+              "Secure Payments",
+              "Excellent Support",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3">
                 <CheckCircle2
@@ -69,25 +69,25 @@ export const FDASection = () => (
   </section>
 );
 
-// ── Cellular Repair Accordion ────────────────────────────────────
+// ── Product Benefits Accordion ─────────────────────────────────────
 
 const ACCORDION_ITEMS = [
   {
-    title: "Stronger Immunity",
-    body: "Supports your body's natural defenses so you get sick less often and recover faster when illness strikes.",
+    title: "Premium Quality",
+    body: "Our products are carefully selected to ensure the highest quality standards for your satisfaction.",
   },
   {
-    title: "More Energy & Vitality",
-    body: "Helps your cells function optimally, giving you sustained energy, mental clarity, and feeling more active every day.",
+    title: "Great Value",
+    body: "Competitive pricing on quality products, giving you the best bang for your buck.",
   },
   {
-    title: "Long-Term Health Protection",
-    body: "Repairs and protects DNA at the cellular level, reducing the risk of chronic diseases and helping your body age more gracefully.",
+    title: "Reliable Service",
+    body: "Fast delivery and dedicated support to ensure a smooth shopping experience.",
   },
 ] as const;
 
 export const CellularRepairSection = () => {
-  const [open, setOpen] = useState<string | null>("Stronger Immunity");
+  const [open, setOpen] = useState<string | null>("Premium Quality");
 
   return (
     <section className="bg-gradient-to-b from-gray-50/80 to-white py-20 sm:py-28 lg:py-32">
@@ -95,10 +95,11 @@ export const CellularRepairSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 xl:gap-28 items-center">
           {/* Copy + accordion */}
           <FadeIn className="text-center lg:text-left order-2 lg:order-1">
-            <SectionLabel>How It Works</SectionLabel>
+            <SectionLabel>Why Choose Us</SectionLabel>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mt-5 sm:mt-6 tracking-tight leading-tight mb-8 sm:mb-10">
-              Repairing your body at the cellular level with doctor formulated
-              nutrition
+              Quality products at
+              <br />
+              prices you'll love
             </h2>
 
             <div className="flex flex-col gap-0 border border-gray-100 rounded-2xl overflow-hidden shadow-sm">

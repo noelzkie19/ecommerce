@@ -6,23 +6,23 @@ import { Play, ChevronLeft, ChevronRight } from "lucide-react";
 const TESTIMONIALS = [
   {
     videoId: "J5Ggjvimb8M",
-    label: "Real Results ✨",
+    label: "Great Experience ✨",
     quote: "Watch what this customer had to say about their experience!",
   },
   {
     videoId: "ohuK7-U25rI",
     label: "Highly Recommended 🔥",
-    quote: "This supplement completely changed my daily routine.",
+    quote: "This product exceeded my expectations.",
   },
   {
     videoId: "SNINF7JSPJo",
-    label: "Feeling Amazing 💪",
-    quote: "I noticed a huge difference in my energy levels within weeks.",
+    label: "Very Satisfied 💪",
+    quote: "I noticed a huge difference in quality right away.",
   },
   {
     videoId: "mVx4JIaqb3I",
-    label: "Life Changing 🌟",
-    quote: "I can't imagine going back to life without this product.",
+    label: "Will Buy Again 🌟",
+    quote: "Great value for money and excellent service.",
   },
 ];
 
@@ -109,8 +109,8 @@ export default function YoutubeTestimonials() {
           Hear It From Our Customers
         </h2>
         <p className="mt-2 text-gray-500 text-sm sm:text-base max-w-md mx-auto">
-          Thousands of Filipinos have transformed their health. You could be
-          next.
+          See what our customers have to say about their shopping experience
+          with us.
         </p>
       </div>
 

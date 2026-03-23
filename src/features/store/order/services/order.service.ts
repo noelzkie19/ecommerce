@@ -11,7 +11,7 @@ import type {
   Order,
   CreateOrderPayload,
   PlaceOrderResult,
-  VerifyGCashResult,
+  VerifyMayaResult,
 } from "@/types/order.types";
 import type { Order as OrderEntity } from "@/domain/entities";
 
@@ -20,7 +20,7 @@ import type { Order as OrderEntity } from "@/domain/entities";
  */
 export interface PlaceOrderResultEntity {
   order: OrderEntity;
-  gcashRedirectUrl: string | null;
+  mayaRedirectUrl: string | null;
   qrCodeUrl: string | null;
 }
 
@@ -28,8 +28,8 @@ export const orderService = {
   /**
    * Place an order.
    *
-   * For GCash: BE returns a gcashRedirectUrl — caller must redirect to it.
-   * For COD/card: gcashRedirectUrl is null — caller proceeds normally.
+   * For Maya: BE returns a mayaRedirectUrl — caller must redirect to it.
+   * For COD/card: mayaRedirectUrl is null — caller proceeds normally.
    *
    * @returns PlaceOrderResultEntity with domain order entity
    */
@@ -41,7 +41,7 @@ export const orderService = {
 
     return {
       order: mapOrderDtoToEntity(result!.order),
-      gcashRedirectUrl: result!.gcashRedirectUrl,
+      mayaRedirectUrl: result!.mayaRedirectUrl,
       qrCodeUrl: result!.qrCodeUrl,
     };
   },
@@ -67,11 +67,11 @@ export const orderService = {
   },
 
   /**
-   * Verify GCash payment status after user returns from GCash app.
+   * Verify Maya payment status after user returns from Maya app.
    * Call this on the /checkout/callback page with the intent_id query param.
    */
-  async verifyGCash(intentId: string): Promise<VerifyGCashResult> {
-    const { data } = await orderApi.verifyGCash(intentId);
-    return extractData<VerifyGCashResult>(data)!;
+  async verifyMaya(intentId: string): Promise<VerifyMayaResult> {
+    const { data } = await orderApi.verifyMaya(intentId);
+    return extractData<VerifyMayaResult>(data)!;
   },
 };

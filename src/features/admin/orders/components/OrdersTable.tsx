@@ -29,7 +29,7 @@ const PAYMENT_STATUS: Record<string, string> = {
 
 const PAYMENT_LABELS: Record<string, string> = {
   cod: "COD",
-  gcash: "GCash",
+  maya: "Maya",
   card: "Credit Card",
 };
 
