@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ShoppingCart,
@@ -9,19 +10,26 @@ import {
   LogOut,
   ShoppingBag,
   LayoutDashboard,
+  UserCheck,
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { authService } from "@/features/auth";
 import { HOME_NAV_LINKS } from "@/shared/utils/home.constants";
 import { useScrolled } from "@/features/store/home/hooks/useScrolled";
 import { useCartStore } from "@/store/cart.store";
+import { getGuestId } from "@/utils/guest.utils";
 
 export function Navbar() {
   const { user, isAdmin } = useAuthStore();
   const { cart, fetchCart } = useCartStore();
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [guestId, setGuestId] = useState<string | null>(null);
+  const [customerName, setCustomerName] = useState<string | null>(null);
   const scrolled = useScrolled();
+
+  // Customer name key used in login page
+  const CUSTOMER_NAME_KEY = "customer_name";
 
   useEffect(() => {
     const handler = () => {
@@ -34,6 +42,19 @@ export function Navbar() {
   useEffect(() => {
     fetchCart();
   }, [fetchCart]);
+
+  // Initialize guest ID and customer name on mount
+  useEffect(() => {
+    if (!user) {
+      const id = getGuestId();
+      setGuestId(id);
+      // Check for customer name in localStorage
+      const name = localStorage.getItem(CUSTOMER_NAME_KEY);
+      if (name) {
+        setCustomerName(name);
+      }
+    }
+  }, [user]);
 
   const handleSignOut = () =>
     authService.logout().then(() => {
@@ -52,7 +73,13 @@ export function Navbar() {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 flex items-center justify-between h-14 sm:h-[64px]">
         {/* ── Logo ── */}
         <Link href="/" className="flex items-center gap-2 group flex-shrink-0">
-          <span className="text-xl font-extrabold text-blue-600">Triad365</span>
+          <Image
+            src="/images/logo.png"
+            alt="Triad365"
+            width={100}
+            height={32}
+            className="h-6 w-auto sm:h-8"
+          />
         </Link>
 
         {/* ── Desktop nav links ── */}
@@ -92,7 +119,7 @@ export function Navbar() {
             )}
           </Link>
 
-          {/* Profile / Sign In */}
+          {/* Profile / Sign In / Guest */}
           {user ? (
             <div className="relative ml-0.5">
               <button
@@ -147,12 +174,23 @@ export function Navbar() {
               )}
             </div>
           ) : (
-            <Link
-              href="/login"
-              className="ml-0.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shadow-blue-200 whitespace-nowrap"
-            >
-              Sign In
-            </Link>
+            <div className="flex items-center gap-1 ml-0.5">
+              {/* Customer name or Guest indicator */}
+              {guestId && (
+                <div className="hidden sm:flex items-center gap-1 px-2 py-1 bg-gray-100 rounded-lg">
+                  <UserCheck size={12} className="text-gray-500" />
+                  <span className="text-xs text-gray-500 font-medium">
+                    {customerName || "Guest"}
+                  </span>
+                </div>
+              )}
+              <Link
+                href="/login"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shadow-blue-200 whitespace-nowrap"
+              >
+                Sign In
+              </Link>
+            </div>
           )}
 
           {/* Mobile hamburger */}
@@ -170,7 +208,7 @@ export function Navbar() {
       <div
         className={[
           "md:hidden overflow-hidden transition-all duration-300",
-          mobileOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0",
+          mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
         <div className="bg-white border-t border-gray-100 px-4 sm:px-6 py-2 shadow-xl">
@@ -194,23 +232,41 @@ export function Navbar() {
             </Link>
           )}
           {user ? (
-            <button
-              onClick={() => {
-                setMobileOpen(false);
-                handleSignOut();
-              }}
-              className="flex items-center gap-2 text-sm font-semibold text-red-500 hover:text-red-600 py-3 w-full transition-colors"
-            >
-              <LogOut size={14} /> Sign Out
-            </button>
+            <>
+              <div className="py-3 border-b border-gray-50">
+                <p className="text-xs text-gray-500">Signed in as</p>
+                <p className="text-sm font-semibold text-gray-800">
+                  {user.fullName}
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setMobileOpen(false);
+                  handleSignOut();
+                }}
+                className="flex items-center gap-2 text-sm font-semibold text-red-500 hover:text-red-600 py-3 w-full transition-colors"
+              >
+                <LogOut size={14} /> Sign Out
+              </button>
+            </>
           ) : (
-            <Link
-              href="/login"
-              onClick={() => setMobileOpen(false)}
-              className="flex items-center text-sm font-semibold text-blue-600 py-3"
-            >
-              Sign In
-            </Link>
+            <>
+              {guestId && (
+                <div className="flex items-center gap-2 py-3 border-b border-gray-50">
+                  <UserCheck size={14} className="text-gray-400" />
+                  <span className="text-sm text-gray-500">
+                    {customerName ? `Hi, ${customerName}` : "Browsing as Guest"}
+                  </span>
+                </div>
+              )}
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center text-sm font-semibold text-blue-600 py-3"
+              >
+                Sign In
+              </Link>
+            </>
           )}
         </div>
       </div>

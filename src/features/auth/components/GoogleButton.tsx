@@ -21,6 +21,9 @@ export function GoogleButton({ referralCode }: GoogleButtonProps = {}) {
       provider: "google",
       options: {
         redirectTo: `${globalThis.location.origin}/auth/callback/google`,
+        queryParams: {
+          prompt: "select_account",
+        },
       },
     });
   };

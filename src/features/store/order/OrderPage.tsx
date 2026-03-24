@@ -385,7 +385,7 @@ export default function OrderPage() {
         />
       )}
 
-      <div className="max-w-3xl mx-auto px-6 sm:px-10 py-10 sm:py-14">
+      <div className="w-full max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
         <div className="flex items-center gap-4 mb-8">
           <button
             type="button"
