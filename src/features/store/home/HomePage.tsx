@@ -186,7 +186,7 @@ const HomePageInner = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
               <Link
-                href="/affiliate/onboarding"
+                href="/register"
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5"
               >
                 Activate Now
@@ -462,7 +462,7 @@ const HomePageInner = () => {
                 </div>
 
                 <Link
-                  href="/affiliate/onboarding"
+                  href="/affiliate/registration"
                   className="block w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-center py-4 rounded-2xl font-extrabold transition-all text-lg shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:-translate-y-0.5"
                 >
                   ACTIVATE NOW
@@ -524,7 +524,7 @@ const HomePageInner = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
-                href="/affiliate/onboarding"
+                href="/affiliate/registration"
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-orange-500/20 hover:-translate-y-0.5"
               >
                 ACTIVATE NOW — ₱999
