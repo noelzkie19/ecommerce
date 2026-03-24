@@ -16,7 +16,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen bg-gray-50/50">
-      <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-10 sm:py-14">
+      <div className="w-full px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
