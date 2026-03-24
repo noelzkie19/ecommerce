@@ -38,7 +38,7 @@ export default function ShopFilters({
           value={search}
           onChange={onSearchChange}
           placeholder="Search products..."
-          className="w-full pl-9 pr-9 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-shadow"
+          className="w-full pl-9 pr-9 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-shadow"
         />
         {search && (
           <button
@@ -63,8 +63,8 @@ export default function ShopFilters({
               onClick={() => onCategoryChange(cat === "All" ? "" : cat)}
               className={`flex-shrink-0 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                 active
-                  ? "bg-purple-600 text-white shadow-sm shadow-purple-200"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-purple-300 hover:text-purple-600"
+                  ? "bg-orange-500 text-white shadow-sm shadow-orange-200"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-purple-300 hover:text-orange-600"
               }`}
             >
               {cat}

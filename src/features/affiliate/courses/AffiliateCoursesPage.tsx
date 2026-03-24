@@ -22,7 +22,7 @@ export const AffiliateCoursesPage = () => {
           subtitle="Level up your affiliate marketing skills"
         />
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-purple-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
         </div>
       </div>
     );
@@ -65,8 +65,8 @@ export const AffiliateCoursesPage = () => {
               }`}
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-                  <BookOpen className="w-5 h-5 text-purple-500" />
+                <div className="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+                  <BookOpen className="w-5 h-5 text-orange-500" />
                 </div>
                 {course.isActive ? (
                   <span className="text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full font-medium">
@@ -110,7 +110,7 @@ export const AffiliateCoursesPage = () => {
                 <button
                   disabled={!course.isActive || !course.youtubeUrl}
                   onClick={() => handlePlayCourse(course)}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-purple-600 hover:text-purple-700 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
+                  className="flex items-center gap-1.5 text-xs font-semibold text-orange-600 hover:text-orange-600 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
                 >
                   <PlayCircle className="w-4 h-4" />
                   {course.youtubeUrl ? "Watch Course" : "Coming Soon"}

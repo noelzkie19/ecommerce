@@ -22,10 +22,33 @@ const config: Config = {
       },
       colors: {
         brand: {
-          DEFAULT: "#2563eb",
-          light: "#3b82f6",
-          dark: "#1d4ed8",
+          DEFAULT: "#f97316", // orange-500
+          light: "#fb923c", // orange-400
+          dark: "#ea580c", // orange-600
+          50: "#fff7ed",
+          100: "#ffedd5",
+          200: "#fed7aa",
         },
+        surface: {
+          DEFAULT: "#111827", // gray-900 — sidebar/dark bg
+          hover: "#1f2937", // gray-800
+          border: "#374151", // gray-700
+          deep: "#030712", // gray-950
+        },
+      },
+      fontFamily: {
+        sans: [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "sans-serif",
+        ],
       },
     },
   },

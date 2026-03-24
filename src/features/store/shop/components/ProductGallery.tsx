@@ -45,7 +45,7 @@ export default function ProductGallery({ images, productName, badge }: Props) {
               type="button"
               onClick={prev}
               aria-label="Previous image"
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 hover:bg-white rounded-xl shadow-md flex items-center justify-center text-gray-600 hover:text-purple-600 transition-all"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 hover:bg-white rounded-xl shadow-md flex items-center justify-center text-gray-600 hover:text-orange-600 transition-all"
             >
               <ChevronLeft size={18} />
             </button>
@@ -53,7 +53,7 @@ export default function ProductGallery({ images, productName, badge }: Props) {
               type="button"
               onClick={next}
               aria-label="Next image"
-              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 hover:bg-white rounded-xl shadow-md flex items-center justify-center text-gray-600 hover:text-purple-600 transition-all"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 hover:bg-white rounded-xl shadow-md flex items-center justify-center text-gray-600 hover:text-orange-600 transition-all"
             >
               <ChevronRight size={18} />
             </button>
@@ -68,7 +68,7 @@ export default function ProductGallery({ images, productName, badge }: Props) {
                   aria-label={`Go to image ${i + 1}`}
                   className={`rounded-full transition-all ${
                     activeIndex === i
-                      ? "w-5 h-1.5 bg-purple-600"
+                      ? "w-5 h-1.5 bg-orange-500"
                       : "w-1.5 h-1.5 bg-white/60 hover:bg-white"
                   }`}
                 />
@@ -79,7 +79,7 @@ export default function ProductGallery({ images, productName, badge }: Props) {
 
         {/* Badge overlay */}
         {badge && (
-          <span className="absolute top-4 left-4 bg-purple-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm shadow-purple-200">
+          <span className="absolute top-4 left-4 bg-orange-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm shadow-orange-200">
             {badge}
           </span>
         )}
@@ -95,7 +95,7 @@ export default function ProductGallery({ images, productName, badge }: Props) {
               onClick={() => setActiveIndex(i)}
               className={`flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
                 activeIndex === i
-                  ? "border-purple-500 shadow-md shadow-purple-100"
+                  ? "border-purple-500 shadow-md shadow-orange-100"
                   : "border-transparent hover:border-gray-200"
               }`}
             >

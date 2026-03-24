@@ -50,7 +50,7 @@ export default function AdminOrdersPage() {
     if (isLoading)
       return (
         <div className="flex items-center justify-center py-24">
-          <Loader2 size={24} className="animate-spin text-emerald-500" />
+          <Loader2 size={24} className="animate-spin text-orange-500" />
         </div>
       );
     if (error)
@@ -86,7 +86,7 @@ export default function AdminOrdersPage() {
         <select
           value={status}
           onChange={handleStatusFilter}
-          className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-gray-700"
+          className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-700"
         >
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>

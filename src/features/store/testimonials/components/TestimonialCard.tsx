@@ -32,7 +32,7 @@ export default function TestimonialCard({ testimonial }: Props) {
 
       {/* Customer */}
       <div className="flex items-center gap-3 pt-1">
-        <div className="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 text-sm font-semibold flex-shrink-0">
+        <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 text-sm font-semibold flex-shrink-0">
           {testimonial.customer_name.charAt(0).toUpperCase()}
         </div>
         <div>

@@ -38,8 +38,8 @@ export const HOME_BENEFITS: HomeBenefit[] = [
     title: "Quality Products",
     description:
       "Carefully selected products that meet our high standards for quality and value.",
-    iconBg: "bg-purple-50",
-    iconColor: "text-purple-500",
+    iconBg: "bg-orange-50",
+    iconColor: "text-orange-500",
   },
   {
     icon: <Zap size={24} />,
@@ -155,9 +155,9 @@ export const HERO_PERKS = [
 ] as const;
 
 export const HERO_AVATARS: HomeAvatar[] = [
-  { color: "bg-purple-400", label: "R" },
-  { color: "bg-violet-400", label: "J" },
-  { color: "bg-indigo-400", label: "A" },
+  { color: "bg-orange-400", label: "R" },
+  { color: "bg-amber-400", label: "J" },
+  { color: "bg-orange-500", label: "A" },
 ];
 
 export const FOOTER_QUICK_LINKS = [
@@ -174,7 +174,7 @@ export const FOOTER_CATEGORIES = [
 ] as const;
 
 export const FOOTER_CONTACT_ITEMS: HomeContactItem[] = [
-  { icon: <Mail size={15} />, text: "info@triadmarket.com" },
-  { icon: <Phone size={15} />, text: "+63 912 345 6789" },
+  { icon: <Mail size={15} />, text: "support@triad365.com" },
+  { icon: <Phone size={15} />, text: "0920 329 5363" },
   { icon: <MapPin size={15} />, text: "Manila, Philippines" },
 ];

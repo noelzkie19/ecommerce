@@ -32,7 +32,7 @@ export default function CartPage() {
         {/* Loading */}
         {isLoading && (
           <div className="flex items-center justify-center py-32">
-            <Loader2 size={28} className="animate-spin text-purple-500" />
+            <Loader2 size={28} className="animate-spin text-orange-500" />
           </div>
         )}
 

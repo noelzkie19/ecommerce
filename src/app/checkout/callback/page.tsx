@@ -116,7 +116,7 @@ function CallbackContent() {
           )}
           <button
             onClick={() => router.push("/")}
-            className="mt-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-2xl hover:bg-purple-700 transition-all"
+            className="mt-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-2xl hover:bg-orange-600 transition-all"
           >
             Go to Home
           </button>

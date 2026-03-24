@@ -118,7 +118,7 @@ export default function CommunityFormModal({
             <input
               id="title"
               {...register("title")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="Join our Discord"
             />
             {errors.title && (
@@ -140,7 +140,7 @@ export default function CommunityFormModal({
               id="url"
               {...register("url")}
               type="url"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="https://discord.gg/your-server"
             />
             {errors.url && (
@@ -159,7 +159,7 @@ export default function CommunityFormModal({
             <select
               id="category"
               {...register("category")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
             >
               {COMMUNITY_LINK_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -186,7 +186,7 @@ export default function CommunityFormModal({
               id="description"
               {...register("description")}
               rows={2}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
               placeholder="Optional description"
             />
             {errors.description && (
@@ -208,7 +208,7 @@ export default function CommunityFormModal({
               id="imageUrl"
               {...register("imageUrl")}
               type="url"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="https://example.com/image.jpg"
             />
             {errors.imageUrl && (
@@ -232,7 +232,7 @@ export default function CommunityFormModal({
                 {...register("orderIndex", { valueAsNumber: true })}
                 type="number"
                 min="0"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="0"
               />
             </div>
@@ -241,7 +241,7 @@ export default function CommunityFormModal({
                 <input
                   type="checkbox"
                   {...register("isActive")}
-                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
                 />
                 <span className="text-sm text-gray-700">Active</span>
               </label>

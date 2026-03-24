@@ -49,87 +49,94 @@ export default function TestimonialsPage() {
   })();
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-16 space-y-10">
-      {/* Header */}
-      <div className="text-center space-y-3">
-        <h1 className="text-4xl font-bold text-gray-900">
-          Customer Testimonials
-        </h1>
-        <p className="text-gray-500 text-base">
-          Hear from our happy customers about their wellness journey
-        </p>
-        <button
-          onClick={() => setShowModal(true)}
-          className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full border border-gray-300 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-        >
-          <MessageSquare size={15} />
-          Share Your Experience
-        </button>
-      </div>
-
-      {/* Cards */}
-      {content}
-
-      {/* Pagination */}
-      {meta && meta.totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2 pt-4">
-          <button
-            onClick={() => setPage((p) => p - 1)}
-            disabled={page <= 1}
-            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronLeft size={16} />
-          </button>
-          {Array.from({ length: meta.totalPages }, (_, i) => i + 1)
-            .filter(
-              (p) =>
-                p === 1 || p === meta.totalPages || Math.abs(p - page) <= 1,
-            )
-            .reduce<(number | string)[]>((acc, p, i, arr) => {
-              const prev = arr[i - 1];
-              if (i > 0 && typeof prev === "number" && p - prev > 1)
-                acc.push(`ellipsis-${i}`);
-              acc.push(p);
-              return acc;
-            }, [])
-            .map((p) =>
-              typeof p === "string" ? (
-                <span key={p} className="px-1 text-gray-400 text-sm">
-                  …
-                </span>
-              ) : (
-                <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
-                    p === page
-                      ? "bg-emerald-500 text-white"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }`}
-                >
-                  {p}
-                </button>
-              ),
-            )}
-          <button
-            onClick={() => setPage((p) => p + 1)}
-            disabled={page >= meta.totalPages}
-            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-          >
-            <ChevronRight size={16} />
-          </button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      {/* Header Section */}
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-3">
+              Customer Testimonials
+            </h1>
+            <p className="text-gray-300 text-lg sm:text-xl mb-4">
+              Hear from our happy customers about their wellness journey
+            </p>
+            <button
+              onClick={() => setShowModal(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-600 hover:bg-gray-500 text-white text-sm font-bold transition-colors"
+            >
+              <MessageSquare size={15} />
+              Share Your Experience
+            </button>
+          </div>
         </div>
-      )}
+      </section>
 
-      {/* Modal */}
-      {showModal && (
-        <WriteTestimonialModal
-          onClose={() => {
-            setShowModal(false);
-            refetch();
-          }}
-        />
-      )}
+      {/* Content Section */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 py-12 bg-white rounded-t-3xl -mt-8">
+        {/* Cards */}
+        {content}
+
+        {/* Pagination */}
+        {meta && meta.totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 pt-8">
+            <button
+              onClick={() => setPage((p) => p - 1)}
+              disabled={page <= 1}
+              className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            {Array.from({ length: meta.totalPages }, (_, i) => i + 1)
+              .filter(
+                (p) =>
+                  p === 1 || p === meta.totalPages || Math.abs(p - page) <= 1,
+              )
+              .reduce<(number | string)[]>((acc, p, i, arr) => {
+                const prev = arr[i - 1];
+                if (i > 0 && typeof prev === "number" && p - prev > 1)
+                  acc.push(`ellipsis-${i}`);
+                acc.push(p);
+                return acc;
+              }, [])
+              .map((p) =>
+                typeof p === "string" ? (
+                  <span key={p} className="px-1 text-gray-400 text-sm">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`w-9 h-9 rounded-lg text-sm font-medium transition-colors ${
+                      p === page
+                        ? "bg-gray-700 text-white"
+                        : "text-gray-400 hover:bg-gray-100"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ),
+              )}
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              disabled={page >= meta.totalPages}
+              className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        )}
+
+        {/* Modal */}
+        {showModal && (
+          <WriteTestimonialModal
+            onClose={() => {
+              setShowModal(false);
+              refetch();
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }

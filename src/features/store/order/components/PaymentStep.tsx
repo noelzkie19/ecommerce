@@ -60,7 +60,7 @@ export const PaymentStep = ({
               className={[
                 "flex items-center gap-3 p-3.5 rounded-2xl border-2 text-left transition-all",
                 selected
-                  ? "border-purple-400 bg-purple-50"
+                  ? "border-purple-400 bg-orange-50"
                   : "border-gray-100 bg-gray-50 hover:border-gray-200",
               ].join(" ")}
             >
@@ -70,7 +70,7 @@ export const PaymentStep = ({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p
-                    className={`text-sm font-bold leading-tight ${selected ? "text-purple-700" : "text-gray-800"}`}
+                    className={`text-sm font-bold leading-tight ${selected ? "text-orange-600" : "text-gray-800"}`}
                   >
                     {label}
                   </p>
@@ -86,7 +86,7 @@ export const PaymentStep = ({
                 className={[
                   "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
                   selected
-                    ? "border-purple-600 bg-purple-600"
+                    ? "border-purple-600 bg-orange-500"
                     : "border-gray-300 bg-white",
                 ].join(" ")}
               >
@@ -178,7 +178,7 @@ export const PaymentStep = ({
                   ₱{baseTotal.toLocaleString()}
                 </span>
               )}
-              <span className="text-purple-600">₱{total.toLocaleString()}</span>
+              <span className="text-orange-600">₱{total.toLocaleString()}</span>
             </div>
           </div>
         </div>

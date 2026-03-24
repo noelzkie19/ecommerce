@@ -29,7 +29,7 @@ const WHY_JOIN = [
 export const HeroSection = () => (
   <section className="relative bg-white overflow-hidden">
     {/* Subtle bg blobs */}
-    <div className="absolute -top-32 -right-32 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl pointer-events-none" />
+    <div className="absolute -top-32 -right-32 w-96 h-96 bg-orange-100/40 rounded-full blur-3xl pointer-events-none" />
     <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-violet-100/30 rounded-full blur-3xl pointer-events-none" />
 
     <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 pt-24 pb-10 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
@@ -40,7 +40,7 @@ export const HeroSection = () => (
           style={{ animation: "fadeSlideUp .5s ease both" }}
         >
           Triad Market:{" "}
-          <span className="text-purple-600">
+          <span className="text-orange-600">
             Quality Products at Your Fingertips
           </span>
         </h1>
@@ -67,7 +67,7 @@ export const HeroSection = () => (
                 key={id}
                 className="flex gap-2 text-sm text-gray-500 leading-snug"
               >
-                <span className="text-purple-600 font-bold flex-shrink-0">
+                <span className="text-orange-600 font-bold flex-shrink-0">
                   {num}.
                 </span>
                 <span>{text}</span>
@@ -82,7 +82,7 @@ export const HeroSection = () => (
         >
           <Link
             href="/shop"
-            className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-bold text-sm px-7 py-3 rounded-xl shadow-lg shadow-purple-200 hover:-translate-y-0.5 transition-all duration-200"
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-7 py-3 rounded-xl shadow-lg shadow-orange-200 hover:-translate-y-0.5 transition-all duration-200"
           >
             Shop Now
             <ArrowRight
@@ -92,7 +92,7 @@ export const HeroSection = () => (
           </Link>
           <Link
             href="/testimonials"
-            className="w-full sm:w-auto inline-flex items-center justify-center border-2 border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:text-purple-600 font-bold text-sm px-7 py-3 rounded-xl hover:-translate-y-0.5 transition-all duration-200"
+            className="w-full sm:w-auto inline-flex items-center justify-center border-2 border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:text-orange-600 font-bold text-sm px-7 py-3 rounded-xl hover:-translate-y-0.5 transition-all duration-200"
           >
             See Reviews
           </Link>
@@ -104,7 +104,7 @@ export const HeroSection = () => (
         className="relative hidden lg:flex items-stretch"
         style={{ animation: "fadeSlideUp .6s ease .1s both" }}
       >
-        <div className="w-full rounded-2xl overflow-hidden shadow-xl shadow-purple-100">
+        <div className="w-full rounded-2xl overflow-hidden shadow-xl shadow-orange-100">
           <img
             src="/images/Ultima.jpg"
             alt="Ultima 17 product"

@@ -34,7 +34,7 @@ function RegisterContent() {
   // Show spinner while hydrating or logging out
   if (!isHydrated || isLoggingOut || !ready) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-6 flex flex-col items-center gap-4">
           <Spinner size="lg" />
           <p className="text-sm text-gray-500">
@@ -46,7 +46,7 @@ function RegisterContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         {/* Back link */}
         <Link
@@ -59,8 +59,8 @@ function RegisterContent() {
 
         <div className="bg-white rounded-2xl shadow-2xl p-6">
           <div className="flex flex-col items-center mb-6">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
-              <Users className="w-6 h-6 text-purple-600" />
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+              <Users className="w-6 h-6 text-orange-600" />
             </div>
             <h1 className="text-xl font-extrabold text-center text-gray-900">
               Create your account
@@ -69,11 +69,11 @@ function RegisterContent() {
           </div>
 
           {ref && (
-            <div className="bg-purple-50 border border-purple-100 rounded-xl p-3 mb-5 text-center">
-              <p className="text-xs text-purple-700 font-semibold">
+            <div className="bg-orange-50 border border-orange-100 rounded-xl p-3 mb-5 text-center">
+              <p className="text-xs text-orange-600 font-semibold">
                 🎉 You were invited by an affiliate!
               </p>
-              <p className="text-xs text-purple-400 mt-0.5">
+              <p className="text-xs text-orange-400 mt-0.5">
                 Complete registration to activate your account.
               </p>
             </div>
@@ -94,7 +94,7 @@ function RegisterContent() {
             Already have an account?{" "}
             <Link
               href="/login"
-              className="font-semibold text-purple-600 hover:text-purple-700 transition-colors"
+              className="font-semibold text-orange-600 hover:text-orange-600 transition-colors"
             >
               Sign in
             </Link>
@@ -107,7 +107,7 @@ function RegisterContent() {
 
 function RegisterFallback() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-lg w-full max-w-sm p-6 animate-pulse">
         <div className="h-10 w-10 bg-gray-200 rounded-full mx-auto mb-4" />
         <div className="h-6 bg-gray-200 rounded w-3/4 mx-auto mb-2" />

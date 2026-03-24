@@ -122,7 +122,7 @@ function CallbackContent() {
           <p className="text-gray-500 text-center">
             Your affiliate account is now active.
           </p>
-          <p className="text-sm text-purple-600 font-medium">
+          <p className="text-sm text-orange-600 font-medium">
             Redirecting to your dashboard...
           </p>
         </>
@@ -137,7 +137,7 @@ function CallbackContent() {
           </p>
           <button
             onClick={() => router.push("/affiliate/onboarding")}
-            className="mt-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-2xl hover:bg-purple-700 transition-all"
+            className="mt-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-2xl hover:bg-orange-600 transition-all"
           >
             Try Again
           </button>

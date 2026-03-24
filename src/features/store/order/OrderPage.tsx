@@ -59,13 +59,13 @@ const PaymentSuccessModal = ({
           Your payment was received and your order is now being processed.
         </p>
         <div className="w-full h-px bg-gray-100 my-1" />
-        <div className="flex items-center gap-2 bg-purple-50 rounded-xl px-4 py-2.5 w-full">
+        <div className="flex items-center gap-2 bg-orange-50 rounded-xl px-4 py-2.5 w-full">
           <Check
             size={15}
-            className="text-purple-600 shrink-0"
+            className="text-orange-600 shrink-0"
             strokeWidth={3}
           />
-          <span className="text-purple-700 text-xs font-semibold">
+          <span className="text-orange-600 text-xs font-semibold">
             Confirmation sent to your contact details
           </span>
         </div>
@@ -73,7 +73,7 @@ const PaymentSuccessModal = ({
           <button
             type="button"
             onClick={onHome}
-            className="w-full bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-purple-200"
+            className="w-full bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-orange-200"
           >
             Back to Home
           </button>
@@ -167,7 +167,7 @@ const QrPaymentModal = ({
             <p className="text-gray-500 text-sm text-center">
               Confirming your order...
             </p>
-            <Loader2 size={20} className="text-purple-400 animate-spin" />
+            <Loader2 size={20} className="text-orange-400 animate-spin" />
           </>
         ) : (
           <>
@@ -227,13 +227,13 @@ const QrPaymentModal = ({
 
 // ─── Step Indicator ───────────────────────────────────────────────────────────
 const getCircleClass = (done: boolean, active: boolean) => {
-  if (done) return "bg-purple-600 text-white";
-  if (active) return "bg-purple-600 text-white ring-4 ring-purple-100";
+  if (done) return "bg-orange-500 text-white";
+  if (active) return "bg-orange-500 text-white ring-4 ring-purple-100";
   return "bg-gray-100 text-gray-400";
 };
 const getLabelClass = (done: boolean, active: boolean) => {
-  if (active) return "text-purple-600";
-  if (done) return "text-purple-400";
+  if (active) return "text-orange-600";
+  if (done) return "text-orange-400";
   return "text-gray-400";
 };
 const StepIndicator = ({ current }: { readonly current: number }) => (
@@ -390,7 +390,7 @@ export default function OrderPage() {
           <button
             type="button"
             onClick={handleBack}
-            className="w-9 h-9 rounded-xl border-2 border-gray-200 flex items-center justify-center text-gray-500 hover:border-purple-300 hover:text-purple-600 transition-all"
+            className="w-9 h-9 rounded-xl border-2 border-gray-200 flex items-center justify-center text-gray-500 hover:border-purple-300 hover:text-orange-600 transition-all"
           >
             <ArrowLeft size={16} />
           </button>
@@ -423,7 +423,7 @@ export default function OrderPage() {
             type="button"
             onClick={handleContinue}
             disabled={!getCanContinue() || isLoading}
-            className="flex-1 flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed active:scale-[0.98] text-white font-bold text-sm py-3 px-8 rounded-xl transition-all shadow-md shadow-purple-200"
+            className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed active:scale-[0.98] text-white font-bold text-sm py-3 px-8 rounded-xl transition-all shadow-md shadow-orange-200"
           >
             {isLoading ? (
               <Loader2 size={16} className="animate-spin" />

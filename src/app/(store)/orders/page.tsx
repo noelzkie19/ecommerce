@@ -30,31 +30,36 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <div className="w-full max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <button
-            type="button"
-            onClick={handleGoBack}
-            className="w-9 h-9 rounded-xl border-2 border-gray-200 flex items-center justify-center text-gray-500 hover:border-blue-300 hover:text-blue-600 transition-all"
-          >
-            <ArrowLeft size={16} />
-          </button>
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-              My Orders
-            </h1>
-            <p className="text-sm text-gray-500 mt-0.5">
-              Track and manage your orders
-            </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      {/* Header Section */}
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={handleGoBack}
+              className="w-9 h-9 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all"
+            >
+              <ArrowLeft size={16} />
+            </button>
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+                My Orders
+              </h1>
+              <p className="text-gray-300 text-lg mt-0.5">
+                Track and manage your orders
+              </p>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Content */}
+      {/* Content Section */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12 bg-white rounded-t-3xl -mt-8">
+        {/* Loading */}
         {isLoading && (
           <div className="flex items-center justify-center py-24">
-            <Loader2 size={24} className="animate-spin text-blue-500" />
+            <Loader2 size={24} className="animate-spin text-gray-400" />
           </div>
         )}
 
@@ -87,7 +92,7 @@ export default function OrdersPage() {
             <button
               type="button"
               onClick={handleGoShopping}
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm py-3 px-6 rounded-xl transition-all shadow-md shadow-blue-200"
+              className="inline-flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-bold text-sm py-3 px-6 rounded-xl transition-all shadow-md shadow-gray-500/20"
             >
               <ShoppingBag size={16} />
               Start Shopping

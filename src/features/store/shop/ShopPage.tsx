@@ -69,18 +69,23 @@ export default function ShopPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      <div className="w-full px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
-            Shop
-          </h1>
-          <p className="text-gray-500 text-sm mt-1">
-            Browse our collection of premium products at great prices
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      {/* Header Section */}
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-3 tracking-tight">
+              Shop
+            </h1>
+            <p className="text-gray-300 text-lg sm:text-xl">
+              Browse our collection of premium products at great prices
+            </p>
+          </div>
         </div>
+      </section>
 
+      {/* Content Section */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12 bg-white rounded-t-3xl -mt-8">
         {/* Filters */}
         <div className="mb-8">
           <ShopFilters
@@ -107,7 +112,7 @@ export default function ShopPage() {
         {/* Loading */}
         {isLoading && (
           <div className="flex items-center justify-center py-32">
-            <Loader2 size={28} className="animate-spin text-purple-500" />
+            <Loader2 size={28} className="animate-spin text-gray-400" />
           </div>
         )}
 
@@ -130,7 +135,7 @@ export default function ShopPage() {
                   setCategory("");
                   setPage(1);
                 }}
-                className="text-sm font-semibold text-purple-600 hover:underline"
+                className="text-sm font-semibold text-gray-400 hover:underline"
               >
                 Clear filters
               </button>

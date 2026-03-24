@@ -79,7 +79,7 @@ export default function TestimonialCarousel() {
   if (isLoading && testimonials.length === 0) {
     return (
       <div className="flex items-center justify-center py-6">
-        <Loader2 size={18} className="animate-spin text-purple-400" />
+        <Loader2 size={18} className="animate-spin text-orange-400" />
       </div>
     );
   }
@@ -92,7 +92,7 @@ export default function TestimonialCarousel() {
         type="button"
         onClick={handlePrev}
         disabled={isFirst}
-        className="shrink-0 p-1 text-gray-400 hover:text-purple-600 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+        className="shrink-0 p-1 text-gray-400 hover:text-orange-600 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
         aria-label="Previous testimonial"
       >
         <ChevronLeft size={18} />
@@ -119,7 +119,7 @@ export default function TestimonialCarousel() {
         type="button"
         onClick={handleNext}
         disabled={isLast || (isLoading && index === testimonials.length - 1)}
-        className="shrink-0 p-1 text-gray-400 hover:text-purple-600 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+        className="shrink-0 p-1 text-gray-400 hover:text-orange-600 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
         aria-label="Next testimonial"
       >
         <ChevronRight size={18} />

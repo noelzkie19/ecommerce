@@ -99,7 +99,7 @@ export default function ImageLibraryFormModal({
             <input
               id="title"
               {...register("title")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500"
               placeholder="Image title"
             />
             {errors.title && (
@@ -143,7 +143,7 @@ export default function ImageLibraryFormModal({
             <input
               id="thumbnailUrl"
               {...register("thumbnailUrl")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-500"
               placeholder="https://..."
             />
           </div>

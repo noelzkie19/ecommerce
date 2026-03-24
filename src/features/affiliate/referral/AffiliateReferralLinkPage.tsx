@@ -57,8 +57,8 @@ export const AffiliateReferralLinkPage = () => {
         {/* Referral Code + Link */}
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
-              <Link2 className="w-4 h-4 text-purple-500" />
+            <div className="w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center">
+              <Link2 className="w-4 h-4 text-orange-500" />
             </div>
             <div>
               <p className="text-xs text-gray-400 font-medium">Referral Code</p>
@@ -79,7 +79,7 @@ export const AffiliateReferralLinkPage = () => {
             <button
               onClick={handleCopyRef}
               disabled={!referralLink || isLoading}
-              className="flex items-center gap-1.5 text-xs font-semibold text-purple-600 hover:text-purple-700 disabled:opacity-40 transition-colors shrink-0"
+              className="flex items-center gap-1.5 text-xs font-semibold text-orange-600 hover:text-orange-600 disabled:opacity-40 transition-colors shrink-0"
             >
               {copiedRef ? (
                 <>
@@ -100,8 +100,8 @@ export const AffiliateReferralLinkPage = () => {
         {(isLoading || storeLink) && (
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center">
-                <Store className="w-4 h-4 text-purple-500" />
+              <div className="w-9 h-9 rounded-lg bg-orange-50 flex items-center justify-center">
+                <Store className="w-4 h-4 text-orange-500" />
               </div>
               <div>
                 <p className="text-xs text-gray-400 font-medium">Store Link</p>
@@ -119,7 +119,7 @@ export const AffiliateReferralLinkPage = () => {
               <button
                 onClick={handleCopyStore}
                 disabled={!storeLink || isLoading}
-                className="flex items-center gap-1.5 text-xs font-semibold text-purple-600 hover:text-purple-700 disabled:opacity-40 transition-colors shrink-0"
+                className="flex items-center gap-1.5 text-xs font-semibold text-orange-600 hover:text-orange-600 disabled:opacity-40 transition-colors shrink-0"
               >
                 {copiedStore ? (
                   <>
@@ -140,7 +140,7 @@ export const AffiliateReferralLinkPage = () => {
                 href={storeLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 flex items-center gap-1.5 text-xs text-purple-500 hover:text-purple-700 transition-colors"
+                className="mt-3 flex items-center gap-1.5 text-xs text-orange-500 hover:text-orange-600 transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 Preview store link
@@ -163,7 +163,7 @@ export const AffiliateReferralLinkPage = () => {
                 key={step}
                 className="flex items-start gap-3 text-sm text-gray-600"
               >
-                <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
                   {i + 1}
                 </span>
                 {step}
@@ -175,7 +175,7 @@ export const AffiliateReferralLinkPage = () => {
         {/* Open referral link */}
         {referralLink && (
           <Button
-            variant="purple"
+            variant="primary"
             onClick={() => {
               globalThis.window.open(referralLink, "_blank");
             }}

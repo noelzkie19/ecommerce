@@ -49,21 +49,21 @@ export const AffiliateCommissionBalancePage = () => {
         </h3>
         <ul className="space-y-2.5 text-sm text-gray-600">
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0" />
             <span>
               Commissions are marked <strong>Pending</strong> until the order is
               confirmed.
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0" />
             <span>
               Once approved, they move to your{" "}
               <strong>Available Balance</strong>.
             </span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 shrink-0" />
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-2 shrink-0" />
             <span>
               You can cashout your available balance via Maya Wallet at any
               time.

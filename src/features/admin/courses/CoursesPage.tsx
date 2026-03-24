@@ -86,7 +86,7 @@ export default function CoursesPage() {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function CoursesPage() {
             setCategory(e.target.value);
             setPage(1);
           }}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white min-w-[150px]"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white min-w-[150px]"
         >
           <option value="">All Categories</option>
           {COURSE_CATEGORIES.map((cat) => (
@@ -115,7 +115,7 @@ export default function CoursesPage() {
             );
             setPage(1);
           }}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white min-w-[120px]"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white min-w-[120px]"
         >
           <option value="">All Access</option>
           <option value="true">Premium</option>
@@ -128,7 +128,7 @@ export default function CoursesPage() {
             setIsActive(e.target.value === "" ? "" : e.target.value === "true");
             setPage(1);
           }}
-          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white min-w-[120px]"
+          className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white min-w-[120px]"
         >
           <option value="">All Status</option>
           <option value="true">Active</option>
@@ -146,7 +146,7 @@ export default function CoursesPage() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex items-center justify-center py-12">
-          <Loader2 size={32} className="animate-spin text-emerald-600" />
+          <Loader2 size={32} className="animate-spin text-orange-500" />
         </div>
       )}
 

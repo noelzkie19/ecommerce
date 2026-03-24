@@ -289,7 +289,7 @@ export default function ProductFormModal({
                   <>
                     <Loader2
                       size={20}
-                      className="animate-spin text-emerald-500"
+                      className="animate-spin text-orange-500"
                     />
                     <span className="text-sm text-gray-500">Uploading…</span>
                   </>
@@ -331,7 +331,7 @@ export default function ProductFormModal({
             <input
               id="product-name"
               {...register("name")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="Product name"
             />
             {errors.name && (
@@ -351,7 +351,7 @@ export default function ProductFormModal({
               id="product-description"
               {...register("description")}
               rows={3}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
               placeholder="Product description"
             />
           </div>
@@ -370,7 +370,7 @@ export default function ProductFormModal({
                 {...register("price")}
                 type="number"
                 step="0.01"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="0.00"
               />
               {errors.price && (
@@ -391,7 +391,7 @@ export default function ProductFormModal({
                 {...register("original_price")}
                 type="number"
                 step="0.01"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="0.00"
               />
             </div>
@@ -409,7 +409,7 @@ export default function ProductFormModal({
               <select
                 id="product-category"
                 {...register("category")}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
               >
                 <option value="">Select category</option>
                 {CATEGORIES.map((c) => (
@@ -434,7 +434,7 @@ export default function ProductFormModal({
               <input
                 id="product-badge"
                 {...register("badge")}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="e.g. Best Seller"
               />
             </div>
@@ -456,7 +456,7 @@ export default function ProductFormModal({
                 step="0.1"
                 min="0"
                 max="5"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="4.5"
               />
             </div>
@@ -472,7 +472,7 @@ export default function ProductFormModal({
                 {...register("review_count")}
                 type="number"
                 min="0"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
                 placeholder="0"
               />
             </div>
@@ -490,7 +490,7 @@ export default function ProductFormModal({
               id="product-affiliate-link"
               {...register("affiliate_link")}
               type="url"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="https://example.com/ref=..."
             />
             {errors.affiliate_link && (

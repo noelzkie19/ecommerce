@@ -67,7 +67,7 @@ export const ProductsSection = () => {
           </div>
           <Link
             href="/shop"
-            className="group inline-flex items-center gap-2 text-purple-600 hover:text-purple-700 font-bold text-sm sm:text-base transition-colors flex-shrink-0"
+            className="group inline-flex items-center gap-2 text-orange-600 hover:text-orange-600 font-bold text-sm sm:text-base transition-colors flex-shrink-0"
           >
             View All Products
             <ArrowRight
@@ -79,7 +79,7 @@ export const ProductsSection = () => {
 
         {isLoading ? (
           <div className="flex items-center justify-center py-24">
-            <Loader2 size={28} className="animate-spin text-purple-400" />
+            <Loader2 size={28} className="animate-spin text-orange-400" />
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">

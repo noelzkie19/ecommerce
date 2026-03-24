@@ -102,38 +102,44 @@ export default function AffiliateLandingPage() {
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
-      <section className="relative py-12 sm:py-20 bg-gradient-to-br from-purple-900 via-purple-800 to-purple-900">
-        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+      <section className="relative py-12 sm:py-20 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl" />
+        </div>
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 bg-purple-700/50 px-4 py-1.5 rounded-full text-white text-sm font-medium mb-6">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0"></span>
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full text-white text-sm font-semibold mb-6">
+              <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse flex-shrink-0"></span>
               <span>DONE-FOR-YOU BUSINESS SYSTEM</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4 sm:mb-6 leading-tight">
               Mag-activate Ng{" "}
-              <span className="text-yellow-400">Your System</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+                Your System
+              </span>
             </h1>
-            <p className="text-lg sm:text-xl text-purple-100 mb-6 sm:mb-8 leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
               Bibigyan ka namin ng SYSTEM na pwede mong gamitin agad.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/affiliate/onboarding"
-                className="inline-flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-purple-900 px-8 py-4 rounded-xl font-bold transition-colors text-lg"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-xl font-bold transition-all text-lg shadow-xl shadow-orange-500/30 hover:-translate-y-0.5"
               >
                 Activate Now - ₱999
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
               <Link
                 href="#ano-ba"
-                className="inline-flex items-center justify-center gap-2 bg-purple-700 hover:bg-purple-600 text-white px-8 py-4 rounded-xl font-medium transition-colors text-lg border border-purple-500"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-medium transition-all text-lg border border-white/20 hover:border-white/40"
               >
                 Learn More
               </Link>
             </div>
 
-            <p className="text-purple-200 text-sm mt-4">
+            <p className="text-gray-400 text-sm mt-4">
               🚫 No inventory 🚫 No packing 🚫 No courier 🚫 Manual follow-ups
             </p>
           </div>
@@ -149,23 +155,23 @@ export default function AffiliateLandingPage() {
             </h2>
             <p className="text-gray-600 text-lg">
               Ito ay isang{" "}
-              <span className="font-bold text-purple-600">
+              <span className="font-bold text-orange-600">
                 DONE-FOR-YOU ONLINE BUSINESS SYSTEM
               </span>
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="p-6 rounded-2xl bg-purple-50 border border-purple-100">
-              <Package className="w-10 h-10 text-purple-600 mb-3" />
+            <div className="p-6 rounded-2xl bg-orange-50 border border-orange-100">
+              <Package className="w-10 h-10 text-orange-600 mb-3" />
               <h3 className="text-lg font-bold text-gray-900 mb-2">PRODUCT</h3>
               <p className="text-gray-600 text-sm">
                 Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito
                 na.
               </p>
             </div>
-            <div className="p-6 rounded-2xl bg-purple-50 border border-purple-100">
-              <Bot className="w-10 h-10 text-purple-600 mb-3" />
+            <div className="p-6 rounded-2xl bg-blue-50 border border-blue-100">
+              <Bot className="w-10 h-10 text-blue-600 mb-3" />
               <h3 className="text-lg font-bold text-gray-900 mb-2">
                 SYSTEM & AUTOMATION
               </h3>
@@ -174,8 +180,8 @@ export default function AffiliateLandingPage() {
                 ang guided step-by-step system.
               </p>
             </div>
-            <div className="p-6 rounded-2xl bg-purple-50 border border-purple-100">
-              <Video className="w-10 h-10 text-purple-600 mb-3" />
+            <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-100">
+              <Video className="w-10 h-10 text-emerald-600 mb-3" />
               <h3 className="text-lg font-bold text-gray-900 mb-2">TRAINING</h3>
               <p className="text-gray-600 text-sm">
                 May training videos at guide para sa iyong success.
@@ -186,9 +192,12 @@ export default function AffiliateLandingPage() {
       </section>
 
       {/* Inclusions Section */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-orange-50/40">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center mb-10">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
+              What You Get
+            </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
               Lahat ng makukuha mo pag nag activate ka
             </h2>
@@ -198,9 +207,11 @@ export default function AffiliateLandingPage() {
             {INCLUSIONS.map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-100 shadow-sm"
+                className="flex items-center gap-3 p-4 bg-white rounded-xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all"
               >
-                <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                <div className="w-8 h-8 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500" />
+                </div>
                 <span className="text-gray-700 font-medium">{item}</span>
               </div>
             ))}
@@ -212,6 +223,9 @@ export default function AffiliateLandingPage() {
       <section className="py-12 sm:py-16 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center mb-10">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
+              How It Works
+            </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
               Ganito ka kikita sa system na ito
             </h2>
@@ -223,7 +237,7 @@ export default function AffiliateLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {HOW_IT_WORKS.map((item) => (
               <div key={item.step} className="text-center p-6">
-                <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-extrabold">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-sm font-extrabold shadow-lg shadow-orange-200">
                   {item.step}
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -239,9 +253,12 @@ export default function AffiliateLandingPage() {
       </section>
 
       {/* Benefits/Why Join Section */}
-      <section className="py-12 sm:py-16 bg-purple-50">
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-orange-50/60 to-amber-50/60">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center mb-10">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
+              Why Join
+            </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
               Bakit pumili ng system na ito?
             </h2>
@@ -252,9 +269,9 @@ export default function AffiliateLandingPage() {
             {BENEFITS.map((benefit) => (
               <div
                 key={benefit.title}
-                className="p-6 rounded-2xl bg-white border border-purple-100 shadow-sm"
+                className="p-6 rounded-2xl bg-white border border-orange-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all"
               >
-                <benefit.icon className="w-8 h-8 text-purple-600 mb-3" />
+                <benefit.icon className="w-8 h-8 text-orange-500 mb-3" />
                 <h3 className="text-base font-bold text-gray-900 mb-1">
                   {benefit.title}
                 </h3>
@@ -265,7 +282,7 @@ export default function AffiliateLandingPage() {
             ))}
           </div>
 
-          <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-xl max-w-2xl mx-auto text-center">
+          <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-xl max-w-2xl mx-auto text-center">
             <p className="text-gray-800 font-medium">
               Hindi ito get-rich-quick. 👉 Kailangan mo pa din kumilos.
             </p>
@@ -283,42 +300,51 @@ export default function AffiliateLandingPage() {
       <section className="py-12 sm:py-16 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-md mx-auto">
-            <div className="p-8 rounded-3xl bg-gradient-to-br from-purple-600 to-purple-800 text-white shadow-xl">
-              <h3 className="text-2xl font-bold mb-4 text-center">
-                Magkano para makapag start?
-              </h3>
+            <div className="relative overflow-hidden p-8 rounded-3xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white shadow-xl">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-orange-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-36 h-36 bg-orange-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+              <div className="relative">
+                <h3 className="text-2xl font-bold mb-4 text-center">
+                  Magkano para makapag start?
+                </h3>
 
-              <div className="text-center mb-2">
-                <span className="text-sm text-purple-200 line-through">
-                  Sa ibang system: ₱5,000 – ₱15,000
-                </span>
-              </div>
-              <div className="text-center mb-6">
-                <span className="text-5xl font-extrabold">₱999</span>
-                <p className="text-purple-200 text-sm mt-2">
-                  ONE-TIME ACTIVATION ONLY
+                <div className="text-center mb-2">
+                  <span className="text-sm text-gray-400 line-through">
+                    Sa ibang system: ₱5,000 – ₱15,000
+                  </span>
+                </div>
+                <div className="text-center mb-6">
+                  <span className="text-5xl font-extrabold text-orange-400">
+                    ₱999
+                  </span>
+                  <p className="text-gray-400 text-sm mt-2">
+                    ONE-TIME ACTIVATION ONLY
+                  </p>
+                </div>
+
+                <Link
+                  href="/affiliate/onboarding"
+                  className="block w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-center py-4 rounded-xl font-bold transition-all text-lg shadow-lg shadow-orange-500/20 hover:-translate-y-0.5"
+                >
+                  ACTIVATE NOW
+                </Link>
+
+                <p className="text-gray-400 text-xs text-center mt-4">
+                  Kung gusto mo ng extra income… eto na yun
                 </p>
               </div>
-
-              <Link
-                href="/affiliate/onboarding"
-                className="block w-full bg-yellow-500 hover:bg-yellow-400 text-purple-900 text-center py-4 rounded-xl font-bold transition-colors text-lg"
-              >
-                ACTIVATE NOW
-              </Link>
-
-              <p className="text-purple-200 text-xs text-center mt-4">
-                Kung gusto mo ng extra income… eto na yun
-              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      <section className="py-12 sm:py-16 bg-orange-50/40">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center mb-10">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
+              FAQ
+            </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
               Frequently Asked Questions (FAQ)
             </h2>
@@ -328,10 +354,13 @@ export default function AffiliateLandingPage() {
             {FAQ.map((faq) => (
               <div
                 key={faq.question}
-                className="p-5 bg-white rounded-xl border border-gray-100 shadow-sm"
+                className="p-5 bg-white rounded-xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all"
               >
-                <h4 className="font-bold text-gray-900 mb-1">{faq.question}</h4>
-                <p className="text-gray-600 text-sm">{faq.answer}</p>
+                <h4 className="font-bold text-gray-900 mb-1 flex items-start gap-2">
+                  <span className="text-orange-500 flex-shrink-0">Q.</span>
+                  {faq.question}
+                </h4>
+                <p className="text-gray-600 text-sm pl-5">{faq.answer}</p>
               </div>
             ))}
           </div>
@@ -339,7 +368,7 @@ export default function AffiliateLandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 bg-gray-900">
+      <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
             Hindi mo kailangan maging expert.
@@ -348,12 +377,12 @@ export default function AffiliateLandingPage() {
             Kailangan mo lang magsimula. Mag-activate ngayon at simulan ang
             iyong online business journey!
           </p>
-          <p className="text-purple-300 text-sm mb-6">
+          <p className="text-orange-400 text-sm mb-6 font-medium">
             CONTACT US: 0920 329 5363
           </p>
           <Link
             href="/affiliate/onboarding"
-            className="inline-flex items-center justify-center gap-2 bg-yellow-500 hover:bg-yellow-400 text-purple-900 px-8 py-4 rounded-xl font-bold transition-colors text-lg"
+            className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-xl font-bold transition-all text-lg shadow-xl shadow-orange-500/20 hover:-translate-y-0.5"
           >
             ACTIVATE NOW - ₱999
             <ArrowRight className="ml-2 w-5 h-5" />

@@ -29,7 +29,7 @@ export function AdminPageLayout({
     return (
       <div className="p-6">
         <div className="flex items-center justify-center h-64">
-          <Loader2 size={24} className="animate-spin text-emerald-500" />
+          <Loader2 size={24} className="animate-spin text-orange-500" />
         </div>
       </div>
     );
@@ -41,7 +41,7 @@ export function AdminPageLayout({
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
             {description && (
               <p className="text-sm text-gray-500 mt-0.5">{description}</p>
             )}
@@ -58,16 +58,16 @@ export function AdminPageLayout({
   if (content) {
     return (
       <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
             {description && (
               <p className="text-sm text-gray-500 mt-0.5">{description}</p>
             )}
           </div>
-          {actions}
+          {actions && <div className="flex items-center gap-2">{actions}</div>}
         </div>
-        {filters && <div className="flex gap-3">{filters}</div>}
+        {filters && <div className="flex flex-wrap gap-3">{filters}</div>}
         {content}
       </div>
     );
@@ -76,16 +76,16 @@ export function AdminPageLayout({
   // Default render with children
   return (
     <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
           {description && (
             <p className="text-sm text-gray-500 mt-0.5">{description}</p>
           )}
         </div>
-        {actions}
+        {actions && <div className="flex items-center gap-2">{actions}</div>}
       </div>
-      {filters && <div className="flex gap-3">{filters}</div>}
+      {filters && <div className="flex flex-wrap gap-3">{filters}</div>}
       {children}
     </div>
   );

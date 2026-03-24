@@ -89,7 +89,7 @@ export const AffiliateCommissionSalesPage = () => {
                 <td className="px-5 py-3.5 text-gray-800">
                   {fmt(sale.saleAmount)}
                 </td>
-                <td className="px-5 py-3.5 text-purple-600 font-semibold">
+                <td className="px-5 py-3.5 text-orange-600 font-semibold">
                   {fmt(sale.commissionEarned)}
                 </td>
                 <td className="px-5 py-3.5">

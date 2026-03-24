@@ -28,7 +28,7 @@ export const AffiliateCommunityPage = () => {
           subtitle="Connect with fellow affiliates and stay updated"
         />
         <div className="flex items-center justify-center py-12">
-          <Loader2 className="w-6 h-6 animate-spin text-purple-500" />
+          <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
         </div>
       </div>
     );
@@ -69,10 +69,10 @@ export const AffiliateCommunityPage = () => {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-purple-200 hover:shadow-md transition-all group"
+                className="flex items-center gap-4 bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:border-orange-200 hover:shadow-md transition-all group"
               >
-                <div className="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center shrink-0 group-hover:bg-purple-100 transition-colors">
-                  <Icon className="w-5 h-5 text-purple-500" />
+                <div className="w-11 h-11 rounded-xl bg-orange-50 flex items-center justify-center shrink-0 group-hover:bg-orange-100 transition-colors">
+                  <Icon className="w-5 h-5 text-orange-500" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-gray-800">
@@ -82,18 +82,18 @@ export const AffiliateCommunityPage = () => {
                     {link.description}
                   </p>
                 </div>
-                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-purple-500 transition-colors shrink-0" />
+                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-orange-500 transition-colors shrink-0" />
               </a>
             );
           })
         )}
 
         {/* Tips */}
-        <div className="bg-purple-50 rounded-xl p-5 border border-purple-100">
+        <div className="bg-orange-50 rounded-xl p-5 border border-orange-100">
           <h3 className="text-sm font-bold text-purple-800 mb-2">
             Community Guidelines
           </h3>
-          <ul className="space-y-1.5 text-xs text-purple-700">
+          <ul className="space-y-1.5 text-xs text-orange-600">
             <li>• Be respectful and supportive of fellow affiliates</li>
             <li>• Share tips and strategies that have worked for you</li>
             <li>• No spamming or self-promotion outside designated channels</li>
