@@ -19,6 +19,8 @@ import { useScrolled } from "@/features/store/home/hooks/useScrolled";
 import { useCartStore } from "@/store/cart.store";
 import { getGuestId } from "@/utils/guest.utils";
 
+const CUSTOMER_NAME_KEY = "customer_name";
+
 export function Navbar() {
   const { user, isAdmin } = useAuthStore();
   const { cart, fetchCart } = useCartStore();
@@ -27,9 +29,6 @@ export function Navbar() {
   const [guestId, setGuestId] = useState<string | null>(null);
   const [customerName, setCustomerName] = useState<string | null>(null);
   const scrolled = useScrolled();
-
-  // Customer name key used in login page
-  const CUSTOMER_NAME_KEY = "customer_name";
 
   useEffect(() => {
     const handler = () => {
@@ -43,12 +42,10 @@ export function Navbar() {
     fetchCart();
   }, [fetchCart]);
 
-  // Initialize guest ID and customer name on mount
   useEffect(() => {
     if (!user) {
       const id = getGuestId();
       setGuestId(id);
-      // Check for customer name in localStorage
       const name = localStorage.getItem(CUSTOMER_NAME_KEY);
       if (name) {
         setCustomerName(name);
@@ -66,8 +63,8 @@ export function Navbar() {
       className={[
         "fixed top-0 inset-x-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/95 backdrop-blur-lg shadow-sm border-b border-gray-100"
-          : "bg-white/80 backdrop-blur-md border-b border-gray-100/50",
+          ? "bg-white/95 backdrop-blur-lg shadow-sm border-b border-purple-100/60"
+          : "bg-white/90 backdrop-blur-md border-b border-purple-100/40",
       ].join(" ")}
     >
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-16 flex items-center justify-between h-14 sm:h-[64px]">
@@ -88,7 +85,7 @@ export function Navbar() {
             <Link
               key={href}
               href={href}
-              className="relative text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-blue-600 after:rounded-full after:transition-all hover:after:w-full"
+              className="relative text-sm font-semibold text-gray-600 hover:text-purple-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-purple-600 after:rounded-full after:transition-all hover:after:w-full"
             >
               {label}
             </Link>
@@ -96,7 +93,7 @@ export function Navbar() {
           {isAdmin() && (
             <Link
               href="/admin/dashboard"
-              className="relative flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-blue-600 after:rounded-full after:transition-all hover:after:w-full"
+              className="relative flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-purple-600 transition-colors after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-purple-600 after:rounded-full after:transition-all hover:after:w-full"
             >
               <LayoutDashboard size={15} /> Admin
             </Link>
@@ -109,11 +106,11 @@ export function Navbar() {
           <Link
             href="/cart"
             aria-label="Cart"
-            className="relative p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-all"
+            className="relative p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all"
           >
             <ShoppingCart size={17} />
             {cart.totalQty > 0 && (
-              <span className="absolute top-1 right-1 bg-blue-600 text-white text-[8px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center leading-none">
+              <span className="absolute top-1 right-1 bg-purple-600 text-white text-[8px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center leading-none">
                 {cart.totalQty > 9 ? "9+" : cart.totalQty}
               </span>
             )}
@@ -125,7 +122,7 @@ export function Navbar() {
               <button
                 onClick={() => setProfileOpen((v) => !v)}
                 aria-label="Profile menu"
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-200 hover:scale-105 transition-transform"
+                className="w-8 h-8 sm:w-9 sm:h-9 bg-gradient-to-br from-purple-600 to-purple-700 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-md shadow-purple-200 hover:scale-105 transition-transform"
               >
                 {user.fullName?.[0]?.toUpperCase() ?? "?"}
               </button>
@@ -137,8 +134,8 @@ export function Navbar() {
                     onClick={() => setProfileOpen(false)}
                     aria-label="Close menu"
                   />
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 py-1.5 z-20 overflow-hidden">
-                    <div className="px-4 py-2.5 border-b border-gray-100">
+                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-2xl shadow-xl border border-purple-100 py-1.5 z-20 overflow-hidden">
+                    <div className="px-4 py-2.5 border-b border-purple-50">
                       <p className="font-semibold text-sm text-gray-900">
                         {user.fullName}
                       </p>
@@ -149,7 +146,7 @@ export function Navbar() {
                     <Link
                       href="/orders"
                       onClick={() => setProfileOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors"
                     >
                       <ShoppingBag size={14} /> My Orders
                     </Link>
@@ -157,12 +154,12 @@ export function Navbar() {
                       <Link
                         href="/admin/dashboard"
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors"
                       >
                         <LayoutDashboard size={14} /> Admin Panel
                       </Link>
                     )}
-                    <hr className="my-1 border-gray-100" />
+                    <hr className="my-1 border-purple-50" />
                     <button
                       onClick={handleSignOut}
                       className="flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors w-full text-left"
@@ -174,19 +171,19 @@ export function Navbar() {
               )}
             </div>
           ) : (
-            <div className="flex items-center gap-1 ml-0.5">
+            <div className="flex items-center gap-1.5 ml-0.5">
               {/* Customer name or Guest indicator */}
               {guestId && (
-                <div className="hidden sm:flex items-center gap-1 px-2 py-1 bg-gray-100 rounded-lg">
-                  <UserCheck size={12} className="text-gray-500" />
-                  <span className="text-xs text-gray-500 font-medium">
+                <div className="hidden sm:flex items-center gap-1 px-2 py-1 bg-purple-50 rounded-lg border border-purple-100">
+                  <UserCheck size={12} className="text-purple-500" />
+                  <span className="text-xs text-purple-600 font-medium">
                     {customerName || "Guest"}
                   </span>
                 </div>
               )}
               <Link
                 href="/login"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shadow-blue-200 whitespace-nowrap"
+                className="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors shadow-sm shadow-purple-200 whitespace-nowrap"
               >
                 Sign In
               </Link>
@@ -196,7 +193,7 @@ export function Navbar() {
           {/* Mobile hamburger */}
           <button
             aria-label="Toggle menu"
-            className="md:hidden p-1.5 text-gray-600 ml-0.5"
+            className="md:hidden p-1.5 text-gray-600 hover:text-purple-600 ml-0.5"
             onClick={() => setMobileOpen((v) => !v)}
           >
             {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -211,13 +208,13 @@ export function Navbar() {
           mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
         ].join(" ")}
       >
-        <div className="bg-white border-t border-gray-100 px-4 sm:px-6 py-2 shadow-xl">
+        <div className="bg-white border-t border-purple-100 px-4 sm:px-6 py-2 shadow-xl">
           {HOME_NAV_LINKS.map(({ href, label }) => (
             <Link
               key={href}
               href={href}
               onClick={() => setMobileOpen(false)}
-              className="flex items-center text-sm font-semibold text-gray-700 hover:text-blue-600 py-3 border-b border-gray-50 last:border-0 transition-colors"
+              className="flex items-center text-sm font-semibold text-gray-700 hover:text-purple-600 py-3 border-b border-gray-50 last:border-0 transition-colors"
             >
               {label}
             </Link>
@@ -226,7 +223,7 @@ export function Navbar() {
             <Link
               href="/admin/dashboard"
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-blue-600 py-3 border-b border-gray-50 transition-colors"
+              className="flex items-center gap-2 text-sm font-semibold text-gray-700 hover:text-purple-600 py-3 border-b border-gray-50 transition-colors"
             >
               <LayoutDashboard size={14} /> Admin
             </Link>
@@ -253,8 +250,8 @@ export function Navbar() {
             <>
               {guestId && (
                 <div className="flex items-center gap-2 py-3 border-b border-gray-50">
-                  <UserCheck size={14} className="text-gray-400" />
-                  <span className="text-sm text-gray-500">
+                  <UserCheck size={14} className="text-purple-400" />
+                  <span className="text-sm text-purple-600 font-medium">
                     {customerName ? `Hi, ${customerName}` : "Browsing as Guest"}
                   </span>
                 </div>
@@ -262,7 +259,7 @@ export function Navbar() {
               <Link
                 href="/login"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center text-sm font-semibold text-blue-600 py-3"
+                className="flex items-center text-sm font-semibold text-purple-600 py-3"
               >
                 Sign In
               </Link>
