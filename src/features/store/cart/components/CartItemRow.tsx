@@ -21,7 +21,7 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
       {/* Thumbnail */}
       <Link
         href={`/shop/${item.product.id}`}
-        className="flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 hover:border-purple-200 transition-colors"
+        className="flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors"
       >
         {thumb ? (
           <img
@@ -38,11 +38,11 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
       <div className="flex-1 min-w-0">
         <Link
           href={`/shop/${item.product.id}`}
-          className="font-bold text-sm text-gray-900 hover:text-purple-700 transition-colors line-clamp-2 leading-snug"
+          className="font-bold text-sm text-gray-900 hover:text-orange-600 transition-colors line-clamp-2 leading-snug"
         >
           {item.product.name}
         </Link>
-        <p className="text-sm font-extrabold text-purple-600 mt-1">
+        <p className="text-sm font-extrabold text-orange-600 mt-1">
           ₱{item.product.price.toLocaleString()}
         </p>
       </div>
@@ -53,7 +53,7 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
           type="button"
           aria-label="Decrease quantity"
           onClick={() => onUpdate(item.id, Math.max(1, item.quantity - 1))}
-          className="px-2.5 py-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+          className="px-2.5 py-2 text-gray-500 hover:text-orange-600 hover:bg-orange-50 transition-colors"
         >
           <Minus size={13} />
         </button>
@@ -64,7 +64,7 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
           type="button"
           aria-label="Increase quantity"
           onClick={() => onUpdate(item.id, item.quantity + 1)}
-          className="px-2.5 py-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+          className="px-2.5 py-2 text-gray-500 hover:text-orange-600 hover:bg-orange-50 transition-colors"
         >
           <Plus size={13} />
         </button>

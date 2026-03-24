@@ -37,7 +37,7 @@ function VideoCard({
     <div className="flex-shrink-0 w-[calc(85vw-24px)] xs:w-64 sm:w-60 md:w-64 lg:w-60 xl:w-64 flex flex-col gap-3">
       {/* 9:16 portrait ratio — Shorts format */}
       <div
-        className="relative w-full rounded-2xl overflow-hidden bg-gray-900 shadow-lg shadow-purple-100/50"
+        className="relative w-full rounded-2xl overflow-hidden bg-gray-900 shadow-lg shadow-orange-100/50"
         style={{ aspectRatio: "9 / 16" }}
       >
         {playing ? (
@@ -64,17 +64,17 @@ function VideoCard({
               aria-label="Play video"
               className="absolute inset-0 flex items-center justify-center group"
             >
-              <span className="w-14 h-14 rounded-full bg-white/90 group-hover:bg-purple-600 flex items-center justify-center shadow-xl transition-all duration-200 group-hover:scale-110">
+              <span className="w-14 h-14 rounded-full bg-white/90 group-hover:bg-orange-500 flex items-center justify-center shadow-xl transition-all duration-200 group-hover:scale-110">
                 <Play
                   size={22}
-                  className="text-purple-600 group-hover:text-white fill-current ml-1"
+                  className="text-orange-600 group-hover:text-white fill-current ml-1"
                 />
               </span>
             </button>
 
             {/* Label pill */}
             <div className="absolute bottom-3 left-3 right-3">
-              <span className="inline-block text-xs font-bold text-white bg-purple-600/80 backdrop-blur-sm px-2.5 py-1 rounded-full leading-tight">
+              <span className="inline-block text-xs font-bold text-white bg-orange-500/80 backdrop-blur-sm px-2.5 py-1 rounded-full leading-tight">
                 {testimonial.label}
               </span>
             </div>
@@ -102,7 +102,7 @@ export default function YoutubeTestimonials() {
     <section className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       {/* Header */}
       <div className="text-center mb-8 sm:mb-10">
-        <span className="text-xs font-bold uppercase tracking-widest text-purple-500 bg-purple-50 border border-purple-100 px-3 py-1 rounded-full">
+        <span className="text-xs font-bold uppercase tracking-widest text-orange-500 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
           Real People, Real Results
         </span>
         <h2 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -121,7 +121,7 @@ export default function YoutubeTestimonials() {
           type="button"
           onClick={() => scroll("left")}
           aria-label="Scroll left"
-          className="hidden sm:flex absolute -left-4 lg:-left-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-purple-300 hover:text-purple-600 transition-all"
+          className="hidden sm:flex absolute -left-4 lg:-left-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-purple-300 hover:text-orange-600 transition-all"
         >
           <ChevronLeft size={18} />
         </button>
@@ -143,7 +143,7 @@ export default function YoutubeTestimonials() {
           type="button"
           onClick={() => scroll("right")}
           aria-label="Scroll right"
-          className="hidden sm:flex absolute -right-4 lg:-right-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-purple-300 hover:text-purple-600 transition-all"
+          className="hidden sm:flex absolute -right-4 lg:-right-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-purple-300 hover:text-orange-600 transition-all"
         >
           <ChevronRight size={18} />
         </button>

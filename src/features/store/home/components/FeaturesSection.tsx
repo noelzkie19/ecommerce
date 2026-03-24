@@ -14,7 +14,7 @@ export const FDASection = () => (
         {/* YouTube Embed */}
         <FadeIn>
           <div
-            className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-purple-50 border border-purple-100"
+            className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-purple-50 border border-orange-100"
             style={{ aspectRatio: "4/3" }}
           >
             <iframe
@@ -49,7 +49,7 @@ export const FDASection = () => (
               <div key={item} className="flex items-center gap-3">
                 <CheckCircle2
                   size={18}
-                  className="text-purple-600 flex-shrink-0"
+                  className="text-orange-600 flex-shrink-0"
                 />
                 <span className="text-sm sm:text-base text-gray-700 font-medium">
                   {item}
@@ -59,7 +59,7 @@ export const FDASection = () => (
           </div>
           <Link
             href="/shop"
-            className="inline-flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold text-base px-10 py-4 rounded-2xl shadow-xl shadow-purple-200 hover:-translate-y-0.5 transition-all duration-200"
+            className="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-10 py-4 rounded-2xl shadow-xl shadow-orange-200 hover:-translate-y-0.5 transition-all duration-200"
           >
             Shop Now
           </Link>
@@ -112,10 +112,10 @@ export const CellularRepairSection = () => {
                   >
                     <button
                       onClick={() => setOpen(isOpen ? null : title)}
-                      className="w-full flex items-center justify-between px-5 sm:px-7 py-4 sm:py-5 bg-white hover:bg-purple-50/40 transition-colors text-left"
+                      className="w-full flex items-center justify-between px-5 sm:px-7 py-4 sm:py-5 bg-white hover:bg-orange-50/40 transition-colors text-left"
                     >
                       <span
-                        className={`font-bold text-sm sm:text-base ${isOpen ? "text-purple-600" : "text-gray-900"}`}
+                        className={`font-bold text-sm sm:text-base ${isOpen ? "text-orange-600" : "text-gray-900"}`}
                       >
                         {title}
                       </span>
@@ -139,7 +139,7 @@ export const CellularRepairSection = () => {
             <div className="mt-8 sm:mt-10 flex justify-center lg:justify-start">
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold text-base px-10 py-4 rounded-2xl shadow-xl shadow-purple-200 hover:-translate-y-0.5 transition-all duration-200"
+                className="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-10 py-4 rounded-2xl shadow-xl shadow-orange-200 hover:-translate-y-0.5 transition-all duration-200"
               >
                 Shop Now
               </Link>
@@ -149,7 +149,7 @@ export const CellularRepairSection = () => {
           {/* Image placeholder */}
           <FadeIn delay={150} className="order-1 lg:order-2">
             <div
-              className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-purple-50 border border-purple-100"
+              className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl shadow-purple-50 border border-orange-100"
               style={{ aspectRatio: "4/3" }}
             >
               <iframe

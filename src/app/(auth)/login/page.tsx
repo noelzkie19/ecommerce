@@ -77,7 +77,7 @@ function CustomerGuestForm({ redirectTo }: Readonly<CustomerGuestFormProps>) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter your name (optional)"
-          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-400 transition-colors"
         />
         <p className="text-xs text-gray-500 mt-1">
           Leave empty to continue as "Guest"
@@ -86,7 +86,7 @@ function CustomerGuestForm({ redirectTo }: Readonly<CustomerGuestFormProps>) {
       <button
         onClick={handleContinue}
         disabled={loading}
-        className="w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-medium disabled:opacity-50 hover:bg-blue-700 transition-colors"
+        className="w-full bg-orange-500 text-white py-3 rounded-xl text-sm font-semibold disabled:opacity-50 hover:bg-orange-600 transition-colors shadow-sm shadow-orange-200"
       >
         {loading ? "Continuing..." : "Continue to Store"}
       </button>
@@ -129,14 +129,14 @@ function ForgotPasswordForm({
           value={forgotEmail}
           onChange={(e) => onEmailChange(e.target.value)}
           placeholder="you@example.com"
-          className={`w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-${accentColor}-500`}
+          className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-400 transition-colors"
         />
       </div>
       {message && <p className={`text-xs ${messageColorClass}`}>{message}</p>}
       <button
         onClick={onSend}
         disabled={loading}
-        className={`w-full bg-${accentColor}-600 text-white py-3 rounded-xl text-sm font-medium disabled:opacity-50 hover:bg-${accentColor}-700 transition-colors`}
+        className="w-full bg-orange-500 text-white py-3 rounded-xl text-sm font-semibold disabled:opacity-50 hover:bg-orange-600 transition-colors shadow-sm shadow-orange-200"
       >
         {loading ? "Sending..." : "Send Reset Email"}
       </button>
@@ -157,7 +157,7 @@ function SelectScreen({
   onSelectAffiliate,
 }: Readonly<SelectScreenProps>) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo / Brand */}
         <div className="flex flex-col items-center mb-8">
@@ -167,7 +167,7 @@ function SelectScreen({
           <h1 className="text-3xl font-extrabold text-white tracking-tight">
             Triad365
           </h1>
-          <p className="text-purple-300 text-sm mt-1">
+          <p className="text-gray-400 text-sm mt-1">
             How would you like to continue?
           </p>
         </div>
@@ -186,11 +186,11 @@ function SelectScreen({
               <p className="font-bold text-white text-base">
                 Continue as Guest
               </p>
-              <p className="text-purple-300 text-sm mt-0.5">
+              <p className="text-gray-400 text-sm mt-0.5">
                 Browse and buy without signing up
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-purple-300 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
+            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
           </button>
 
           {/* Customer */}
@@ -198,47 +198,47 @@ function SelectScreen({
             onClick={onSelectCustomer}
             className="w-full group flex items-center gap-4 p-5 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-200 text-left"
           >
-            <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-blue-500/30 transition-colors">
-              <ShoppingBag className="w-6 h-6 text-blue-300" />
+            <div className="w-12 h-12 bg-gray-400/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-400/30 transition-colors">
+              <ShoppingBag className="w-6 h-6 text-gray-200" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-white text-base">
                 Sign in as Customer
               </p>
-              <p className="text-purple-300 text-sm mt-0.5">
+              <p className="text-gray-400 text-sm mt-0.5">
                 Track orders and manage your account
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-purple-300 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
+            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
           </button>
 
           {/* Affiliate */}
           <button
             onClick={onSelectAffiliate}
-            className="w-full group flex items-center gap-4 p-5 bg-yellow-500/10 hover:bg-yellow-500/20 backdrop-blur-sm border border-yellow-500/30 hover:border-yellow-400/60 rounded-2xl transition-all duration-200 text-left"
+            className="w-full group flex items-center gap-4 p-5 bg-orange-500/10 hover:bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 hover:border-orange-400/60 rounded-2xl transition-all duration-200 text-left"
           >
-            <div className="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-yellow-500/30 transition-colors">
-              <Users className="w-6 h-6 text-yellow-300" />
+            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/30 transition-colors">
+              <Users className="w-6 h-6 text-orange-300" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-bold text-white text-base">
                 Sign in as Affiliate
               </p>
-              <p className="text-yellow-300/80 text-sm mt-0.5">
+              <p className="text-orange-300/80 text-sm mt-0.5">
                 Access your dashboard and earn commissions
               </p>
             </div>
-            <ArrowRight className="w-5 h-5 text-yellow-400/60 group-hover:text-yellow-300 group-hover:translate-x-1 transition-all flex-shrink-0" />
+            <ArrowRight className="w-5 h-5 text-orange-400/60 group-hover:text-orange-300 group-hover:translate-x-1 transition-all flex-shrink-0" />
           </button>
         </div>
 
         {/* Become an affiliate CTA */}
         <div className="mt-6 text-center">
-          <p className="text-purple-400 text-sm">
+          <p className="text-gray-500 text-sm">
             Want to earn commissions?{" "}
             <a
               href="/affiliate/onboarding"
-              className="text-yellow-400 hover:text-yellow-300 font-semibold transition-colors"
+              className="text-orange-400 hover:text-orange-300 font-semibold transition-colors"
             >
               Become an Affiliate →
             </a>
@@ -257,18 +257,18 @@ interface CustomerScreenProps {
 
 function CustomerScreen({ onBack, redirectTo }: Readonly<CustomerScreenProps>) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <BackButton
           onClick={onBack}
-          colorClass="text-blue-300 hover:text-white"
+          colorClass="text-gray-400 hover:text-white"
         />
 
         <div className="bg-white rounded-2xl shadow-2xl p-6">
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3">
-              <ShoppingBag className="w-6 h-6 text-blue-600" />
+            <div className="w-12 h-12 bg-gray-100 rounded-xl flex items-center justify-center mb-3">
+              <ShoppingBag className="w-6 h-6 text-gray-600" />
             </div>
             <h2 className="text-xl font-extrabold text-gray-900">Welcome!</h2>
             <p className="text-gray-500 text-sm mt-1">
@@ -319,18 +319,18 @@ function AffiliateScreen({
   const headerSubtitle = getHeaderSubtitle();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <BackButton
           onClick={onBack}
-          colorClass="text-purple-300 hover:text-white"
+          colorClass="text-gray-400 hover:text-white"
         />
 
         <div className="bg-white rounded-2xl shadow-2xl p-6">
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
-            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center mb-3">
-              <Users className="w-6 h-6 text-yellow-600" />
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-3">
+              <Users className="w-6 h-6 text-orange-600" />
             </div>
             <h2 className="text-xl font-extrabold text-gray-900">
               {headerTitle}
@@ -353,7 +353,7 @@ function AffiliateScreen({
           {mode === "forgot" && (
             <ForgotPasswordForm
               inputId="forgot-email-aff"
-              accentColor="purple"
+              accentColor="gray"
               forgotEmail={forgotEmail}
               onEmailChange={onForgotEmailChange}
               onSend={onSendReset}
@@ -387,7 +387,7 @@ function AffiliateScreen({
               Not yet an affiliate?{" "}
               <a
                 href="/affiliate/onboarding"
-                className="text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+                className="text-gray-700 hover:text-gray-900 font-semibold transition-colors"
               >
                 Activate your account →
               </a>
@@ -455,7 +455,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950 flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center">
           <div className="w-10 h-10 border-4 border-white/30 border-t-white rounded-full animate-spin" />
         </div>
       }

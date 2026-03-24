@@ -87,7 +87,7 @@ export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
 
       <div className="flex justify-between items-baseline mb-6">
         <span className="text-base font-extrabold text-gray-900">Total</span>
-        <span className="text-xl font-extrabold text-purple-600">
+        <span className="text-xl font-extrabold text-orange-600">
           ₱{total.toLocaleString()}
         </span>
       </div>
@@ -98,7 +98,7 @@ export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
         className={[
           "w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all shadow-md",
           itemCount > 0
-            ? "bg-purple-600 hover:bg-purple-700 active:scale-[0.98] text-white shadow-purple-200 cursor-pointer"
+            ? "bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white shadow-orange-200 cursor-pointer"
             : "bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none",
         ].join(" ")}
       >
@@ -108,7 +108,7 @@ export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
 
       <Link
         href="/shop"
-        className="flex items-center justify-center gap-1.5 mt-3 text-sm font-semibold text-gray-500 hover:text-purple-600 transition-colors"
+        className="flex items-center justify-center gap-1.5 mt-3 text-sm font-semibold text-gray-500 hover:text-orange-600 transition-colors"
       >
         <ArrowLeft size={13} />
         Continue Shopping

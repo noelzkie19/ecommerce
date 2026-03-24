@@ -3,7 +3,7 @@ import { HTMLAttributes, ReactNode } from "react";
 
 interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
-  variant?: "default" | "outline" | "purple";
+  variant?: "default" | "outline" | "brand";
 }
 
 export const Card = ({
@@ -17,7 +17,7 @@ export const Card = ({
       "rounded-xl shadow-sm overflow-hidden",
       variant === "default" && "bg-white border border-gray-100",
       variant === "outline" && "bg-white border border-gray-200",
-      variant === "purple" && "bg-purple-50 border border-purple-100",
+      variant === "brand" && "bg-orange-50 border border-orange-100",
       className,
     )}
     {...props}

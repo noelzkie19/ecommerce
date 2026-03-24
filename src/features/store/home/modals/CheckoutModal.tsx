@@ -133,7 +133,7 @@ const SuccessScreen = ({ onClose }: { readonly onClose: () => void }) => (
     <button
       type="button"
       onClick={onClose}
-      className="bg-purple-600 hover:bg-purple-700 active:scale-95 text-white font-bold text-sm px-8 py-3 rounded-xl transition-all shadow-md shadow-purple-200 w-full sm:w-auto"
+      className="bg-orange-500 hover:bg-orange-600 active:scale-95 text-white font-bold text-sm px-8 py-3 rounded-xl transition-all shadow-md shadow-orange-200 w-full sm:w-auto"
     >
       Continue Shopping
     </button>
@@ -209,7 +209,7 @@ const QrPaymentScreen = ({
           Payment Received!
         </h3>
         <p className="text-sm text-gray-500">Confirming your order...</p>
-        <Loader2 size={18} className="text-purple-400 animate-spin" />
+        <Loader2 size={18} className="text-orange-400 animate-spin" />
       </div>
     );
   }
@@ -546,7 +546,7 @@ export const CheckoutModal = ({
                   type="button"
                   onClick={handleContinue}
                   disabled={!getCanContinue() || isSubmitting}
-                  className="flex-1 flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed active:scale-[0.98] text-white font-bold text-sm py-2.5 px-4 sm:px-6 rounded-xl transition-all shadow-md shadow-purple-200"
+                  className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed active:scale-[0.98] text-white font-bold text-sm py-2.5 px-4 sm:px-6 rounded-xl transition-all shadow-md shadow-orange-200"
                 >
                   {isSubmitting ? (
                     <Loader2 size={15} className="animate-spin" />

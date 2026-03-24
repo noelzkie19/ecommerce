@@ -193,7 +193,7 @@ export default function ShopDetailPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 size={32} className="animate-spin text-purple-500" />
+        <Loader2 size={32} className="animate-spin text-orange-500" />
       </div>
     );
   }
@@ -204,7 +204,7 @@ export default function ShopDetailPage() {
         <p className="text-gray-500 text-sm">Product not found.</p>
         <Link
           href="/shop"
-          className="text-sm font-semibold text-purple-600 hover:underline"
+          className="text-sm font-semibold text-orange-600 hover:underline"
         >
           Back to Shop
         </Link>
@@ -244,7 +244,7 @@ export default function ShopDetailPage() {
           <div className="flex flex-col gap-4 sm:gap-5">
             {/* Category + badge pills */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-semibold text-purple-600 bg-purple-50 border border-purple-100 px-3 py-1 rounded-full">
+              <span className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
                 {product.category}
               </span>
               {product.badge && (
@@ -276,7 +276,7 @@ export default function ShopDetailPage() {
 
             {/* Price */}
             <div className="flex items-baseline gap-3 flex-wrap">
-              <span className="text-2xl sm:text-3xl font-extrabold text-purple-600">
+              <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">
                 ₱
                 {(product.price * qty - selectedPack.discount).toLocaleString()}
               </span>
@@ -329,8 +329,8 @@ export default function ShopDetailPage() {
                       onClick={() => handleSelectPack(pack)}
                       className={`relative flex flex-col items-center justify-center min-w-[84px] sm:min-w-[90px] px-4 sm:px-5 py-3 rounded-2xl border-2 transition-all duration-150 ${
                         isActive
-                          ? "bg-purple-600 border-purple-600 text-white shadow-lg shadow-purple-200 scale-105"
-                          : "bg-white border-gray-200 text-gray-700 hover:border-purple-400 hover:bg-purple-50"
+                          ? "bg-orange-500 border-purple-600 text-white shadow-lg shadow-orange-200 scale-105"
+                          : "bg-white border-gray-200 text-gray-700 hover:border-purple-400 hover:bg-orange-50"
                       }`}
                     >
                       <span className="text-sm font-bold leading-tight">
@@ -367,7 +367,7 @@ export default function ShopDetailPage() {
                   aria-label="Decrease quantity"
                   onClick={handleDecrement}
                   disabled={qtyDisabled || qty <= 1}
-                  className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-purple-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                  className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
                 >
                   <Minus size={16} />
                 </button>
@@ -385,7 +385,7 @@ export default function ShopDetailPage() {
                   disabled={
                     qtyDisabled || (remaining !== Infinity && qty >= remaining)
                   }
-                  className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-purple-600 hover:bg-purple-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                  className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
                 >
                   <Plus size={16} />
                 </button>
@@ -395,7 +395,7 @@ export default function ShopDetailPage() {
                 type="button"
                 onClick={handleAddToCart}
                 disabled={outOfStock || atCapacity || overStock}
-                className="flex-1 flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed active:scale-[0.98] disabled:active:scale-100 text-white font-bold text-sm h-10 sm:h-11 px-4 sm:px-6 rounded-2xl transition-all shadow-md shadow-purple-200 disabled:shadow-none"
+                className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed active:scale-[0.98] disabled:active:scale-100 text-white font-bold text-sm h-10 sm:h-11 px-4 sm:px-6 rounded-2xl transition-all shadow-md shadow-orange-200 disabled:shadow-none"
               >
                 <ShoppingCart size={16} />
                 {cartBtnLabel}
@@ -424,7 +424,7 @@ export default function ShopDetailPage() {
                   key={label}
                   className="flex flex-col items-center gap-1.5 bg-white border border-gray-100 rounded-2xl py-3 sm:py-4 px-2 shadow-sm"
                 >
-                  <Icon size={20} className="text-purple-500" />
+                  <Icon size={20} className="text-orange-500" />
                   <span className="text-[11px] sm:text-xs font-medium text-gray-600 text-center leading-tight">
                     {label}
                   </span>

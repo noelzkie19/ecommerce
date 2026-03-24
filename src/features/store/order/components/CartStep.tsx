@@ -137,7 +137,7 @@ export const CartStep = ({
         )}
         <div className="flex justify-between font-extrabold text-gray-900 pt-2 border-t border-gray-100">
           <span>Total</span>
-          <span className="text-purple-600">₱{total.toLocaleString()}</span>
+          <span className="text-orange-600">₱{total.toLocaleString()}</span>
         </div>
       </div>
     </div>

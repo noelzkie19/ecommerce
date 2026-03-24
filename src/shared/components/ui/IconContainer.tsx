@@ -4,7 +4,7 @@ import type { HTMLAttributes } from "react";
 
 interface IconContainerProps extends HTMLAttributes<HTMLDivElement> {
   icon: LucideIcon;
-  variant?: "purple" | "green" | "yellow" | "red" | "blue" | "gray";
+  variant?: "orange" | "green" | "yellow" | "red" | "blue" | "gray";
   size?: "sm" | "md" | "lg";
 }
 
@@ -21,7 +21,7 @@ const iconSizes = {
 };
 
 const variants = {
-  purple: "bg-purple-50 text-purple-500",
+  orange: "bg-orange-50 text-orange-500",
   green: "bg-green-50 text-green-600",
   yellow: "bg-yellow-50 text-yellow-600",
   red: "bg-red-50 text-red-500",
@@ -31,7 +31,7 @@ const variants = {
 
 export const IconContainer = ({
   icon: Icon,
-  variant = "purple",
+  variant = "orange",
   size = "md",
   className,
   ...props

@@ -22,7 +22,7 @@ export const LoadingOverlay = ({
   message?: string;
 }) => (
   <div className="flex flex-col items-center justify-center py-12 gap-3">
-    <Spinner size="lg" className="text-purple-500" />
+    <Spinner size="lg" className="text-orange-500" />
     <p className="text-sm text-gray-500">{message}</p>
   </div>
 );

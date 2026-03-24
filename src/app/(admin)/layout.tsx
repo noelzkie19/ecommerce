@@ -9,9 +9,10 @@ export default function AdminLayout({
   return (
     <div className="flex min-h-screen bg-gray-50">
       <AdminSidebar />
-      <div className="flex-1 ml-52">
+      {/* Desktop: offset for fixed sidebar; Mobile: top padding for fixed top bar */}
+      <div className="flex-1 md:ml-52 pt-14 md:pt-0">
         <AdminTopBar />
-        {children}
+        <main className="overflow-y-auto">{children}</main>
       </div>
     </div>
   );

@@ -12,7 +12,7 @@ const BenefitCard = ({
   readonly index: number;
 }) => (
   <FadeIn delay={index * 70}>
-    <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-9 border border-gray-100 hover:border-purple-100 hover:shadow-xl hover:shadow-purple-50/80 hover:-translate-y-1.5 transition-all duration-300 h-full">
+    <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-9 border border-gray-100 hover:border-orange-100 hover:shadow-xl hover:shadow-purple-50/80 hover:-translate-y-1.5 transition-all duration-300 h-full">
       <div
         className={[
           "w-12 h-12 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl flex items-center justify-center mb-5 sm:mb-7 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300",

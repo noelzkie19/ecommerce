@@ -17,7 +17,7 @@ export const StarRating = ({
         size={size}
         className={
           star <= rating
-            ? "fill-purple-500 text-purple-500"
+            ? "fill-purple-500 text-orange-500"
             : "fill-gray-200 text-gray-200"
         }
       />
@@ -30,7 +30,7 @@ export const SectionLabel = ({
 }: {
   readonly children: React.ReactNode;
 }) => (
-  <span className="inline-flex items-center gap-1.5 border border-purple-200 bg-purple-50 text-purple-600 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full">
+  <span className="inline-flex items-center gap-1.5 border border-orange-200 bg-orange-50 text-orange-600 text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full">
     {children}
   </span>
 );

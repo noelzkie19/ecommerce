@@ -33,7 +33,7 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
 const STATUS_COLORS: Record<OrderStatus, string> = {
   pending: "bg-amber-500",
   confirmed: "bg-blue-500",
-  processing: "bg-purple-500",
+  processing: "bg-orange-500",
   shipped: "bg-cyan-500",
   delivered: "bg-green-500",
   cancelled: "bg-red-500",

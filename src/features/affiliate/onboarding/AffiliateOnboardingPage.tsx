@@ -32,7 +32,7 @@ const BENEFITS = [
 // Reusable BrandHeader component
 const BrandHeader = ({ initial }: { initial: string }) => (
   <div className="flex flex-col items-center mb-8">
-    <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center text-2xl font-extrabold text-white mb-4 shadow-lg shadow-purple-900/50">
+    <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center text-2xl font-extrabold text-white mb-4 shadow-lg shadow-orange-900/30">
       {initial}
     </div>
     <h1 className="text-2xl font-extrabold text-white tracking-tight">
@@ -43,7 +43,7 @@ const BrandHeader = ({ initial }: { initial: string }) => (
 
 // Reusable PaymentSuccessCard component
 const PaymentSuccessCard = ({ initial }: { initial: string }) => (
-  <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex flex-col items-center justify-center px-4 py-12">
+  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center px-4 py-12">
     <BrandHeader initial={initial} />
 
     <Card className="w-full max-w-sm p-7">
@@ -93,9 +93,9 @@ const QRCard = ({
   onCheckAgain: () => void;
   onClose: () => void;
 }) => (
-  <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex flex-col items-center justify-center px-4 py-12">
+  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center px-4 py-12">
     <BrandHeader initial="T" />
-    <p className="text-purple-300 text-sm mt-1 mb-6">
+    <p className="text-orange-300 text-sm mt-1 mb-6">
       Scan to pay with Maya Wallet
     </p>
 
@@ -125,7 +125,7 @@ const QRCard = ({
 
       {/* Payment Status Indicator */}
       {pollStatus === "waiting" && (
-        <div className="flex items-center justify-center gap-2 mb-4 text-purple-600">
+        <div className="flex items-center justify-center gap-2 mb-4 text-orange-500">
           <Spinner size="sm" />
           <span className="text-sm font-medium">Waiting for payment...</span>
         </div>
@@ -172,7 +172,7 @@ const QRCard = ({
           </Button>
         )}
         {pollStatus === "failed" && (
-          <Button variant="purple" onClick={onTryAgain} className="w-full">
+          <Button variant="primary" onClick={onTryAgain} className="w-full">
             Try Again
           </Button>
         )}
@@ -206,9 +206,9 @@ const OnboardingCard = ({
   onPay: () => void;
   referralCode?: string | null;
 }) => (
-  <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex flex-col items-center justify-center px-4 py-12">
+  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center px-4 py-12">
     <BrandHeader initial="T" />
-    <p className="text-purple-300 text-sm mt-1 mb-8">
+    <p className="text-orange-300 text-sm mt-1 mb-8">
       Activate your affiliate account
     </p>
 
@@ -221,9 +221,9 @@ const OnboardingCard = ({
       </CardContent>
 
       {/* Price */}
-      <div className="bg-purple-50 rounded-xl py-5 text-center mb-6">
-        <p className="text-4xl font-extrabold text-purple-600">₱999</p>
-        <p className="text-purple-400 text-sm mt-1">PHP via Maya Wallet</p>
+      <div className="bg-orange-50 rounded-xl py-5 text-center mb-6">
+        <p className="text-4xl font-extrabold text-orange-500">₱999</p>
+        <p className="text-orange-400 text-sm mt-1">PHP via Maya Wallet</p>
       </div>
 
       {/* Benefits */}
@@ -233,7 +233,7 @@ const OnboardingCard = ({
             key={label}
             className="flex items-center gap-3 text-gray-600 text-sm"
           >
-            <CheckCircle2 className="w-4 h-4 text-purple-500 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0" />
             {label}
           </li>
         ))}
@@ -241,11 +241,11 @@ const OnboardingCard = ({
 
       {/* Referral indicator */}
       {referralCode && (
-        <div className="bg-purple-50 border border-purple-100 rounded-lg p-3 mb-6 text-center">
-          <p className="text-xs text-purple-600 font-medium">
+        <div className="bg-orange-50 border border-orange-100 rounded-lg p-3 mb-6 text-center">
+          <p className="text-xs text-orange-600 font-medium">
             🎉 You were referred by an existing affiliate!
           </p>
-          <p className="text-xs text-purple-400 mt-1">
+          <p className="text-xs text-orange-400 mt-1">
             They'll earn a commission when you complete registration
           </p>
         </div>
@@ -257,7 +257,7 @@ const OnboardingCard = ({
 
       {/* CTA */}
       <Button
-        variant="purple"
+        variant="primary"
         onClick={onPay}
         loading={isLoading}
         className="w-full"
@@ -275,8 +275,8 @@ const OnboardingCard = ({
 
 // Reusable Fallback component
 const AffiliateOnboardingFallback = () => (
-  <div className="min-h-screen bg-gradient-to-br from-[#1a0533] via-[#2d0a5e] to-[#1a0533] flex items-center justify-center">
-    <Spinner size="lg" className="text-purple-400" />
+  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center">
+    <Spinner size="lg" className="text-orange-400" />
   </div>
 );
 

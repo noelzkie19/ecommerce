@@ -17,7 +17,7 @@ export default function FilterSelect({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-gray-700 min-w-[140px]"
+      className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-400 bg-white text-gray-700 min-w-[140px] transition-colors"
     >
       {placeholder && <option value="">{placeholder}</option>}
       {options.map((option) => (

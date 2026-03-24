@@ -37,7 +37,7 @@ export default function FAQSection() {
     <section className="w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       {/* Header */}
       <div className="text-center mb-8 sm:mb-10">
-        <span className="text-xs font-bold uppercase tracking-widest text-purple-500 bg-purple-50 border border-purple-100 px-3 py-1 rounded-full">
+        <span className="text-xs font-bold uppercase tracking-widest text-orange-500 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
           Got Questions?
         </span>
         <h2 className="mt-4 text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight">
@@ -57,8 +57,8 @@ export default function FAQSection() {
               key={faq.q}
               className={`rounded-2xl border-2 bg-white transition-all duration-200 ${
                 isOpen
-                  ? "border-purple-300 shadow-md shadow-purple-100/60"
-                  : "border-gray-100 hover:border-purple-200"
+                  ? "border-purple-300 shadow-md shadow-orange-100/60"
+                  : "border-gray-100 hover:border-orange-200"
               }`}
             >
               <button
@@ -68,14 +68,14 @@ export default function FAQSection() {
               >
                 <span
                   className={`text-sm sm:text-base font-semibold leading-snug ${
-                    isOpen ? "text-purple-700" : "text-gray-800"
+                    isOpen ? "text-orange-600" : "text-gray-800"
                   }`}
                 >
                   {faq.q}
                 </span>
                 <ChevronDown
                   size={18}
-                  className={`shrink-0 text-purple-400 transition-transform duration-200 ${
+                  className={`shrink-0 text-orange-400 transition-transform duration-200 ${
                     isOpen ? "rotate-180" : ""
                   }`}
                 />

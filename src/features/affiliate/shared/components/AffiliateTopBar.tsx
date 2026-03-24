@@ -17,7 +17,7 @@ export const AffiliateTopBar = ({ title, subtitle }: AffiliateTopBarProps) => {
         <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
         {subtitle && <p className="text-gray-500 text-sm mt-0.5">{subtitle}</p>}
       </div>
-      <div className="w-9 h-9 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">
+      <div className="w-9 h-9 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-sm shadow-orange-200">
         {initial}
       </div>
     </header>

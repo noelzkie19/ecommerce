@@ -6,7 +6,7 @@ import { Order, OrderStatus } from "@/types/order.types";
 const STATUS_STYLES: Record<OrderStatus, string> = {
   pending: "bg-yellow-50 text-yellow-700 border-yellow-100",
   confirmed: "bg-blue-50 text-blue-700 border-blue-100",
-  processing: "bg-purple-50 text-purple-700 border-purple-100",
+  processing: "bg-orange-50 text-orange-700 border-orange-100",
   shipped: "bg-indigo-50 text-indigo-700 border-indigo-100",
   delivered: "bg-emerald-50 text-emerald-700 border-emerald-100",
   cancelled: "bg-red-50 text-red-700 border-red-100",
@@ -88,7 +88,7 @@ export default function OrdersTable({ orders, onView, onStatusChange }: Props) {
                     onChange={(e) =>
                       onStatusChange(order.id, e.target.value as OrderStatus)
                     }
-                    className={`appearance-none pl-3 pr-7 py-1 rounded-full text-xs font-medium border cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 ${STATUS_STYLES[order.status]}`}
+                    className={`appearance-none pl-3 pr-7 py-1 rounded-full text-xs font-medium border cursor-pointer focus:outline-none focus:ring-2 focus:ring-orange-500 ${STATUS_STYLES[order.status]}`}
                   >
                     {ALL_STATUSES.map((s) => (
                       <option key={s} value={s}>

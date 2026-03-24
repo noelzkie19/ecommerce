@@ -140,7 +140,7 @@ export const AffiliateCashoutPage = () => {
         {/* Request Form */}
         <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-6">
           <h3 className="text-sm font-bold text-gray-800 mb-5 flex items-center gap-2">
-            <CreditCard className="w-4 h-4 text-purple-500" />
+            <CreditCard className="w-4 h-4 text-orange-500" />
             Request Cashout
           </h3>
 
@@ -162,7 +162,7 @@ export const AffiliateCashoutPage = () => {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, amount: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 required
               />
             </div>
@@ -181,7 +181,7 @@ export const AffiliateCashoutPage = () => {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, mayaNumber: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 required
               />
             </div>
@@ -200,7 +200,7 @@ export const AffiliateCashoutPage = () => {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, mayaName: e.target.value }))
                 }
-                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 required
               />
             </div>
@@ -214,7 +214,7 @@ export const AffiliateCashoutPage = () => {
 
             <Button
               type="submit"
-              variant="purple"
+              variant="primary"
               loading={isSubmitting}
               className="w-full"
             >

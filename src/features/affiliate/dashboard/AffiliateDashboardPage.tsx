@@ -30,7 +30,7 @@ export const AffiliateDashboardPage = () => {
   return (
     <div>
       <AffiliateTopBar
-        title="Dashboard"
+        title="Affiliate Portal"
         subtitle={`Welcome back, ${user?.fullName ?? "Affiliate"}!`}
       />
 

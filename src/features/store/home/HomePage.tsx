@@ -27,8 +27,8 @@ const BENEFITS = [
     title: "Ready Products",
     description:
       "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na.",
-    color: "text-purple-600",
-    bg: "bg-purple-50",
+    color: "text-orange-600",
+    bg: "bg-orange-50",
   },
   {
     icon: Bot,
@@ -56,8 +56,8 @@ const BENEFITS = [
     title: "System",
     description:
       "DONE-FOR-YOU online business system. May system ka na gagamitin from Day 1.",
-    color: "text-rose-600",
-    bg: "bg-rose-50",
+    color: "text-orange-600",
+    bg: "bg-orange-50",
   },
   {
     icon: Wallet,
@@ -135,7 +135,7 @@ const HomePageInner = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
           <p className="text-gray-500 text-sm">Loading...</p>
         </div>
       </div>
@@ -145,42 +145,51 @@ const HomePageInner = () => {
   return (
     <div className="flex flex-col w-full">
       {/* ── Hero Section ─────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-950 via-purple-900 to-indigo-950 py-16 sm:py-24 lg:py-32">
+      <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-16 sm:py-24 lg:py-32">
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-3xl" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-3xl" />
         </div>
 
         <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-white text-sm font-semibold mb-8">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse flex-shrink-0" />{" "}
+              <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse flex-shrink-0" />{" "}
               DONE-FOR-YOU BUSINESS SYSTEM
             </div>
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight tracking-tight">
               Mag-activate Ng{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
                 Your System
               </span>
             </h1>
 
-            <p className="text-lg sm:text-xl text-purple-200 mb-10 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto">
               Bibigyan ka namin ng SYSTEM na pwede mong gamitin agad. No
               inventory. No packing. No courier. Kumita ka na.
             </p>
+
+            {/* System Image */}
+            <div className="mb-10">
+              <img
+                src="/images/Drpshipping-1.jpg"
+                alt="Our System"
+                className="w-full max-w-3xl mx-auto rounded-2xl shadow-2xl shadow-orange-500/20 border border-white/10"
+              />
+            </div>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
               <Link
                 href="/affiliate/onboarding"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-purple-950 px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-yellow-500/25 hover:shadow-yellow-500/40 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5"
               >
-                Activate Now — ₱999
+                Activate Now
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
@@ -193,7 +202,7 @@ const HomePageInner = () => {
             </div>
 
             {/* Trust indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-purple-300 text-sm">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-gray-400 text-sm">
               <span className="flex items-center gap-1.5">
                 <Shield className="w-4 h-4 text-green-400" />
                 Secure Payment
@@ -217,7 +226,7 @@ const HomePageInner = () => {
           <div className="grid grid-cols-3 divide-x divide-gray-100">
             {STATS.map((stat) => (
               <div key={stat.label} className="py-6 sm:py-8 text-center px-4">
-                <p className="text-2xl sm:text-3xl font-extrabold text-purple-600 mb-1">
+                <p className="text-2xl sm:text-3xl font-extrabold text-orange-500 mb-1">
                   {stat.value}
                 </p>
                 <p className="text-sm font-bold text-gray-900">{stat.label}</p>
@@ -234,7 +243,7 @@ const HomePageInner = () => {
       <section id="ano-ba" className="py-16 sm:py-20 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-purple-200">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
               About the System
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -242,7 +251,7 @@ const HomePageInner = () => {
             </h2>
             <p className="text-gray-500 text-lg">
               Ito ay isang{" "}
-              <span className="font-bold text-purple-600">
+              <span className="font-bold text-orange-600">
                 DONE-FOR-YOU ONLINE BUSINESS SYSTEM
               </span>
             </p>
@@ -254,9 +263,9 @@ const HomePageInner = () => {
                 icon: Package,
                 title: "PRODUCT",
                 desc: "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na.",
-                color: "text-purple-600",
-                bg: "bg-purple-50",
-                border: "border-purple-100",
+                color: "text-orange-600",
+                bg: "bg-orange-50",
+                border: "border-orange-100",
               },
               {
                 icon: Bot,
@@ -297,10 +306,10 @@ const HomePageInner = () => {
       </section>
 
       {/* ── Inclusions Section ───────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-purple-50/40">
+      <section className="py-16 sm:py-20 bg-orange-50/40">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
               What You Get
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -312,10 +321,10 @@ const HomePageInner = () => {
             {INCLUSIONS.map((item) => (
               <div
                 key={item}
-                className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-purple-100 shadow-sm hover:shadow-md hover:border-purple-200 transition-all"
+                className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all"
               >
-                <div className="w-8 h-8 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="w-4 h-4 text-purple-500" />
+                <div className="w-8 h-8 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <CheckCircle2 className="w-4 h-4 text-orange-500" />
                 </div>
                 <span className="text-gray-700 font-semibold text-sm">
                   {item}
@@ -330,7 +339,7 @@ const HomePageInner = () => {
       <section className="py-16 sm:py-20 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-purple-600 bg-purple-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-purple-200">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
               How It Works
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -346,10 +355,10 @@ const HomePageInner = () => {
               <div key={item.step} className="relative text-center">
                 {/* Connector line */}
                 {idx < HOW_IT_WORKS.length - 1 && (
-                  <div className="hidden md:block absolute top-10 left-[calc(50%+3rem)] right-0 h-px bg-gradient-to-r from-purple-200 to-transparent" />
+                  <div className="hidden md:block absolute top-10 left-[calc(50%+3rem)] right-0 h-px bg-gradient-to-r from-orange-200 to-transparent" />
                 )}
-                <div className="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-700 rounded-3xl flex flex-col items-center justify-center mx-auto mb-5 shadow-lg shadow-purple-200">
-                  <span className="text-purple-200 text-[10px] font-bold tracking-widest">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl flex flex-col items-center justify-center mx-auto mb-5 shadow-lg shadow-orange-200">
+                  <span className="text-orange-100 text-[10px] font-bold tracking-widest">
                     {item.step}
                   </span>
                   <item.icon className="w-6 h-6 text-white mt-0.5" />
@@ -367,10 +376,10 @@ const HomePageInner = () => {
       </section>
 
       {/* ── Benefits/Why Join Section ────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-purple-50/60 to-indigo-50/60">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-orange-50/60 to-amber-50/60">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-purple-200">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
               Why Join
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -423,43 +432,43 @@ const HomePageInner = () => {
       <section className="py-16 sm:py-20 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-md mx-auto">
-            <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-purple-700 via-purple-800 to-indigo-900 text-white shadow-2xl shadow-purple-900/30">
+            <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white shadow-2xl shadow-gray-900/30">
               {/* Background decoration */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
 
               <div className="relative">
                 <div className="text-center mb-6">
-                  <span className="inline-block text-xs font-bold text-yellow-300 bg-white/10 border border-white/20 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
+                  <span className="inline-block text-xs font-bold text-orange-300 bg-white/10 border border-white/20 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
                     Pricing
                   </span>
                   <h3 className="text-2xl font-extrabold mb-2">
                     Magkano para makapag-start?
                   </h3>
-                  <p className="text-purple-300 text-sm line-through">
+                  <p className="text-gray-400 text-sm line-through">
                     Sa ibang system: ₱5,000 – ₱15,000
                   </p>
                 </div>
 
                 <div className="text-center mb-8">
                   <div className="flex items-end justify-center gap-2">
-                    <span className="text-6xl font-extrabold tracking-tight">
+                    <span className="text-6xl font-extrabold tracking-tight text-orange-400">
                       ₱999
                     </span>
                   </div>
-                  <p className="text-purple-300 text-sm mt-2 font-semibold tracking-widest uppercase">
+                  <p className="text-gray-400 text-sm mt-2 font-semibold tracking-widest uppercase">
                     One-Time Activation Only
                   </p>
                 </div>
 
                 <Link
                   href="/affiliate/onboarding"
-                  className="block w-full bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-purple-950 text-center py-4 rounded-2xl font-extrabold transition-all text-lg shadow-lg shadow-yellow-500/20 hover:shadow-yellow-500/30 hover:-translate-y-0.5"
+                  className="block w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-center py-4 rounded-2xl font-extrabold transition-all text-lg shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:-translate-y-0.5"
                 >
                   ACTIVATE NOW
                 </Link>
 
-                <p className="text-purple-300 text-xs text-center mt-4">
+                <p className="text-gray-400 text-xs text-center mt-4">
                   Kung gusto mo ng extra income… eto na yun
                 </p>
               </div>
@@ -469,10 +478,10 @@ const HomePageInner = () => {
       </section>
 
       {/* ── FAQ Section ──────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-purple-50/40">
+      <section className="py-16 sm:py-20 bg-orange-50/40">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-purple-600 bg-purple-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-purple-200">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
               FAQ
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
@@ -484,10 +493,10 @@ const HomePageInner = () => {
             {FAQ.map((faq) => (
               <div
                 key={faq.question}
-                className="p-5 sm:p-6 bg-white rounded-2xl border border-purple-100 shadow-sm hover:shadow-md hover:border-purple-300 transition-all"
+                className="p-5 sm:p-6 bg-white rounded-2xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-300 transition-all"
               >
                 <h4 className="font-extrabold text-gray-900 mb-2 flex items-start gap-2">
-                  <span className="text-purple-500 mt-0.5 flex-shrink-0">
+                  <span className="text-orange-500 mt-0.5 flex-shrink-0">
                     Q.
                   </span>
                   {faq.question}
@@ -502,7 +511,7 @@ const HomePageInner = () => {
       </section>
 
       {/* ── CTA Section ──────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-900 via-purple-950 to-gray-900">
+      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">
@@ -516,7 +525,7 @@ const HomePageInner = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
                 href="/affiliate/onboarding"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-purple-950 px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-yellow-500/20 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-orange-500/20 hover:-translate-y-0.5"
               >
                 ACTIVATE NOW — ₱999
                 <ArrowRight className="w-5 h-5" />
@@ -530,7 +539,7 @@ const HomePageInner = () => {
               </Link>
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-purple-400 text-sm">
+            <div className="flex items-center justify-center gap-2 text-gray-400 text-sm">
               <Phone className="w-4 h-4" />
               <span>CONTACT US: 0920 329 5363</span>
             </div>
@@ -545,7 +554,7 @@ const HomePage = () => (
   <Suspense
     fallback={
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <div className="w-10 h-10 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
       </div>
     }
   >

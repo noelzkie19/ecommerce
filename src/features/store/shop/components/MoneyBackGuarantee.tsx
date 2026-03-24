@@ -7,20 +7,20 @@ const TRUST_POINTS = ["No Questions Asked", "Full Refund", "Easy Process"];
 export default function MoneyBackGuarantee() {
   return (
     <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <div className="relative rounded-3xl overflow-hidden border-2 border-purple-100 bg-gradient-to-br from-purple-50 via-white to-emerald-50 shadow-xl shadow-purple-100/40">
+      <div className="relative rounded-3xl overflow-hidden border-2 border-orange-100 bg-gradient-to-br from-orange-50 via-white to-emerald-50 shadow-xl shadow-orange-100/40">
         {/* Decorative blobs — clipped by overflow-hidden */}
         <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-200/25 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-44 h-44 bg-emerald-200/25 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-6 sm:p-10 lg:p-12">
           {/* Badge */}
-          <div className="shrink-0 flex flex-col items-center justify-center w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-white border-4 border-purple-200 shadow-lg shadow-purple-100">
-            <ShieldCheck size={32} className="text-purple-500 sm:hidden" />
+          <div className="shrink-0 flex flex-col items-center justify-center w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-white border-4 border-orange-200 shadow-lg shadow-orange-100">
+            <ShieldCheck size={32} className="text-orange-500 sm:hidden" />
             <ShieldCheck
               size={40}
-              className="text-purple-500 hidden sm:block"
+              className="text-orange-500 hidden sm:block"
             />
-            <span className="mt-1 text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-purple-600 text-center leading-tight">
+            <span className="mt-1 text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-orange-600 text-center leading-tight">
               30-Day
               <br />
               Guarantee
@@ -30,7 +30,7 @@ export default function MoneyBackGuarantee() {
           {/* Text */}
           <div className="flex-1 text-center sm:text-left">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight leading-tight">
-              100% Money Back <span className="text-purple-600">Guarantee</span>
+              100% Money Back <span className="text-orange-600">Guarantee</span>
             </h2>
             <p className="mt-3 text-sm sm:text-base text-gray-500 leading-relaxed max-w-lg mx-auto sm:mx-0">
               We&apos;re confident you&apos;ll love the results. If for any

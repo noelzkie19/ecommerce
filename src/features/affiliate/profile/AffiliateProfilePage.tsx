@@ -53,8 +53,8 @@ const InfoRow = ({
   value: string;
 }) => (
   <div className="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0">
-    <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-      <Icon className="w-4 h-4 text-purple-500" />
+    <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+      <Icon className="w-4 h-4 text-orange-500" />
     </div>
     <div className="flex-1 min-w-0">
       <p className="text-[11px] text-gray-400 font-medium uppercase tracking-wide">
@@ -232,10 +232,10 @@ export const AffiliateProfilePage = () => {
         {/* Hero card */}
         <Card>
           {/* Purple banner */}
-          <div className="h-20 bg-gradient-to-r from-purple-600 to-purple-800" />
+          <div className="h-20 bg-gradient-to-r from-orange-500 to-orange-600" />
           {/* Avatar + info */}
           <div className="px-5 pb-5 -mt-10 flex flex-col items-center text-center">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 border-4 border-white shadow-md flex items-center justify-center">
+            <div className="w-20 h-20 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 border-4 border-white shadow-md flex items-center justify-center">
               <span className="text-white text-xl font-bold tracking-wide">
                 {getInitials(displayName)}
               </span>
@@ -289,8 +289,8 @@ export const AffiliateProfilePage = () => {
             />
             {/* Referral Link */}
             <div className="flex items-center gap-3 py-3 border-b border-gray-100 last:border-0">
-              <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-                <Link2 className="w-4 h-4 text-purple-500" />
+              <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+                <Link2 className="w-4 h-4 text-orange-500" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-[11px] text-gray-400 font-medium uppercase tracking-wide">
@@ -303,7 +303,7 @@ export const AffiliateProfilePage = () => {
                   {referralLink && (
                     <button
                       onClick={handleCopyLink}
-                      className="text-purple-400 hover:text-purple-600 transition-colors shrink-0"
+                      className="text-orange-400 hover:text-orange-600 transition-colors shrink-0"
                       title="Copy referral link"
                     >
                       {copiedLink ? (
@@ -329,8 +329,8 @@ export const AffiliateProfilePage = () => {
 
           {/* Meta Pixel ID — user editable */}
           <div className="flex items-center gap-3 py-3">
-            <div className="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center shrink-0">
-              <Tag className="w-4 h-4 text-purple-500" />
+            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center shrink-0">
+              <Tag className="w-4 h-4 text-orange-500" />
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-[11px] text-gray-400 font-medium uppercase tracking-wide">
@@ -351,7 +351,7 @@ export const AffiliateProfilePage = () => {
                   )}
                   <div className="flex gap-2">
                     <Button
-                      variant="purple"
+                      variant="primary"
                       size="sm"
                       onClick={handleSavePixel}
                       loading={isSavingPixel}
@@ -379,7 +379,7 @@ export const AffiliateProfilePage = () => {
                   </p>
                   <button
                     onClick={handleEditPixel}
-                    className="text-purple-400 hover:text-purple-600 transition-colors shrink-0"
+                    className="text-orange-400 hover:text-orange-600 transition-colors shrink-0"
                     title="Edit Meta Pixel ID"
                   >
                     <Pencil className="w-3.5 h-3.5" />

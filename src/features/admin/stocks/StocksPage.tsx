@@ -28,7 +28,7 @@ export default function StocksPage() {
           <td colSpan={6} className="py-24 text-center">
             <Loader2
               size={24}
-              className="animate-spin text-emerald-500 mx-auto"
+              className="animate-spin text-orange-500 mx-auto"
             />
           </td>
         </tr>
@@ -87,7 +87,7 @@ export default function StocksPage() {
           value={search}
           onChange={handleSearch}
           placeholder="Search products..."
-          className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+          className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
         />
       </div>
 

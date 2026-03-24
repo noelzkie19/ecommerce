@@ -85,7 +85,7 @@ const StockCell = ({
             min="0"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-16 text-center border border-gray-200 rounded-lg py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-16 text-center border border-gray-200 rounded-lg py-1.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
           />
           <button
             onClick={() => setValue(String(Number(value) + 1))}

@@ -73,7 +73,7 @@ export default function ProductsPage() {
     if (isLoading)
       return (
         <div className="flex items-center justify-center py-24">
-          <Loader2 size={24} className="animate-spin text-emerald-500" />
+          <Loader2 size={24} className="animate-spin text-orange-500" />
         </div>
       );
     if (error)
@@ -125,13 +125,13 @@ export default function ProductsPage() {
             value={search}
             onChange={handleSearch}
             placeholder="Search products..."
-            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+            className="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
           />
         </div>
         <select
           value={category}
           onChange={handleCategory}
-          className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-gray-700"
+          className="border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white text-gray-700"
         >
           <option value="">All Categories</option>
           {["Superfoods", "Supplements", "Beverages", "Snacks", "Others"].map(

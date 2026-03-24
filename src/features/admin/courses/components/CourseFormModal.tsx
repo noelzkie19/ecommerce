@@ -95,7 +95,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
             <input
               id="title"
               {...register("title")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="Course title"
             />
             {errors.title && (
@@ -117,7 +117,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
               id="youtubeUrl"
               {...register("youtubeUrl")}
               type="url"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="https://youtube.com/watch?v=..."
             />
             {errors.youtubeUrl && (
@@ -139,7 +139,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
               id="description"
               {...register("description")}
               rows={2}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 resize-none"
               placeholder="Course description"
             />
           </div>
@@ -155,7 +155,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
             <select
               id="category"
               {...register("category")}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white"
             >
               <option value="">Select category</option>
               {COURSE_CATEGORIES.map((cat) => (
@@ -179,7 +179,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
               {...register("duration", { valueAsNumber: true })}
               type="number"
               min="0"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="3600"
             />
           </div>
@@ -198,7 +198,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
                 {...register("displayOrder", { valueAsNumber: true })}
                 type="number"
                 min="0"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
             <div className="flex flex-col gap-2 pt-6">
@@ -206,7 +206,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
                 <input
                   type="checkbox"
                   {...register("isPremium")}
-                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
                 />
                 <span className="text-sm text-gray-700">Premium</span>
               </label>
@@ -214,7 +214,7 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
                 <input
                   type="checkbox"
                   {...register("isActive")}
-                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-emerald-500"
+                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
                 />
                 <span className="text-sm text-gray-700">Active</span>
               </label>

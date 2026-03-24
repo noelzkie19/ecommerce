@@ -15,7 +15,7 @@ import { FadeIn, SectionLabel } from "./HomePrimitives";
 // ── Money-Back Guarantee ─────────────────────────────────────────
 
 export const MoneyBackSection = () => (
-  <section className="bg-purple-600 py-16 sm:py-20">
+  <section className="bg-orange-500 py-16 sm:py-20">
     <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
       <FadeIn>
         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white/15 rounded-full flex items-center justify-center mx-auto mb-5 sm:mb-6">
@@ -30,7 +30,7 @@ export const MoneyBackSection = () => (
         </p>
         <Link
           href="/shop"
-          className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-purple-700 font-bold text-base px-10 sm:px-14 py-4 rounded-2xl shadow-xl shadow-purple-800/20 hover:-translate-y-0.5 transition-all duration-200"
+          className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-orange-600 font-bold text-base px-10 sm:px-14 py-4 rounded-2xl shadow-xl shadow-orange-800/20 hover:-translate-y-0.5 transition-all duration-200"
         >
           Shop Now
         </Link>
@@ -46,8 +46,8 @@ const DIFFERENTIATORS = [
     icon: <Shield size={22} />,
     title: "Quality Assured",
     body: "Every product meets strict quality standards for your peace of mind and satisfaction.",
-    iconBg: "bg-purple-50",
-    iconColor: "text-purple-600",
+    iconBg: "bg-orange-50",
+    iconColor: "text-orange-600",
   },
   {
     icon: <Leaf size={22} />,
@@ -100,7 +100,7 @@ export const DifferentiatorsSection = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 mb-12 sm:mb-16">
         {DIFFERENTIATORS.map(({ icon, title, body, iconBg, iconColor }, i) => (
           <FadeIn key={title} delay={i * 60}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-gray-100 hover:border-purple-100 hover:shadow-xl hover:shadow-purple-50/80 hover:-translate-y-1.5 transition-all duration-300 h-full">
+            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-gray-100 hover:border-orange-100 hover:shadow-xl hover:shadow-purple-50/80 hover:-translate-y-1.5 transition-all duration-300 h-full">
               <div
                 className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300 ${iconBg} ${iconColor}`}
               >
@@ -120,7 +120,7 @@ export const DifferentiatorsSection = () => (
       <FadeIn className="flex justify-center">
         <Link
           href="/shop"
-          className="inline-flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold text-base px-10 sm:px-14 py-4 rounded-2xl shadow-xl shadow-purple-200 hover:shadow-purple-300 hover:-translate-y-0.5 transition-all duration-200"
+          className="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-bold text-base px-10 sm:px-14 py-4 rounded-2xl shadow-xl shadow-orange-200 hover:shadow-orange-300 hover:-translate-y-0.5 transition-all duration-200"
         >
           Shop Now
         </Link>

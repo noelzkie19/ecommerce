@@ -40,7 +40,7 @@ export const AffiliateSalesChart = ({ data }: AffiliateSalesChartProps) => {
                   className="flex-1 flex flex-col items-center justify-end gap-1"
                 >
                   <div
-                    className="w-full rounded-t-sm bg-purple-500 transition-all duration-500"
+                    className="w-full rounded-t-sm bg-orange-500 transition-all duration-500"
                     style={{ height: `${heightPct}%`, minHeight: "2px" }}
                     title={`${point.date}: ₱${point.sales}`}
                   />

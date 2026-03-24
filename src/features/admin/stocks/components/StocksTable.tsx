@@ -88,7 +88,7 @@ const StockRow = ({
             min="0"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-20 border border-gray-200 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-20 border border-gray-200 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
         ) : (
           <span
