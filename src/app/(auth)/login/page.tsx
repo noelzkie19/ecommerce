@@ -237,7 +237,7 @@ function SelectScreen({
           <p className="text-gray-500 text-sm">
             Want to earn commissions?{" "}
             <a
-              href="/affiliate/onboarding"
+              href="/register"
               className="text-orange-400 hover:text-orange-300 font-semibold transition-colors"
             >
               Become an Affiliate →
@@ -386,7 +386,7 @@ function AffiliateScreen({
             <p className="text-gray-500 text-xs">
               Not yet an affiliate?{" "}
               <a
-                href="/affiliate/onboarding"
+                href="/register"
                 className="text-gray-700 hover:text-gray-900 font-semibold transition-colors"
               >
                 Activate your account →

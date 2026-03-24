@@ -29,7 +29,7 @@ export const Footer = () => (
             your doorstep.
           </p>
           <Link
-            href="/affiliate/onboarding"
+            href="/register"
             className="inline-flex items-center gap-1.5 text-xs font-bold text-orange-400 hover:text-orange-300 transition-colors"
           >
             Become an Affiliate
@@ -134,7 +134,7 @@ export const Footer = () => (
             Testimonials
           </Link>
           <Link
-            href="/affiliate/onboarding"
+            href="/register"
             className="text-gray-500 hover:text-orange-400 text-xs transition-colors"
           >
             Affiliate

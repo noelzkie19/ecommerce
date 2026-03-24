@@ -125,7 +125,7 @@ export default function AffiliateLandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/affiliate/onboarding"
+                href="/affiliate/registration"
                 className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-xl font-bold transition-all text-lg shadow-xl shadow-orange-500/30 hover:-translate-y-0.5"
               >
                 Activate Now - ₱999
@@ -323,7 +323,7 @@ export default function AffiliateLandingPage() {
                 </div>
 
                 <Link
-                  href="/affiliate/onboarding"
+                  href="/affiliate/registration"
                   className="block w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-center py-4 rounded-xl font-bold transition-all text-lg shadow-lg shadow-orange-500/20 hover:-translate-y-0.5"
                 >
                   ACTIVATE NOW
@@ -381,7 +381,7 @@ export default function AffiliateLandingPage() {
             CONTACT US: 0920 329 5363
           </p>
           <Link
-            href="/affiliate/onboarding"
+            href="/affiliate/registration"
             className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-xl font-bold transition-all text-lg shadow-xl shadow-orange-500/20 hover:-translate-y-0.5"
           >
             ACTIVATE NOW - ₱999
