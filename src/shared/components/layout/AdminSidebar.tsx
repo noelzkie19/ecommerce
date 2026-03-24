@@ -39,10 +39,10 @@ const links = [
 ];
 
 interface SidebarInnerProps {
-  pathname: string;
-  user: { fullName?: string; email?: string } | null;
-  onLinkClick?: () => void;
-  onSignOut: () => void;
+  readonly pathname: string;
+  readonly user: Readonly<{ fullName?: string; email?: string }> | null;
+  readonly onLinkClick?: () => void;
+  readonly onSignOut: () => void;
 }
 
 function SidebarInner({

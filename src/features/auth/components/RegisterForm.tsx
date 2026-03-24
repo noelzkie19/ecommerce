@@ -52,7 +52,7 @@ export function RegisterForm({ referralCode }: RegisterFormProps = {}) {
         {...register("password")}
       />
       {error && <p className="text-xs text-red-500">{error}</p>}
-      <Button type="submit" variant="secondary" loading={loading}>
+      <Button type="submit" variant="primary" loading={loading}>
         Create Account
       </Button>
     </form>
