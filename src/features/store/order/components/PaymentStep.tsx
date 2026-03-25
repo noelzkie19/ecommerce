@@ -1,14 +1,9 @@
 "use client";
 
-import { Banknote, Smartphone, Tag, QrCode } from "lucide-react";
+import { Banknote, Smartphone } from "lucide-react";
 import type { PaymentData, ModalCartItem } from "@/types/checkout.types";
 import type { PaymentMethod } from "@/types/order.types";
-import {
-  calcSubtotal,
-  calcShipping,
-  calcTotal,
-  PRICING,
-} from "@/utils/checkout.utils";
+import { calcSubtotal, calcShipping, calcTotal } from "@/utils/checkout.utils";
 import { CHECKOUT } from "@/domain/rules";
 
 const PAYMENT_ICONS: Record<
@@ -36,8 +31,7 @@ export const PaymentStep = ({
   const shipping = calcShipping(subtotal);
   const baseTotal = calcTotal(subtotal);
   const isMaya = data.method === "maya";
-  const discount = isMaya ? PRICING.MAYA_DISCOUNT : 0;
-  const total = baseTotal - discount;
+  const total = baseTotal;
 
   return (
     <div className={`flex flex-col ${compact ? "gap-3" : "gap-4"}`}>
@@ -74,11 +68,6 @@ export const PaymentStep = ({
                   >
                     {label}
                   </p>
-                  {id === "maya" && (
-                    <span className="inline-flex items-center gap-0.5 text-[10px] font-bold text-blue-600 bg-blue-100 px-1.5 py-0.5 rounded-full">
-                      <Tag size={9} />₱{PRICING.MAYA_DISCOUNT} OFF
-                    </span>
-                  )}
                 </div>
                 <p className="text-xs text-gray-400 mt-0.5">{description}</p>
               </div>
@@ -103,86 +92,69 @@ export const PaymentStep = ({
       {isMaya && (
         <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex flex-col gap-2">
           <div className="flex items-center gap-2">
-            <QrCode size={16} className="text-blue-500 flex-shrink-0" />
+            <Smartphone size={16} className="text-blue-500 flex-shrink-0" />
             <p className="text-sm font-bold text-blue-700">
               Pay securely via Maya
             </p>
           </div>
           <p className="text-xs text-blue-500 leading-relaxed">
-            A QR code will appear after placing your order. Open your{" "}
-            <span className="font-bold text-blue-700">Maya app</span> and scan
-            it to complete your payment of{" "}
+            Your Maya app will open directly after placing your order. Complete
+            your payment of{" "}
             <span className="font-bold text-blue-700">
               ₱{total.toLocaleString()}
             </span>
             {". "}Your order is confirmed automatically once paid.
           </p>
           <div className="flex items-center gap-1.5 mt-1">
-            <QrCode size={11} className="text-blue-400" />
+            <Smartphone size={11} className="text-blue-400" />
             <p className="text-[11px] text-blue-400">
-              No screenshots needed — payment is verified instantly.
+              Opens Maya directly — no QR code needed.
             </p>
           </div>
         </div>
       )}
 
       {/* ── Order summary ─────────────────────────────────────────────────── */}
-      {!compact && (
-        <div className="mt-1 pt-3 border-t border-gray-100 flex flex-col gap-1.5 text-sm">
-          <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-1">
-            Order Summary
-          </p>
-          {items.map((item) => (
-            <div key={item.id} className="flex justify-between text-gray-600">
-              <span className="truncate mr-2">
-                {item.name}{" "}
-                <span className="text-gray-400">x{item.quantity}</span>
-              </span>
-              <span className="font-semibold text-gray-900 flex-shrink-0">
-                ₱{(item.price * item.quantity).toLocaleString()}
-              </span>
-            </div>
-          ))}
-          <div className="flex justify-between text-gray-500 mt-1">
-            <span>Subtotal</span>
-            <span className="font-semibold text-gray-900">
-              ₱{subtotal.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex justify-between text-gray-500">
-            <span>Shipping</span>
-            {shipping === 0 ? (
-              <span className="font-semibold text-emerald-500">FREE</span>
-            ) : (
-              <span className="font-semibold text-gray-900">
-                ₱{shipping.toLocaleString()}
-              </span>
-            )}
-          </div>
-          {isMaya && (
-            <div className="flex justify-between text-blue-500">
-              <span className="flex items-center gap-1">
-                <Tag size={12} />
-                Maya Discount
-              </span>
-              <span className="font-semibold text-blue-600">
-                −₱{PRICING.MAYA_DISCOUNT.toLocaleString()}
-              </span>
-            </div>
-          )}
-          <div className="flex justify-between font-extrabold text-gray-900 pt-2 border-t border-gray-100">
-            <span>Total</span>
-            <div className="flex items-center gap-2">
-              {isMaya && (
-                <span className="text-sm font-semibold text-gray-400 line-through">
-                  ₱{baseTotal.toLocaleString()}
+      <div className="mt-1 pt-3 border-t border-gray-100 flex flex-col gap-1.5 text-sm">
+        {!compact && (
+          <>
+            <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-1">
+              Order Summary
+            </p>
+            {items.map((item) => (
+              <div key={item.id} className="flex justify-between text-gray-600">
+                <span className="truncate mr-2">
+                  {item.name}{" "}
+                  <span className="text-gray-400">x{item.quantity}</span>
                 </span>
-              )}
-              <span className="text-orange-600">₱{total.toLocaleString()}</span>
-            </div>
-          </div>
+                <span className="font-semibold text-gray-900 flex-shrink-0">
+                  ₱{(item.price * item.quantity).toLocaleString()}
+                </span>
+              </div>
+            ))}
+          </>
+        )}
+        <div className="flex justify-between text-gray-500 mt-1">
+          <span>Subtotal</span>
+          <span className="font-semibold text-gray-900">
+            ₱{subtotal.toLocaleString()}
+          </span>
         </div>
-      )}
+        <div className="flex justify-between text-gray-500">
+          <span>Shipping</span>
+          {shipping === 0 ? (
+            <span className="font-semibold text-emerald-500">FREE</span>
+          ) : (
+            <span className="font-semibold text-gray-900">
+              ₱{shipping.toLocaleString()}
+            </span>
+          )}
+        </div>
+        <div className="flex justify-between font-extrabold text-gray-900 pt-2 border-t border-gray-100">
+          <span>Total</span>
+          <span className="text-orange-600">₱{total.toLocaleString()}</span>
+        </div>
+      </div>
     </div>
   );
 };

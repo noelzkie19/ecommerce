@@ -45,10 +45,24 @@ export const useOrder = () => {
 
         // COD / card
         return result.order;
-      } catch (err) {
+      } catch (err: unknown) {
         console.error("[useOrder] placeOrder error:", err);
-        setError("Failed to place order");
-        throw new Error("Failed to place order");
+        const axiosErr = err as {
+          response?: { data?: { message?: string } };
+          message?: string;
+        };
+        const serverMsg =
+          axiosErr?.response?.data?.message ?? axiosErr?.message ?? "";
+        const isStockError =
+          serverMsg.toLowerCase().includes("stock") ||
+          serverMsg.toLowerCase().includes("insufficient") ||
+          serverMsg.toLowerCase().includes("available");
+        setError(
+          isStockError
+            ? "Some items in your cart are no longer available in the requested quantity. Please review your cart."
+            : "Failed to place order. Please try again.",
+        );
+        throw err;
       } finally {
         setIsLoading(false);
       }

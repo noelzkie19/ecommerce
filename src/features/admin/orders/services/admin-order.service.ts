@@ -77,6 +77,18 @@ export const adminOrdersService = {
     return mapOrder(data);
   },
 
+  updatePaymentStatus: async (
+    id: string,
+    paymentStatus: PaymentStatus,
+  ): Promise<Order> => {
+    const response = await adminOrdersApi.updatePaymentStatus(
+      id,
+      paymentStatus,
+    );
+    const data = getData<Record<string, unknown>>(response);
+    return mapOrder(data);
+  },
+
   getById: async (id: string): Promise<Order> => {
     const response = await adminOrdersApi.getById(id);
     const data = getData<Record<string, unknown>>(response);

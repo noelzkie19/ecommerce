@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertTriangle } from "lucide-react";
 import { useCart } from "./hooks/useCart";
 import CartItemRow from "./components/CartItemRow";
 import CartSummary from "./components/CartSummary";
@@ -13,6 +13,14 @@ export default function CartPage() {
   useEffect(() => {
     refetch();
   }, [refetch]);
+
+  // Check if any cart item exceeds available stock
+  const hasStockIssues = cart.items.some(
+    (item) =>
+      item.product.stock !== null &&
+      item.product.stock !== undefined &&
+      item.quantity > item.product.stock,
+  );
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -43,15 +51,31 @@ export default function CartPage() {
         {!isLoading && cart.items.length > 0 && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Items */}
-            <div className="lg:col-span-2 bg-white rounded-3xl border border-gray-100 px-6 shadow-sm">
-              {cart.items.map((item) => (
-                <CartItemRow
-                  key={item.id}
-                  item={item}
-                  onUpdate={updateItem}
-                  onRemove={removeItem}
-                />
-              ))}
+            <div className="lg:col-span-2">
+              {/* Stock warning banner */}
+              {hasStockIssues && (
+                <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-2xl px-5 py-4 mb-4">
+                  <AlertTriangle
+                    size={16}
+                    className="text-red-500 shrink-0 mt-0.5"
+                  />
+                  <p className="text-sm font-semibold text-red-600">
+                    Some items in your cart exceed available stock. Please
+                    reduce quantities to proceed to checkout.
+                  </p>
+                </div>
+              )}
+
+              <div className="bg-white rounded-3xl border border-gray-100 px-6 shadow-sm">
+                {cart.items.map((item) => (
+                  <CartItemRow
+                    key={item.id}
+                    item={item}
+                    onUpdate={updateItem}
+                    onRemove={removeItem}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Summary */}
@@ -59,6 +83,7 @@ export default function CartPage() {
               subtotal={cart.subtotal}
               itemCount={cart.totalQty}
               totalQty={cart.totalQty}
+              hasStockIssues={hasStockIssues}
             />
           </div>
         )}

@@ -32,10 +32,11 @@ export const orderApi = {
       headers: guestHeaders(),
     }),
 
-  // ── Verify Maya payment after redirect back from Maya ─────────────────────
+  // ── Verify Maya/GCash payment after redirect back from Maya ───────────────
   // Called by the callback page with the intent_id from the URL
   verifyMaya: (intentId: string) =>
-    apiClient.get<VerifyMayaResult>(`/api/orders/verify-maya/${intentId}`, {
+    apiClient.get<VerifyMayaResult>(`/api/orders/verify-gcash`, {
+      params: { payment_intent_id: intentId },
       headers: guestHeaders(),
     }),
 };

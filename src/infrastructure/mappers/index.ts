@@ -27,12 +27,12 @@ import type { Product as ProductDto } from "@/types/product.types";
 /**
  * Map API order product to domain product
  */
-const mapOrderProduct = (dto: OrderProduct): Product => ({
-  id: dto.id,
-  name: dto.name,
-  price: dto.price ?? 0,
-  imageUrl: dto.image_url ?? null,
-  images: dto.images?.map((img) => ({
+const mapOrderProduct = (dto: OrderProduct | undefined | null): Product => ({
+  id: dto?.id ?? "",
+  name: dto?.name ?? "",
+  price: dto?.price ?? 0,
+  imageUrl: dto?.image_url ?? null,
+  images: dto?.images?.map((img) => ({
     id: img.id,
     url: img.url,
     position: img.position,

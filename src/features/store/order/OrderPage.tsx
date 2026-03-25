@@ -2,7 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Check, Loader2, PackageCheck, QrCode } from "lucide-react";
+import {
+  ArrowLeft,
+  AlertTriangle,
+  Check,
+  Loader2,
+  PackageCheck,
+  QrCode,
+} from "lucide-react";
 import { useOrder } from "./hooks/useOrder";
 import { useCartStore } from "@/store/cart.store";
 import { orderService } from "./services/order.service";
@@ -308,7 +315,13 @@ export default function OrderPage() {
   });
   const [payment, setPayment] = useState<PaymentData>({ method: "cod" });
 
-  const { placeOrder, isLoading, qrCodeUrl, order } = useOrder();
+  const {
+    placeOrder,
+    isLoading,
+    error: orderError,
+    qrCodeUrl,
+    order,
+  } = useOrder();
   const { cart } = useCartStore();
 
   const items: ModalCartItem[] = cart.items.map((item) => ({
@@ -317,7 +330,13 @@ export default function OrderPage() {
     price: item.product.price,
     quantity: item.quantity,
     image: item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
+    stock: item.product.stock ?? null,
   }));
+
+  // Check if any item exceeds available stock
+  const hasStockIssue = items.some(
+    (item) => item.stock != null && item.quantity > item.stock,
+  );
 
   const isShippingValid = Boolean(
     shipping.fullName.trim() &&
@@ -325,11 +344,10 @@ export default function OrderPage() {
     shipping.address.trim(),
   );
   const getCanContinue = (): boolean => {
-    if (step === 1) return items.length > 0;
+    if (step === 1) return items.length > 0 && !hasStockIssue;
     if (step === 2) return isShippingValid;
-    return true;
+    return !hasStockIssue;
   };
-  const MAYA_DISCOUNT = 50;
   const handleContinue = async () => {
     if (step < 3) {
       setStep((s) => s + 1);
@@ -350,7 +368,6 @@ export default function OrderPage() {
       shippingAddress: shipping.address,
       orderNotes: shipping.notes || undefined,
       paymentMethod: payment.method,
-      discount: payment.method === "maya" ? MAYA_DISCOUNT : 0,
       referralCode,
     });
     // Maya → qrCodeUrl is set in useOrder → QrPaymentModal appears automatically
@@ -411,6 +428,16 @@ export default function OrderPage() {
             onPaymentChange={setPayment}
           />
         </div>
+        {/* Order error */}
+        {orderError && (
+          <div className="flex items-start gap-2 bg-red-50 border border-red-100 rounded-2xl px-4 py-3 mb-4">
+            <AlertTriangle size={15} className="text-red-500 shrink-0 mt-0.5" />
+            <p className="text-xs font-semibold text-red-600 leading-snug">
+              {orderError}
+            </p>
+          </div>
+        )}
+
         <div className="flex items-center justify-between gap-4">
           <button
             type="button"
