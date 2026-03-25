@@ -2,21 +2,21 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { orderService } from "@/features/store/order/services/order.service";
+import { PackageCheck, Loader2 } from "lucide-react";
 import { trackPurchase, trackLead } from "@/lib/meta-pixel";
 
-type Status = "checking" | "success" | "failed" | "pending" | "error";
+type Status = "checking" | "success" | "failed" | "error";
 
 // ── Inner component — uses useSearchParams ────────────────────────────────────
 
 function CallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const intentId =
-    searchParams.get("intent_id") ?? searchParams.get("payment_intent_id");
+  const status = searchParams.get("status");
+  const orderId = searchParams.get("order_id");
+  const alreadyConfirmed = searchParams.get("already_confirmed") === "true";
 
-  const [status, setStatus] = useState<Status>("checking");
-  const [orderId, setOrderId] = useState<string | null>(null);
+  const [displayStatus, setDisplayStatus] = useState<Status>("checking");
 
   // Track purchase when payment succeeds
   const trackPurchaseEvent = () => {
@@ -50,54 +50,28 @@ function CallbackContent() {
   };
 
   useEffect(() => {
-    if (!intentId) {
-      setStatus("error");
+    if (!status) {
+      setDisplayStatus("error");
       return;
     }
 
-    let attempts = 0;
-    const maxAttempts = 20; // poll for ~1 minute
-    let interval: NodeJS.Timeout;
-
-    const verify = async () => {
-      try {
-        const result = await orderService.verifyMaya(intentId);
-        setOrderId(result.orderId);
-
-        if (result.status === "succeeded") {
-          clearInterval(interval);
-          setStatus("success");
-          trackPurchaseEvent();
-          // Auto-redirect to home after 2 seconds
-          setTimeout(() => router.push("/"), 2000);
-        } else if (result.status === "payment_intent.payment_failed") {
-          clearInterval(interval);
-          setStatus("failed");
-        } else {
-          // still pending — keep polling
-          attempts++;
-          if (attempts >= maxAttempts) {
-            clearInterval(interval);
-            setStatus("pending"); // timed out, show pending UI
-          }
-        }
-      } catch {
-        clearInterval(interval);
-        setStatus("error");
-      }
-    };
-
-    verify(); // check immediately
-    interval = setInterval(verify, 3000); // then every 3 seconds
-
-    return () => clearInterval(interval); // cleanup on unmount
-  }, [intentId]);
+    if (status === "succeeded" || alreadyConfirmed) {
+      setDisplayStatus("success");
+      trackPurchaseEvent();
+      // Auto-redirect to home after 3 seconds
+      setTimeout(() => router.push("/"), 3000);
+    } else if (status === "failed") {
+      setDisplayStatus("failed");
+    } else {
+      setDisplayStatus("error");
+    }
+  }, [status, alreadyConfirmed, router]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6 px-4">
-      {status === "checking" && (
+      {displayStatus === "checking" && (
         <>
-          <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin" />
+          <Loader2 size={48} className="text-orange-500 animate-spin" />
           <h1 className="text-xl font-bold text-gray-600">
             Verifying your payment...
           </h1>
@@ -105,9 +79,16 @@ function CallbackContent() {
         </>
       )}
 
-      {status === "success" && (
+      {displayStatus === "success" && (
         <>
-          <div className="text-6xl">✅</div>
+          <div
+            className="w-24 h-24 rounded-full flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)",
+            }}
+          >
+            <PackageCheck size={48} color="white" strokeWidth={2} />
+          </div>
           <h1 className="text-2xl font-bold text-green-600">
             Payment Confirmed!
           </h1>
@@ -117,6 +98,19 @@ function CallbackContent() {
           {orderId && (
             <p className="text-xs text-gray-400">Order ID: {orderId}</p>
           )}
+          <p className="text-sm text-orange-500 font-medium mt-2">
+            Redirecting to home...
+          </p>
+        </>
+      )}
+
+      {displayStatus === "failed" && (
+        <>
+          <div className="text-6xl">❌</div>
+          <h1 className="text-2xl font-bold text-red-600">Payment Failed</h1>
+          <p className="text-gray-500 text-center">
+            Your payment could not be completed. No charges were made.
+          </p>
           <button
             onClick={() => router.push("/")}
             className="mt-2 px-6 py-3 bg-orange-500 text-white font-bold rounded-2xl hover:bg-orange-600 transition-all"
@@ -126,47 +120,10 @@ function CallbackContent() {
         </>
       )}
 
-      {status === "failed" && (
-        <>
-          <div className="text-6xl">❌</div>
-          <h1 className="text-2xl font-bold text-red-600">Payment Failed</h1>
-          <p className="text-gray-500 text-center">
-            Your GCash payment could not be completed. No charges were made.
-          </p>
-          <button
-            onClick={() => router.push("/checkout")}
-            className="mt-2 px-6 py-3 bg-red-500 text-white font-bold rounded-2xl hover:bg-red-600 transition-all"
-          >
-            Try Again
-          </button>
-        </>
-      )}
-
-      {status === "pending" && (
-        <>
-          <div className="text-6xl">⏳</div>
-          <h1 className="text-2xl font-bold text-yellow-600">
-            Payment Processing
-          </h1>
-          <p className="text-gray-500 text-center">
-            Your payment is still being processed. We'll update your order once
-            confirmed.
-          </p>
-          {orderId && (
-            <button
-              onClick={() => router.push("/")}
-              className="mt-2 px-6 py-3 bg-yellow-500 text-white font-bold rounded-2xl hover:bg-yellow-600 transition-all"
-            >
-              Go to Home
-            </button>
-          )}
-        </>
-      )}
-
-      {status === "error" && (
+      {displayStatus === "error" && (
         <>
           <div className="text-6xl">⚠️</div>
-          <h1 className="text-2xl font-bold text-gray-600">
+          <h1 className="text-xl font-bold text-gray-600">
             Something went wrong
           </h1>
           <p className="text-gray-500 text-center">
@@ -190,7 +147,7 @@ function CallbackContent() {
 function CallbackFallback() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6 px-4">
-      <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin" />
+      <Loader2 size={48} className="text-orange-500 animate-spin" />
       <h1 className="text-xl font-bold text-gray-600">
         Verifying your payment...
       </h1>
@@ -201,7 +158,7 @@ function CallbackFallback() {
 
 // ── Page — wraps in Suspense (required by Next.js for useSearchParams) ─────────
 
-export default function CheckoutCallbackPage() {
+export default function PaymentCallbackPage() {
   return (
     <Suspense fallback={<CallbackFallback />}>
       <CallbackContent />

@@ -13,6 +13,7 @@ export interface CartProduct {
   price: number;
   image_url: string | null;
   images?: { url: string; position: number }[];
+  stock?: number | null;
 }
 
 export interface CartItemWithProduct extends CartItem {

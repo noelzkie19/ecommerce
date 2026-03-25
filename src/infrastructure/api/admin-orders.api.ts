@@ -2,6 +2,7 @@ import { apiClient } from "./client";
 import type {
   Order,
   OrdersResponse,
+  PaymentStatus,
   UpdateOrderStatusPayload,
 } from "@/types/order.types";
 
@@ -11,6 +12,11 @@ export const adminOrdersApi = {
 
   updateStatus: (id: string, payload: UpdateOrderStatusPayload) =>
     apiClient.patch<Order>(`/api/orders/admin/${id}/status`, payload),
+
+  updatePaymentStatus: (id: string, paymentStatus: PaymentStatus) =>
+    apiClient.patch<Order>(`/api/orders/admin/${id}/payment-status`, {
+      paymentStatus,
+    }),
 
   getMyOrders: () => apiClient.get<Order[]>("/api/orders"),
 

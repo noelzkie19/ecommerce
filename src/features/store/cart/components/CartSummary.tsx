@@ -2,24 +2,32 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ShoppingBag, AlertTriangle } from "lucide-react";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
+import { PRICING } from "@/domain/rules";
 
-const FREE_SHIPPING_THRESHOLD = 1500;
+const FREE_SHIPPING_THRESHOLD = PRICING.FREE_SHIPPING_THRESHOLD;
+const SHIPPING_COST = PRICING.SHIPPING_COST;
 
 interface Props {
   readonly subtotal: number;
   readonly itemCount: number;
   readonly totalQty: number;
+  readonly hasStockIssues?: boolean;
 }
 
-export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
+export default function CartSummary({
+  subtotal,
+  itemCount,
+  totalQty,
+  hasStockIssues = false,
+}: Props) {
   const router = useRouter();
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 150;
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
   const total = subtotal + shipping;
 
   const handleCheckoutClick = () => {
-    if (itemCount > 0) {
+    if (itemCount > 0 && !hasStockIssues) {
       // Get item details from cart stored in localStorage
       const cartData =
         globalThis.window === undefined
@@ -50,11 +58,24 @@ export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
     }
   };
 
+  const canCheckout = itemCount > 0 && !hasStockIssues;
+
   return (
     <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm sticky top-24">
       <h2 className="text-base font-extrabold text-gray-900 mb-5">
         Order Summary
       </h2>
+
+      {/* Stock issue warning */}
+      {hasStockIssues && (
+        <div className="flex items-start gap-2 bg-red-50 border border-red-100 rounded-2xl px-4 py-3 mb-4">
+          <AlertTriangle size={15} className="text-red-500 shrink-0 mt-0.5" />
+          <p className="text-xs font-semibold text-red-600 leading-snug">
+            Some items exceed available stock. Please adjust quantities before
+            checking out.
+          </p>
+        </div>
+      )}
 
       <div className="space-y-3 text-sm">
         <div className="flex justify-between text-gray-600">
@@ -94,10 +115,10 @@ export default function CartSummary({ subtotal, itemCount, totalQty }: Props) {
 
       <button
         onClick={handleCheckoutClick}
-        disabled={itemCount === 0}
+        disabled={!canCheckout}
         className={[
           "w-full flex items-center justify-center gap-2 font-bold text-sm py-3.5 rounded-2xl transition-all shadow-md",
-          itemCount > 0
+          canCheckout
             ? "bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white shadow-orange-200 cursor-pointer"
             : "bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none",
         ].join(" ")}

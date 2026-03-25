@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { OrderStatus } from "@/types/order.types";
+import { OrderStatus, PaymentStatus } from "@/types/order.types";
 import { adminOrdersService } from "../services/admin-order.service";
 
 export const useOrderMutations = (onSuccess?: () => void) => {
@@ -24,5 +24,10 @@ export const useOrderMutations = (onSuccess?: () => void) => {
       adminOrdersService.updateStatus(id, status).then(() => {}),
     );
 
-  return { updateStatus, isLoading, error };
+  const updatePaymentStatus = (id: string, paymentStatus: PaymentStatus) =>
+    handleAsync(() =>
+      adminOrdersService.updatePaymentStatus(id, paymentStatus).then(() => {}),
+    );
+
+  return { updateStatus, updatePaymentStatus, isLoading, error };
 };

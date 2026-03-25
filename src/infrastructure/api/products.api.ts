@@ -23,7 +23,7 @@ export const productsApi = {
   getById: (id: string) => apiClient.get<Product>(`/api/products/${id}`),
 
   getStockAvailability: (productId: string) =>
-    apiClient.get<{ available: boolean }>(
+    apiClient.get<{ available: boolean; quantity: number }>(
       `/api/stocks/availability/${productId}`,
     ),
 

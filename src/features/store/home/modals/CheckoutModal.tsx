@@ -3,11 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 import {
   X,
+  AlertTriangle,
   Check,
   ChevronRight,
   Loader2,
-  QrCode,
   PackageCheck,
+  Smartphone,
 } from "lucide-react";
 import { useOrder } from "@/features/store/order/hooks/useOrder";
 import { orderService } from "@/features/store/order/services/order.service";
@@ -23,7 +24,6 @@ import {
   getStepConnectorColor,
   getContinueButtonLabel,
   getBackButtonLabel,
-  PRICING,
 } from "@/utils/checkout.utils";
 import { STEPS } from "@/shared/utils/checkout.constants";
 import { CartStep } from "../../order/components/CartStep";
@@ -217,14 +217,14 @@ const QrPaymentScreen = ({
   return (
     <div className="flex flex-col items-center gap-4 py-2 text-center">
       <div className="flex items-center gap-2">
-        <QrCode size={18} className="text-blue-500 shrink-0" />
+        <Smartphone size={18} className="text-blue-500 shrink-0" />
         <h3 className="text-sm sm:text-base font-extrabold text-gray-900">
-          Scan to Pay via Maya
+          Pay via Maya
         </h3>
       </div>
       <p className="text-xs text-gray-500 leading-relaxed max-w-xs">
-        Open your <span className="font-bold text-blue-600">Maya app</span> and
-        scan the QR code to complete your payment.
+        Your <span className="font-bold text-blue-600">Maya app</span> will open
+        directly to complete your payment.
       </p>
       {/* QR code — smaller on mobile to fit without scroll */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -273,6 +273,7 @@ export const CheckoutModal = ({
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
   const [shipping, setShipping] = useState<ShippingData>({
     email: "",
     fullName: "",
@@ -284,6 +285,11 @@ export const CheckoutModal = ({
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const { placeOrder, order, qrCodeUrl } = useOrder();
+
+  // Check if any item exceeds available stock
+  const hasStockIssue = items.some(
+    (item) => item.stock != null && item.quantity > item.stock,
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -373,9 +379,9 @@ export const CheckoutModal = ({
   );
 
   const getCanContinue = (): boolean => {
-    if (step === 1) return items.length > 0;
+    if (step === 1) return items.length > 0 && !hasStockIssue;
     if (step === 2) return isShippingValid;
-    return true;
+    return !hasStockIssue;
   };
 
   const handleContinue = async () => {
@@ -384,6 +390,7 @@ export const CheckoutModal = ({
       return;
     }
     setIsSubmitting(true);
+    setOrderError(null);
     try {
       // Read affiliate referral code from sessionStorage (set by GoogleButton/useRegister)
       let referralCode: string | undefined;
@@ -400,7 +407,6 @@ export const CheckoutModal = ({
         shippingAddress: shipping.address,
         orderNotes: shipping.notes || undefined,
         paymentMethod: payment.method,
-        discount: payment.method === "maya" ? PRICING.MAYA_DISCOUNT : 0,
         referralCode,
       });
 
@@ -427,12 +433,21 @@ export const CheckoutModal = ({
       }
     } catch (err: unknown) {
       console.error("Order failed:", err);
-      if (err instanceof Error) console.error("Message:", err.message);
-      if (typeof err === "object" && err !== null && "response" in err) {
-        const axiosErr = err as { response: { status: number; data: unknown } };
-        console.error("Status:", axiosErr.response.status);
-        console.error("Response data:", axiosErr.response.data);
-      }
+      const axiosErr = err as {
+        response?: { data?: { message?: string } };
+        message?: string;
+      };
+      const serverMsg =
+        axiosErr?.response?.data?.message ?? axiosErr?.message ?? "";
+      const isStockError =
+        serverMsg.toLowerCase().includes("stock") ||
+        serverMsg.toLowerCase().includes("insufficient") ||
+        serverMsg.toLowerCase().includes("available");
+      setOrderError(
+        isStockError
+          ? "Some items are no longer available in the requested quantity. Please review your cart."
+          : "Failed to place order. Please try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -532,7 +547,19 @@ export const CheckoutModal = ({
 
           {/* Footer */}
           {showSteps && (
-            <div className="flex items-center justify-between px-5 sm:px-6 pb-6 sm:pb-6 pt-3 gap-3 border-t border-gray-50">
+            <div className="flex flex-col px-5 sm:px-6 pb-6 sm:pb-6 pt-3 gap-2 border-t border-gray-50">
+              {/* Order error */}
+              {orderError && (
+                <div className="flex items-start gap-2 bg-red-50 border border-red-100 rounded-xl px-3 py-2.5">
+                  <AlertTriangle
+                    size={13}
+                    className="text-red-500 shrink-0 mt-0.5"
+                  />
+                  <p className="text-xs font-semibold text-red-600 leading-snug">
+                    {orderError}
+                  </p>
+                </div>
+              )}
               {/* Safe-area padding for iPhones with home indicator */}
               <div className="pb-safe w-full flex items-center gap-3">
                 <button

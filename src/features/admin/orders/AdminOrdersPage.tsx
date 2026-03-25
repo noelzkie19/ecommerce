@@ -29,7 +29,7 @@ export default function AdminOrdersPage() {
     status,
   });
 
-  const { updateStatus } = useOrderMutations(refetch);
+  const { updateStatus, updatePaymentStatus } = useOrderMutations(refetch);
 
   const handleStatusFilter = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,6 +44,13 @@ export default function AdminOrdersPage() {
       updateStatus(id, newStatus);
     },
     [updateStatus],
+  );
+
+  const handleMarkAsPaid = useCallback(
+    (id: string) => {
+      updatePaymentStatus(id, "paid");
+    },
+    [updatePaymentStatus],
   );
 
   const content = (() => {
@@ -65,6 +72,7 @@ export default function AdminOrdersPage() {
           orders={orders}
           onView={setViewOrder}
           onStatusChange={handleStatusChange}
+          onMarkAsPaid={handleMarkAsPaid}
         />
         {meta && meta.totalPages > 1 && (
           <OrdersPagination meta={meta} onPageChange={setPage} />
@@ -102,6 +110,7 @@ export default function AdminOrdersPage() {
         <OrderDetailModal
           order={viewOrder}
           onClose={() => setViewOrder(null)}
+          onMarkAsPaid={handleMarkAsPaid}
         />
       )}
     </div>

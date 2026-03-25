@@ -1,6 +1,6 @@
 "use client";
 
-import { X } from "lucide-react";
+import { CheckCircle, X } from "lucide-react";
 import { Order } from "@/types/order.types";
 
 const PAYMENT_LABELS: Record<string, string> = {
@@ -9,12 +9,26 @@ const PAYMENT_LABELS: Record<string, string> = {
   card: "Credit Card",
 };
 
+const PAYMENT_STATUS_STYLES: Record<string, string> = {
+  pending: "bg-yellow-50 text-yellow-700 border border-yellow-100",
+  paid: "bg-emerald-50 text-emerald-700 border border-emerald-100",
+  failed: "bg-red-50 text-red-700 border border-red-100",
+};
+
 interface Props {
   readonly order: Order;
   readonly onClose: () => void;
+  readonly onMarkAsPaid?: (id: string) => void;
 }
 
-export default function OrderDetailModal({ order, onClose }: Props) {
+export default function OrderDetailModal({
+  order,
+  onClose,
+  onMarkAsPaid,
+}: Props) {
+  const isCodPending =
+    order.paymentMethod === "cod" && order.paymentStatus === "pending";
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md mx-4 overflow-hidden">
@@ -52,6 +66,22 @@ export default function OrderDetailModal({ order, onClose }: Props) {
               <p className="text-gray-800">
                 {PAYMENT_LABELS[order.paymentMethod] ?? order.paymentMethod}
               </p>
+            </div>
+            <div>
+              <p className="text-gray-400 text-xs mb-1">Payment Status</p>
+              <span
+                className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                  PAYMENT_STATUS_STYLES[order.paymentStatus] ??
+                  "bg-gray-50 text-gray-600 border border-gray-100"
+                }`}
+              >
+                {order.paymentStatus.charAt(0).toUpperCase() +
+                  order.paymentStatus.slice(1)}
+              </span>
+            </div>
+            <div>
+              <p className="text-gray-400 text-xs mb-1">Order Status</p>
+              <p className="text-gray-800 capitalize">{order.status}</p>
             </div>
             <div className="col-span-2">
               <p className="text-gray-400 text-xs mb-1">Address</p>
@@ -114,6 +144,21 @@ export default function OrderDetailModal({ order, onClose }: Props) {
               ₱{order.total.toLocaleString()}
             </p>
           </div>
+
+          {/* Mark as Paid — only for COD orders with pending payment */}
+          {isCodPending && onMarkAsPaid && (
+            <button
+              type="button"
+              onClick={() => {
+                onMarkAsPaid(order.id);
+                onClose();
+              }}
+              className="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 active:scale-[0.98] text-white font-bold text-sm py-3 rounded-xl transition-all shadow-md shadow-emerald-200"
+            >
+              <CheckCircle size={16} />
+              Mark as Paid
+            </button>
+          )}
         </div>
       </div>
     </div>

@@ -19,7 +19,7 @@ export const PRICING = {
   GCASH_DISCOUNT: 50,
 
   /** Minimum order amount for free shipping */
-  FREE_SHIPPING_THRESHOLD: 50,
+  FREE_SHIPPING_THRESHOLD: 999,
 
   /** Shipping cost when not meeting free shipping threshold */
   SHIPPING_COST: 150,
