@@ -7,7 +7,7 @@ export default function CartEmpty() {
   return (
     <div className="flex flex-col items-center justify-center py-32 gap-4">
       <div className="w-20 h-20 bg-orange-50 rounded-3xl flex items-center justify-center">
-        <ShoppingCart size={32} className="text-purple-300" />
+        <ShoppingCart size={32} className="text-orange-300" />
       </div>
       <p className="text-gray-500 text-sm font-medium">Your cart is empty</p>
       <Link

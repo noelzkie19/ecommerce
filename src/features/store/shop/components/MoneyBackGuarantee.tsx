@@ -9,8 +9,8 @@ export default function MoneyBackGuarantee() {
     <section className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <div className="relative rounded-3xl overflow-hidden border-2 border-orange-100 bg-gradient-to-br from-orange-50 via-white to-emerald-50 shadow-xl shadow-orange-100/40">
         {/* Decorative blobs — clipped by overflow-hidden */}
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-purple-200/25 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-12 -left-12 w-44 h-44 bg-emerald-200/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-48 h-48 bg-orange-200/25 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-12 -left-12 w-44 h-44 bg-orange-200/25 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative flex flex-col sm:flex-row items-center gap-6 sm:gap-10 p-6 sm:p-10 lg:p-12">
           {/* Badge */}

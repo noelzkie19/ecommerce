@@ -64,7 +64,7 @@ export default function ShopFilters({
               className={`flex-shrink-0 px-4 py-2 rounded-xl text-xs font-semibold transition-all ${
                 active
                   ? "bg-orange-500 text-white shadow-sm shadow-orange-200"
-                  : "bg-white border border-gray-200 text-gray-600 hover:border-purple-300 hover:text-orange-600"
+                  : "bg-white border border-gray-200 text-gray-600 hover:border-orange-300 hover:text-orange-600"
               }`}
             >
               {cat}

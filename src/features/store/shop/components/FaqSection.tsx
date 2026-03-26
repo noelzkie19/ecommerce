@@ -57,7 +57,7 @@ export default function FAQSection() {
               key={faq.q}
               className={`rounded-2xl border-2 bg-white transition-all duration-200 ${
                 isOpen
-                  ? "border-purple-300 shadow-md shadow-orange-100/60"
+                  ? "border-orange-300 shadow-md shadow-orange-100/60"
                   : "border-gray-100 hover:border-orange-200"
               }`}
             >

@@ -17,7 +17,7 @@ export const StarRating = ({
         size={size}
         className={
           star <= rating
-            ? "fill-purple-500 text-orange-500"
+            ? "fill-orange-500 text-orange-500"
             : "fill-gray-200 text-gray-200"
         }
       />

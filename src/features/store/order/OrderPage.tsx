@@ -52,8 +52,8 @@ const PaymentSuccessModal = ({
         <div
           className="w-20 h-20 rounded-full flex items-center justify-center mb-1"
           style={{
-            background: "linear-gradient(135deg, #7c3aed 0%, #a855f7 100%)",
-            boxShadow: "0 8px 32px rgba(124,58,237,0.35)",
+            background: "linear-gradient(135deg, #f97316 0%, #fb923c 100%)",
+            boxShadow: "0 8px 32px rgba(249,115,22,0.35)",
             animation: "successPulse 1.5s ease-in-out infinite",
           }}
         >
@@ -235,7 +235,7 @@ const QrPaymentModal = ({
 // ─── Step Indicator ───────────────────────────────────────────────────────────
 const getCircleClass = (done: boolean, active: boolean) => {
   if (done) return "bg-orange-500 text-white";
-  if (active) return "bg-orange-500 text-white ring-4 ring-purple-100";
+  if (active) return "bg-orange-500 text-white ring-4 ring-orange-100";
   return "bg-gray-100 text-gray-400";
 };
 const getLabelClass = (done: boolean, active: boolean) => {
@@ -402,12 +402,12 @@ export default function OrderPage() {
         />
       )}
 
-      <div className="w-full max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
+      <div className="w-full max-w-3xl mx-auto px-6 sm:px-10 lg:px-16 pt-24 sm:pt-28 pb-8 sm:pb-12">
         <div className="flex items-center gap-4 mb-8">
           <button
             type="button"
             onClick={handleBack}
-            className="w-9 h-9 rounded-xl border-2 border-gray-200 flex items-center justify-center text-gray-500 hover:border-purple-300 hover:text-orange-600 transition-all"
+            className="w-9 h-9 rounded-xl border-2 border-gray-200 flex items-center justify-center text-gray-500 hover:border-orange-300 hover:text-orange-600 transition-all"
           >
             <ArrowLeft size={16} />
           </button>

@@ -9,6 +9,16 @@ import type {
   ReorderProductImagesPayload,
 } from "@/types/product.types";
 
+// Helper to get storeId from sessionStorage for affiliate tracking
+export function getStoreIdFromSession(): string | undefined {
+  if (!globalThis.window) return undefined;
+  try {
+    return globalThis.sessionStorage.getItem("affiliate_store_id") ?? undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export const productsApi = {
   // -------------------------------------------------------------------------
   // Public
@@ -18,7 +28,18 @@ export const productsApi = {
     limit?: number;
     category?: string;
     search?: string;
-  }) => apiClient.get<ProductsResponse>("/api/products", { params }),
+    storeId?: string;
+  }) => {
+    const storeId = getStoreIdFromSession();
+    const requestParams = { ...params };
+    // Include storeId from sessionStorage for affiliate tracking
+    if (storeId) {
+      requestParams.storeId = storeId;
+    }
+    return apiClient.get<ProductsResponse>("/api/products", {
+      params: requestParams,
+    });
+  },
 
   getById: (id: string) => apiClient.get<Product>(`/api/products/${id}`),
 

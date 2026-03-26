@@ -6,6 +6,33 @@ import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { affiliateDashboardService } from "../dashboard/services/affiliate-dashboard.service";
 import { Button } from "@/shared/components/ui/Button";
 
+// Helper to extract store ID from various stored formats
+function extractStoreLink(storeId: string): string {
+  const origin = globalThis.window?.location.origin ?? "";
+  let storeIdValue = storeId;
+
+  // Handle full URL format: "http://.../?ref=store_8a2apax5"
+  if (storeIdValue.startsWith("http")) {
+    try {
+      const url = new URL(storeIdValue);
+      const refParam = url.searchParams.get("ref");
+      if (refParam?.startsWith("store_")) {
+        storeIdValue = refParam.slice(6); // Remove "store_" prefix
+      }
+    } catch {
+      // Fallback: use regex
+      const match = /ref=store_(.+)/.exec(storeIdValue);
+      storeIdValue = match ? match[1] : storeIdValue;
+    }
+  } else if (storeIdValue.startsWith("?")) {
+    // Handle query string: "?ref=store_8a2apax5"
+    const match = /ref=store_(.+)/.exec(storeIdValue);
+    storeIdValue = match ? match[1] : storeIdValue;
+  }
+
+  return `${origin}/shop?ref=store_${storeIdValue}`;
+}
+
 export const AffiliateReferralLinkPage = () => {
   const [referralLink, setReferralLink] = useState("");
   const [referralCode, setReferralCode] = useState("");
@@ -24,8 +51,7 @@ export const AffiliateReferralLinkPage = () => {
         setReferralCode(linkData.referralCode);
 
         if (profile.storeId) {
-          const origin = globalThis.window?.location.origin ?? "";
-          setStoreLink(`${origin}/s/${profile.storeId}`);
+          setStoreLink(extractStoreLink(profile.storeId));
         }
       })
       .catch(() => {})

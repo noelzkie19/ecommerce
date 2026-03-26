@@ -95,7 +95,7 @@ export default function ProductGallery({ images, productName, badge }: Props) {
               onClick={() => setActiveIndex(i)}
               className={`flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden border-2 transition-all ${
                 activeIndex === i
-                  ? "border-purple-500 shadow-md shadow-orange-100"
+                  ? "border-orange-500 shadow-md shadow-orange-100"
                   : "border-transparent hover:border-gray-200"
               }`}
             >

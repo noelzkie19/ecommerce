@@ -11,8 +11,8 @@ export default function StoreLayout({
       <BaseMetaPixel />
       <AffiliateTracking />
       <Navbar />
-      <main className="min-h-screen w-full flex flex-col items-center pt-14 sm:pt-16">
-        <div className="w-full max-w-[1440px]">{children}</div>
+      <main className="min-h-screen w-full flex flex-col items-center">
+        <div className="w-full">{children}</div>
       </main>
       <Footer />
     </>

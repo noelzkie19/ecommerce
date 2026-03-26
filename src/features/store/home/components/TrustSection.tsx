@@ -24,7 +24,7 @@ export const MoneyBackSection = () => (
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4 sm:mb-5">
           Money Back Guarantee
         </h2>
-        <p className="text-purple-100 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
+        <p className="text-orange-100 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-8 sm:mb-10">
           Shop with confidence. If you're not satisfied with your purchase
           within 30 days, we'll give you your money back — no questions asked.
         </p>
@@ -100,7 +100,7 @@ export const DifferentiatorsSection = () => (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7 mb-12 sm:mb-16">
         {DIFFERENTIATORS.map(({ icon, title, body, iconBg, iconColor }, i) => (
           <FadeIn key={title} delay={i * 60}>
-            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-gray-100 hover:border-orange-100 hover:shadow-xl hover:shadow-purple-50/80 hover:-translate-y-1.5 transition-all duration-300 h-full">
+            <div className="group bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-gray-100 hover:border-orange-100 hover:shadow-xl hover:shadow-orange-50/80 hover:-translate-y-1.5 transition-all duration-300 h-full">
               <div
                 className={`w-11 h-11 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300 ${iconBg} ${iconColor}`}
               >

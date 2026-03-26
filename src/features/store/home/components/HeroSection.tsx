@@ -92,7 +92,7 @@ export const HeroSection = () => (
           </Link>
           <Link
             href="/testimonials"
-            className="w-full sm:w-auto inline-flex items-center justify-center border-2 border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:text-orange-600 font-bold text-sm px-7 py-3 rounded-xl hover:-translate-y-0.5 transition-all duration-200"
+            className="w-full sm:w-auto inline-flex items-center justify-center border-2 border-gray-200 bg-white text-gray-700 hover:border-orange-300 hover:text-orange-600 font-bold text-sm px-7 py-3 rounded-xl hover:-translate-y-0.5 transition-all duration-200"
           >
             See Reviews
           </Link>

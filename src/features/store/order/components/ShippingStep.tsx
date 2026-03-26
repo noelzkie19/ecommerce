@@ -27,7 +27,7 @@ const Field = ({
 );
 
 const inputClass =
-  "w-full px-3.5 py-2.5 rounded-xl border-2 border-gray-100 bg-gray-50 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-purple-300 focus:bg-white transition-all";
+  "w-full px-3.5 py-2.5 rounded-xl border-2 border-gray-100 bg-gray-50 text-sm text-gray-900 placeholder:text-gray-300 focus:outline-none focus:border-orange-300 focus:bg-white transition-all";
 
 export const ShippingStep = ({ data, onChange, compact = false }: Props) => {
   const set =

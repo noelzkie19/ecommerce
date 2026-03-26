@@ -14,7 +14,7 @@ const TestimonialCard = ({
   readonly index: number;
 }) => (
   <FadeIn delay={index * 100}>
-    <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-9 border border-gray-100 hover:shadow-xl hover:shadow-purple-50 hover:border-orange-100 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
+    <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-9 border border-gray-100 hover:shadow-xl hover:shadow-orange-50 hover:border-orange-100 hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
       <StarRating rating={testimonial.rating} size={15} />
       <p className="text-gray-600 text-sm sm:text-base leading-relaxed mt-4 sm:mt-6 mb-6 sm:mb-8 flex-1 italic">
         "{testimonial.message}"
@@ -59,7 +59,7 @@ export const TestimonialsSection = () => {
             What Our Customers Say
           </h2>
           <div className="flex items-center justify-center gap-2 sm:gap-3">
-            <Star size={18} className="fill-purple-500 text-orange-500" />
+            <Star size={18} className="fill-orange-500 text-orange-500" />
             <span className="font-extrabold text-gray-900 text-xl sm:text-2xl">
               5.0
             </span>
@@ -98,7 +98,7 @@ export const TestimonialsSection = () => {
         <FadeIn className="flex justify-center">
           <Link
             href="/testimonials"
-            className="group inline-flex items-center gap-2.5 border-2 border-gray-200 bg-white hover:border-purple-300 hover:text-orange-600 text-gray-700 text-sm sm:text-base font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-2xl shadow-sm hover:shadow-md transition-all"
+            className="group inline-flex items-center gap-2.5 border-2 border-gray-200 bg-white hover:border-orange-300 hover:text-orange-600 text-gray-700 text-sm sm:text-base font-bold px-8 sm:px-10 py-3.5 sm:py-4 rounded-2xl shadow-sm hover:shadow-md transition-all"
           >
             See All Reviews
             <ArrowRight
