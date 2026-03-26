@@ -27,7 +27,7 @@ export default function ShopPagination({ meta, page, onPageChange }: Props) {
         type="button"
         onClick={() => onPageChange(Math.max(1, page - 1))}
         disabled={page <= 1}
-        className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:border-purple-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:border-orange-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
       >
         Previous
       </button>
@@ -45,7 +45,7 @@ export default function ShopPagination({ meta, page, onPageChange }: Props) {
             className={`w-9 h-9 rounded-xl text-sm font-semibold transition-all ${
               p === page
                 ? "bg-orange-500 text-white shadow-sm shadow-orange-200"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-purple-300 hover:text-orange-600"
+                : "bg-white border border-gray-200 text-gray-600 hover:border-orange-300 hover:text-orange-600"
             }`}
           >
             {p}
@@ -57,7 +57,7 @@ export default function ShopPagination({ meta, page, onPageChange }: Props) {
         type="button"
         onClick={() => onPageChange(Math.min(meta.totalPages, page + 1))}
         disabled={page >= meta.totalPages}
-        className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:border-purple-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+        className="px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:border-orange-300 hover:text-orange-600 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
       >
         Next
       </button>

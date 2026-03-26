@@ -54,7 +54,7 @@ export const PaymentStep = ({
               className={[
                 "flex items-center gap-3 p-3.5 rounded-2xl border-2 text-left transition-all",
                 selected
-                  ? "border-purple-400 bg-orange-50"
+                  ? "border-orange-400 bg-orange-50"
                   : "border-gray-100 bg-gray-50 hover:border-gray-200",
               ].join(" ")}
             >
@@ -75,7 +75,7 @@ export const PaymentStep = ({
                 className={[
                   "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0",
                   selected
-                    ? "border-purple-600 bg-orange-500"
+                    ? "border-orange-600 bg-orange-500"
                     : "border-gray-300 bg-white",
                 ].join(" ")}
               >

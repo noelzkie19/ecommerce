@@ -121,7 +121,7 @@ export default function YoutubeTestimonials() {
           type="button"
           onClick={() => scroll("left")}
           aria-label="Scroll left"
-          className="hidden sm:flex absolute -left-4 lg:-left-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-purple-300 hover:text-orange-600 transition-all"
+          className="hidden sm:flex absolute -left-4 lg:-left-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-orange-300 hover:text-orange-600 transition-all"
         >
           <ChevronLeft size={18} />
         </button>
@@ -143,7 +143,7 @@ export default function YoutubeTestimonials() {
           type="button"
           onClick={() => scroll("right")}
           aria-label="Scroll right"
-          className="hidden sm:flex absolute -right-4 lg:-right-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-purple-300 hover:text-orange-600 transition-all"
+          className="hidden sm:flex absolute -right-4 lg:-right-6 top-[45%] -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white border-2 border-gray-100 shadow-md hover:border-orange-300 hover:text-orange-600 transition-all"
         >
           <ChevronRight size={18} />
         </button>

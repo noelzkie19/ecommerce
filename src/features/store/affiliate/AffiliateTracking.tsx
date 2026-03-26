@@ -73,13 +73,28 @@ const AffiliateTrackingInner = () => {
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    const referralCode = searchParams.get("ref");
+    const ref = searchParams.get("ref");
     const pixelId = searchParams.get("pixel");
     const storeId = searchParams.get("store");
 
+    // Handle ref=store_STOREID format from affiliate store links
+    let resolvedStoreId: string | null = null;
+    let referralCode: string | null = null;
+
+    if (ref?.startsWith("store_")) {
+      // ref=store_STOREID format - extract the store ID
+      resolvedStoreId = ref.replace("store_", "");
+    } else if (ref) {
+      // Regular referral code
+      referralCode = ref;
+    }
+
     if (pixelId) {
-      handleDirectPixel(pixelId, referralCode, storeId);
+      handleDirectPixel(pixelId, referralCode, resolvedStoreId);
+    } else if (resolvedStoreId) {
+      handleStoreIdLookup(resolvedStoreId, referralCode);
     } else if (storeId) {
+      // Legacy ?store= format (still supported)
       handleStoreIdLookup(storeId, referralCode);
     } else {
       restoreFromSession();

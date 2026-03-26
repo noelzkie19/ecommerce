@@ -32,7 +32,7 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
       {/* Header Section */}
-      <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      <section className="pt-28 sm:pt-32 pb-12 sm:pb-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="flex items-center gap-4">
             <button

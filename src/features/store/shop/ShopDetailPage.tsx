@@ -131,7 +131,6 @@ export default function ShopDetailPage() {
 
   const { cart, addToCart, updateItem, removeItem, clearCart } = useCartStore();
 
-  // Track ViewContent when product is loaded
   useEffect(() => {
     if (product?.id && product.price) {
       trackViewContent(product.id, product.price, "PHP");
@@ -171,7 +170,6 @@ export default function ShopDetailPage() {
   const handleAddToCart = async () => {
     if (!product || outOfStock || atCapacity || overStock) return;
     await addToCart({ productId: product.id, quantity: qty });
-    // Track AddToCart event
     trackAddToCart(product.price * qty, [
       { id: product.id, quantity: qty, price: product.price },
     ]);
@@ -192,7 +190,7 @@ export default function ShopDetailPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center">
         <Loader2 size={32} className="animate-spin text-orange-500" />
       </div>
     );
@@ -200,11 +198,11 @@ export default function ShopDetailPage() {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center gap-4 px-4 text-center">
-        <p className="text-gray-500 text-sm">Product not found.</p>
+      <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center gap-4 px-4 text-center">
+        <p className="text-gray-400 text-sm">Product not found.</p>
         <Link
           href="/shop"
-          className="text-sm font-semibold text-orange-600 hover:underline"
+          className="text-sm font-semibold text-orange-500 hover:underline"
         >
           Back to Shop
         </Link>
@@ -231,220 +229,244 @@ export default function ShopDetailPage() {
   const savingsBadge = buildSavingsBadge(selectedPack.discount, discount);
 
   return (
-    <div className="min-h-screen bg-gray-50/50">
-      {/* ── Product Hero ── */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-6 sm:py-10 lg:py-14">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 xl:gap-20">
-          <ProductGallery
-            images={buildImages(product)}
-            productName={product.name}
-            badge={product.badge}
-          />
-
-          <div className="flex flex-col gap-4 sm:gap-5">
-            {/* Category + badge pills */}
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
-                {product.category}
-              </span>
-              {product.badge && (
-                <span className="text-xs font-semibold text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-                  {product.badge}
-                </span>
-              )}
-            </div>
-
-            {/* Title */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+      {/* Hero Section */}
+      <section className="pt-28 sm:pt-32 pb-12 sm:pb-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="flex items-center gap-2 flex-wrap mb-4">
+            <Link
+              href="/shop"
+              className="text-sm font-semibold text-gray-400 hover:text-orange-500 transition-colors"
+            >
+              Shop
+            </Link>
+            <span className="text-gray-500">/</span>
+            <span className="text-sm font-semibold text-orange-500">
               {product.name}
-            </h1>
+            </span>
+          </div>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+            {product.name}
+          </h1>
+        </div>
+      </section>
 
-            {/* Rating */}
-            {product.rating != null && (
+      {/* Product Content */}
+      <div className="bg-white rounded-t-3xl -mt-8 px-6 sm:px-10 lg:px-16 py-8 sm:py-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 xl:gap-20">
+            <ProductGallery
+              images={buildImages(product)}
+              productName={product.name}
+              badge={product.badge}
+            />
+
+            <div className="flex flex-col gap-4 sm:gap-5">
+              {/* Category + badge pills */}
               <div className="flex items-center gap-2 flex-wrap">
-                <StarRating rating={product.rating} />
-                <span className="text-sm font-semibold text-gray-700">
-                  {Number(product.rating).toFixed(1)}
+                <span className="text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
+                  {product.category}
                 </span>
-                {product.review_count != null && (
-                  <span className="text-sm text-gray-400">
-                    ({Number(product.review_count).toLocaleString()} reviews)
+                {product.badge && (
+                  <span className="text-xs font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    {product.badge}
                   </span>
                 )}
               </div>
-            )}
 
-            {/* Price */}
-            <div className="flex items-baseline gap-3 flex-wrap">
-              <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">
-                ₱
-                {(product.price * qty - selectedPack.discount).toLocaleString()}
-              </span>
-              {selectedPack.multiplier > 1 && (
-                <span className="text-base sm:text-lg text-gray-400 line-through">
-                  ₱{(product.price * qty).toLocaleString()}
-                </span>
+              {/* Rating */}
+              {product.rating != null && (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <StarRating rating={product.rating} />
+                  <span className="text-sm font-semibold text-gray-700">
+                    {Number(product.rating).toFixed(1)}
+                  </span>
+                  {product.review_count != null && (
+                    <span className="text-sm text-gray-400">
+                      ({Number(product.review_count).toLocaleString()} reviews)
+                    </span>
+                  )}
+                </div>
               )}
-              {product.original_price && selectedPack.multiplier === 1 && (
-                <span className="text-base sm:text-lg text-gray-400 line-through">
-                  ₱{product.original_price.toLocaleString()}
+
+              {/* Price */}
+              <div className="flex items-baseline gap-3 flex-wrap">
+                <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">
+                  ₱
+                  {(
+                    product.price * qty -
+                    selectedPack.discount
+                  ).toLocaleString()}
                 </span>
-              )}
-              {savingsBadge}
-            </div>
-
-            {/* Stock label */}
-            {stock !== null && (
-              <p className={`text-xs font-semibold ${stockColorClass}`}>
-                {stockLabel}
-              </p>
-            )}
-
-            {/* Description */}
-            {product.description && (
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                {product.description}
-              </p>
-            )}
-
-            <TestimonialCarousel />
-
-            <hr className="border-gray-100" />
-
-            {/* ── Bundle Selector ── */}
-            <div className="flex flex-col gap-2.5">
-              <p className="text-sm font-semibold text-gray-800">
-                Bundle:{" "}
-                <span className="text-gray-500 font-normal">
-                  {selectedPack.label}
-                </span>
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {BUNDLE_OPTIONS.map((pack) => {
-                  const isActive = selectedPack.label === pack.label;
-                  return (
-                    <button
-                      key={pack.label}
-                      type="button"
-                      onClick={() => handleSelectPack(pack)}
-                      className={`relative flex flex-col items-center justify-center min-w-[84px] sm:min-w-[90px] px-4 sm:px-5 py-3 rounded-2xl border-2 transition-all duration-150 ${
-                        isActive
-                          ? "bg-orange-500 border-purple-600 text-white shadow-lg shadow-orange-200 scale-105"
-                          : "bg-white border-gray-200 text-gray-700 hover:border-purple-400 hover:bg-orange-50"
-                      }`}
-                    >
-                      <span className="text-sm font-bold leading-tight">
-                        {pack.label}
-                      </span>
-                      {pack.discount > 0 && (
-                        <span
-                          className={`mt-0.5 text-[11px] font-semibold ${
-                            isActive ? "text-purple-200" : "text-emerald-600"
-                          }`}
-                        >
-                          Save ₱{pack.discount}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
+                {selectedPack.multiplier > 1 && (
+                  <span className="text-base sm:text-lg text-gray-400 line-through">
+                    ₱{(product.price * qty).toLocaleString()}
+                  </span>
+                )}
+                {product.original_price && selectedPack.multiplier === 1 && (
+                  <span className="text-base sm:text-lg text-gray-400 line-through">
+                    ₱{product.original_price.toLocaleString()}
+                  </span>
+                )}
+                {savingsBadge}
               </div>
-            </div>
 
-            {/* ── Quantity + Add to Cart ── */}
-            <p className="text-sm font-semibold text-gray-800 -mb-1">
-              Quantity
-            </p>
+              {/* Stock label */}
+              {stock !== null && (
+                <p className={`text-xs font-semibold ${stockColorClass}`}>
+                  {stockLabel}
+                </p>
+              )}
 
-            <div className="flex items-center gap-3">
-              <div
-                className={`flex items-center rounded-2xl border-2 overflow-hidden bg-white transition-colors ${
-                  qtyDisabled ? "border-gray-100 bg-gray-50" : "border-gray-200"
-                }`}
-              >
-                <button
-                  type="button"
-                  aria-label="Decrease quantity"
-                  onClick={handleDecrement}
-                  disabled={qtyDisabled || qty <= 1}
-                  className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
-                >
-                  <Minus size={16} />
-                </button>
-                <span
-                  className={`w-9 sm:w-10 text-base font-bold text-center ${
-                    qtyDisabled ? "text-gray-300" : "text-gray-900"
+              {/* Description */}
+              {product.description && (
+                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                  {product.description}
+                </p>
+              )}
+
+              <TestimonialCarousel />
+
+              <hr className="border-gray-100" />
+
+              {/* Bundle Selector */}
+              <div className="flex flex-col gap-2.5">
+                <p className="text-sm font-semibold text-gray-800">
+                  Bundle:{" "}
+                  <span className="text-gray-500 font-normal">
+                    {selectedPack.label}
+                  </span>
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {BUNDLE_OPTIONS.map((pack) => {
+                    const isActive = selectedPack.label === pack.label;
+                    return (
+                      <button
+                        key={pack.label}
+                        type="button"
+                        onClick={() => handleSelectPack(pack)}
+                        className={`relative flex flex-col items-center justify-center min-w-[84px] sm:min-w-[90px] px-4 sm:px-5 py-3 rounded-2xl border-2 transition-all duration-150 ${
+                          isActive
+                            ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-200 scale-105"
+                            : "bg-white border-gray-200 text-gray-700 hover:border-orange-400 hover:bg-orange-50"
+                        }`}
+                      >
+                        <span className="text-sm font-bold leading-tight">
+                          {pack.label}
+                        </span>
+                        {pack.discount > 0 && (
+                          <span
+                            className={`mt-0.5 text-[11px] font-semibold ${
+                              isActive ? "text-orange-200" : "text-emerald-600"
+                            }`}
+                          >
+                            Save ₱{pack.discount}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Quantity + Add to Cart */}
+              <p className="text-sm font-semibold text-gray-800 -mb-1">
+                Quantity
+              </p>
+
+              <div className="flex items-center gap-3">
+                <div
+                  className={`flex items-center rounded-2xl border-2 overflow-hidden bg-white transition-colors ${
+                    qtyDisabled
+                      ? "border-gray-100 bg-gray-50"
+                      : "border-gray-200"
                   }`}
                 >
-                  {qty}
-                </span>
+                  <button
+                    type="button"
+                    aria-label="Decrease quantity"
+                    onClick={handleDecrement}
+                    disabled={qtyDisabled || qty <= 1}
+                    className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span
+                    className={`w-9 sm:w-10 text-base font-bold text-center ${
+                      qtyDisabled ? "text-gray-300" : "text-gray-900"
+                    }`}
+                  >
+                    {qty}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="Increase quantity"
+                    onClick={handleIncrement}
+                    disabled={
+                      qtyDisabled ||
+                      (remaining !== Infinity && qty >= remaining)
+                    }
+                    className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+
                 <button
                   type="button"
-                  aria-label="Increase quantity"
-                  onClick={handleIncrement}
-                  disabled={
-                    qtyDisabled || (remaining !== Infinity && qty >= remaining)
-                  }
-                  className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                  onClick={handleAddToCart}
+                  disabled={outOfStock || atCapacity || overStock}
+                  className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed active:scale-[0.98] disabled:active:scale-100 text-white font-bold text-sm h-10 sm:h-11 px-4 sm:px-6 rounded-2xl transition-all shadow-md shadow-orange-200 disabled:shadow-none"
                 >
-                  <Plus size={16} />
+                  <ShoppingCart size={16} />
+                  {cartBtnLabel}
                 </button>
               </div>
 
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                disabled={outOfStock || atCapacity || overStock}
-                className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 disabled:cursor-not-allowed active:scale-[0.98] disabled:active:scale-100 text-white font-bold text-sm h-10 sm:h-11 px-4 sm:px-6 rounded-2xl transition-all shadow-md shadow-orange-200 disabled:shadow-none"
-              >
-                <ShoppingCart size={16} />
-                {cartBtnLabel}
-              </button>
-            </div>
-
-            {/* ── Info rows ── */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <CheckCircle2 size={16} className="text-blue-500 shrink-0" />
-                <span>{outOfStock ? "Out of stock" : "In stock"}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <PackageCheck size={16} className="text-blue-500 shrink-0" />
-                <span>
-                  FREE SHIPPING on all orders above{" "}
-                  <span className="font-semibold">₱2500</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Trust badges */}
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1">
-              {TRUST_BADGES.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex flex-col items-center gap-1.5 bg-white border border-gray-100 rounded-2xl py-3 sm:py-4 px-2 shadow-sm"
-                >
-                  <Icon size={20} className="text-orange-500" />
-                  <span className="text-[11px] sm:text-xs font-medium text-gray-600 text-center leading-tight">
-                    {label}
+              {/* Info rows */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <CheckCircle2 size={16} className="text-blue-500 shrink-0" />
+                  <span>{outOfStock ? "Out of stock" : "In stock"}</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
+                  <PackageCheck size={16} className="text-blue-500 shrink-0" />
+                  <span>
+                    FREE SHIPPING on all orders above{" "}
+                    <span className="font-semibold">₱2500</span>
                   </span>
                 </div>
-              ))}
+              </div>
+
+              {/* Trust badges */}
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-1">
+                {TRUST_BADGES.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex flex-col items-center gap-1.5 bg-white border border-gray-100 rounded-2xl py-3 sm:py-4 px-2 shadow-sm"
+                  >
+                    <Icon size={20} className="text-orange-500" />
+                    <span className="text-[11px] sm:text-xs font-medium text-gray-600 text-center leading-tight">
+                      {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Below-the-fold sections ── */}
-      <div className="border-t border-gray-100 bg-white">
+      {/* Below-the-fold sections */}
+      <div className="border-t border-gray-100 bg-gray-50/80">
         <YoutubeTestimonials />
       </div>
 
-      <div className="border-t border-gray-100 bg-gray-50/60">
+      <div className="border-t border-gray-100 bg-white">
         <MoneyBackGuarantee />
       </div>
 
-      <div className="border-t border-gray-100 bg-white">
+      <div className="border-t border-gray-100 bg-gray-50/80">
         <FAQSection />
       </div>
 

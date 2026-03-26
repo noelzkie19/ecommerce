@@ -158,7 +158,7 @@ export const CartStep = ({
                   aria-label="Decrease quantity"
                   onClick={() => onQtyChange(item.id, item.quantity - 1)}
                   disabled={item.quantity <= 1}
-                  className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:border-purple-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:border-orange-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 >
                   <Minus size={12} />
                 </button>
@@ -170,7 +170,7 @@ export const CartStep = ({
                   aria-label="Increase quantity"
                   onClick={() => onQtyChange(item.id, item.quantity + 1)}
                   disabled={atMax || outOfStock}
-                  className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:border-purple-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                  className="w-7 h-7 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:border-orange-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                 >
                   <Plus size={12} />
                 </button>

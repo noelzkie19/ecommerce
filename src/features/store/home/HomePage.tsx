@@ -1,70 +1,169 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useRef, useState, useEffect } from "react";
 import {
   TrendingUp,
   BookOpen,
-  Wallet,
   Users,
   ArrowRight,
   CheckCircle2,
   Package,
   Bot,
-  Video,
   ShoppingBag,
   Star,
   Shield,
   Zap,
   Phone,
+  Truck,
+  Award,
+  Clock,
+  DollarSign,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { useHomePageRedirect } from "@/features/auth/hooks/useAuthRedirect";
+import { useScrollReveal } from "./hooks/useScrollReveal";
 
-const BENEFITS = [
+// ─── Data ─────────────────────────────────────────────────────────────────────
+
+const SERVICES = [
   {
     icon: Package,
     title: "Ready Products",
     description:
-      "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na.",
-    color: "text-orange-600",
-    bg: "bg-orange-50",
+      "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na. Ready-to-sell products para sa iyong negosyo.",
   },
   {
     icon: Bot,
-    title: "Automation",
-    description: "Chatbot system at auto replies para sa iyong negosyo.",
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-  },
-  {
-    icon: TrendingUp,
-    title: "Earnings",
-    description: "Kumita ng 15–20% per sale gamit ang systemang ito.",
-    color: "text-emerald-600",
-    bg: "bg-emerald-50",
+    title: "Automation System",
+    description:
+      "Chatbot system at auto replies para sa iyong negosyo. Done-for-you automation na gagawin ang trabaho para sa iyo.",
   },
   {
     icon: BookOpen,
-    title: "Training",
-    description: "Step-by-step videos at beginner-friendly guide.",
-    color: "text-amber-600",
-    bg: "bg-amber-50",
+    title: "Training & Support",
+    description:
+      "Step-by-step videos at beginner-friendly guide. May dedicated support team na handang tumulong sa iyo.",
+  },
+];
+
+const WHY_CHOOSE_LEFT = [
+  {
+    icon: Award,
+    title: "Experience",
+    description:
+      "With years of industry know-how, we help dropshipping and affiliate entrepreneurs scale and succeed.",
+  },
+  {
+    icon: Package,
+    title: "Products",
+    description:
+      "Our carefully selected, high-quality products ensure customer satisfaction and repeat orders.",
   },
   {
     icon: Users,
-    title: "System",
+    title: "Community",
     description:
-      "DONE-FOR-YOU online business system. May system ka na gagamitin from Day 1.",
-    color: "text-orange-600",
-    bg: "bg-orange-50",
+      "Join a thriving network of entrepreneurs. Learn, grow, and succeed together.",
+  },
+];
+
+const WHY_CHOOSE_RIGHT = [
+  {
+    icon: DollarSign,
+    title: "Pricing",
+    description:
+      "Our transparent, flexible pricing suits any business stage. No hidden fees.",
   },
   {
-    icon: Wallet,
-    title: "Easy Cashout",
-    description: "Withdraw your earnings anytime through Maya Wallet.",
-    color: "text-indigo-600",
-    bg: "bg-indigo-50",
+    icon: Truck,
+    title: "Delivery",
+    description:
+      "Fast, reliable delivery is our priority. Streamlined logistics guarantee timely fulfillment.",
+  },
+  {
+    icon: Clock,
+    title: "24/7 Support",
+    description:
+      "Round-the-clock assistance for your success. We're always here when you need us.",
+  },
+];
+
+const STATS = [
+  {
+    icon: Users,
+    value: "28,000+",
+    label: "Community Members",
+    description: "Join a thriving network of entrepreneurs.",
+  },
+  {
+    icon: TrendingUp,
+    value: "₱18M+",
+    label: "Member Sales",
+    description: "Helping members achieve remarkable sales.",
+  },
+  {
+    icon: Clock,
+    value: "24/7",
+    label: "Hours Of Support",
+    description: "24/7 assistance for your success.",
+  },
+];
+
+const PLANS = [
+  {
+    name: "Affiliate",
+    price: "999",
+    features: [
+      "Dropshipping Training Series",
+      "3-Day Dropship Bootcamp",
+      "3-Day Retail Mastery Bootcamp",
+      "Dropshipping Website",
+      "Dropshipping System",
+    ],
+    available: true,
+    href: "/affiliate/registration",
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    id: "1",
+    name: "Maria Santos",
+    role: "Stay-at-home Mom",
+    rating: 5,
+    quote:
+      "As a stay-at-home mom with no tech skills, I never thought I could succeed in online business. Thanks to the training, tools, and community, I did it. I'm so glad I took the leap of faith!",
+    avatar: null,
+  },
+  {
+    id: "2",
+    name: "Juan dela Cruz",
+    role: "Traditional Businessman",
+    rating: 5,
+    quote:
+      "The coaches and leaders are very supportive. The training and insights are truly priceless. I highly recommend this to anyone looking for a reliable business system.",
+    avatar: null,
+  },
+  {
+    id: "3",
+    name: "Ana Reyes",
+    role: "Fresh Graduate",
+    rating: 5,
+    quote:
+      "I started with zero experience and now I'm earning consistently. The system is so easy to follow and the community is amazing. Best investment I've ever made!",
+    avatar: null,
+  },
+  {
+    id: "4",
+    name: "Pedro Bautista",
+    role: "OFW",
+    rating: 5,
+    quote:
+      "Even while working abroad, I can manage my online business. The automation tools make everything so easy. Kumikita na ako kahit tulog!",
+    avatar: null,
   },
 ];
 
@@ -110,22 +209,176 @@ const FAQ = [
   },
 ];
 
-const INCLUSIONS = [
-  "Ready e-commerce system",
-  "Order processing setup",
-  "Ready-to-sell items (no need mag stock)",
-  "Chatbot system with auto replies",
-  "Ready funnel page (high-converting design)",
-  "Step-by-step training videos",
-  "Beginner-friendly guide",
-  "Lifetime access",
-];
+// ─── Section Wrapper with Reveal Animation ────────────────────────────────────
 
-const STATS = [
-  { value: "₱999", label: "One-time only", sub: "No monthly fees" },
-  { value: "15–20%", label: "Commission per sale", sub: "Earn every time" },
-  { value: "100%", label: "Done-for-you", sub: "System ready to use" },
-];
+function RevealSection({
+  children,
+  className = "",
+  delay = 0,
+}: Readonly<{
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}>) {
+  const { ref, visible } = useScrollReveal({ threshold: 0.08 });
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${visible ? "visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// ─── Star Rating ──────────────────────────────────────────────────────────────
+
+function StarRating({ rating }: Readonly<{ rating: number }>) {
+  return (
+    <div className="flex items-center gap-0.5">
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star
+          key={i}
+          size={14}
+          className={
+            i < rating
+              ? "fill-orange-400 text-orange-400"
+              : "fill-gray-200 text-gray-200"
+          }
+        />
+      ))}
+    </div>
+  );
+}
+
+// ─── Testimonials Carousel ────────────────────────────────────────────────────
+
+function TestimonialsCarousel() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  };
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll);
+    checkScroll();
+    return () => el.removeEventListener("scroll", checkScroll);
+  }, []);
+
+  const scroll = (dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir === "left" ? -320 : 320, behavior: "smooth" });
+  };
+
+  return (
+    <div className="relative">
+      {/* Scroll buttons */}
+      {canScrollLeft && (
+        <button
+          type="button"
+          onClick={() => scroll("left")}
+          className="absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 border border-white/20 shadow-lg text-white hover:bg-orange-500 hover:border-orange-500 transition-all"
+        >
+          <ChevronLeft size={18} />
+        </button>
+      )}
+      {canScrollRight && (
+        <button
+          type="button"
+          onClick={() => scroll("right")}
+          className="absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-gray-900 border border-white/20 shadow-lg text-white hover:bg-orange-500 hover:border-orange-500 transition-all"
+        >
+          <ChevronRight size={18} />
+        </button>
+      )}
+
+      {/* Cards */}
+      <div
+        ref={scrollRef}
+        className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+      >
+        {TESTIMONIALS.map((t) => (
+          <div
+            key={t.id}
+            className="flex-shrink-0 w-72 sm:w-80 bg-white rounded-2xl p-6 shadow-sm border border-gray-100 snap-start card-hover card-hover-orange"
+          >
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+                {t.name[0]}
+              </div>
+              <div>
+                <p className="font-bold text-gray-900 text-sm">{t.name}</p>
+                <p className="text-gray-500 text-xs">{t.role}</p>
+                <StarRating rating={t.rating} />
+              </div>
+            </div>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              <span className="text-orange-500 text-xl font-black mr-1">"</span>
+              {t.quote}
+              <span className="text-orange-500 text-xl font-black ml-1">"</span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── FAQ Accordion ────────────────────────────────────────────────────────────
+
+function FAQAccordion() {
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+  return (
+    <div className="space-y-3">
+      {FAQ.map((faq, idx) => (
+        <div
+          key={faq.question}
+          className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
+            openIdx === idx
+              ? "border-orange-300 shadow-md shadow-orange-100/60"
+              : "border-gray-200 hover:border-orange-200"
+          }`}
+        >
+          <button
+            type="button"
+            onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+            className="w-full flex items-center justify-between px-5 py-4 text-left"
+          >
+            <span className="font-bold text-gray-900 text-sm sm:text-base">
+              {faq.question}
+            </span>
+            <span
+              className={`text-orange-500 transition-transform duration-200 flex-shrink-0 ml-3 ${
+                openIdx === idx ? "rotate-45" : ""
+              }`}
+            >
+              +
+            </span>
+          </button>
+          {openIdx === idx && (
+            <div className="px-5 pb-4">
+              <p className="text-gray-500 text-sm leading-relaxed">
+                {faq.answer}
+              </p>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─── Main HomePage ────────────────────────────────────────────────────────────
 
 const HomePageInner = () => {
   const { status } = useHomePageRedirect();
@@ -133,10 +386,10 @@ const HomePageInner = () => {
 
   if (!isHydrated || status.willRedirect) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-gray-950">
         <div className="flex flex-col items-center gap-4">
           <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-          <p className="text-gray-500 text-sm">Loading...</p>
+          <p className="text-gray-400 text-sm">Loading...</p>
         </div>
       </div>
     );
@@ -144,224 +397,375 @@ const HomePageInner = () => {
 
   return (
     <div className="flex flex-col w-full">
-      {/* ── Hero Section ─────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 py-16 sm:py-24 lg:py-32">
-        {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-orange-600/10 rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-3xl" />
+      {/* ══════════════════════════════════════════════════════════════════════
+          1. HERO SECTION — Full screen, dark bg + photo overlay
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background image with dark overlay */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/background.jpeg"
+            alt="Background"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gray-950/80" />
         </div>
 
-        <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-3xl mx-auto text-center">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-white text-sm font-semibold mb-8">
-              <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse flex-shrink-0" />{" "}
-              DONE-FOR-YOU BUSINESS SYSTEM
-            </div>
+        {/* Constellation decoration */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <svg
+            className="absolute inset-0 w-full h-full opacity-20"
+            viewBox="0 0 900 600"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            {/* Constellation lines */}
+            <line
+              x1="100"
+              y1="80"
+              x2="250"
+              y2="150"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="250"
+              y1="150"
+              x2="380"
+              y2="100"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="380"
+              y1="100"
+              x2="500"
+              y2="200"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="600"
+              y1="80"
+              x2="750"
+              y2="160"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="750"
+              y1="160"
+              x2="820"
+              y2="100"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="150"
+              y1="400"
+              x2="300"
+              y2="350"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            <line
+              x1="300"
+              y1="350"
+              x2="450"
+              y2="420"
+              stroke="white"
+              strokeWidth="0.5"
+            />
+            {/* Stars */}
+            <circle cx="100" cy="80" r="2" fill="white" className="twinkle" />
+            <circle
+              cx="250"
+              cy="150"
+              r="1.5"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "0.5s" }}
+            />
+            <circle
+              cx="380"
+              cy="100"
+              r="2"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "1s" }}
+            />
+            <circle
+              cx="500"
+              cy="200"
+              r="1.5"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "1.5s" }}
+            />
+            <circle
+              cx="600"
+              cy="80"
+              r="2"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "0.3s" }}
+            />
+            <circle
+              cx="750"
+              cy="160"
+              r="1.5"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "0.8s" }}
+            />
+            <circle
+              cx="820"
+              cy="100"
+              r="2"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "1.2s" }}
+            />
+            <circle
+              cx="150"
+              cy="400"
+              r="1.5"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "0.6s" }}
+            />
+            <circle
+              cx="300"
+              cy="350"
+              r="2"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "1.4s" }}
+            />
+            <circle
+              cx="450"
+              cy="420"
+              r="1.5"
+              fill="white"
+              className="twinkle"
+              style={{ animationDelay: "0.9s" }}
+            />
+          </svg>
+        </div>
 
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight tracking-tight">
-              Mag-activate Ng{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
-                Your System
-              </span>
-            </h1>
-
-            <p className="text-lg sm:text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto">
-              Bibigyan ka namin ng SYSTEM na pwede mong gamitin agad. No
-              inventory. No packing. No courier. Kumita ka na.
-            </p>
-
-            {/* System Image */}
-            <div className="mb-10">
-              <img
-                src="/images/Drpshipping-1.jpg"
-                alt="Our System"
-                className="w-full max-w-3xl mx-auto rounded-2xl shadow-2xl shadow-orange-500/20 border border-white/10"
-              />
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
-              <Link
-                href="/register"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-0.5"
-              >
-                Activate Now
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link
-                href="/shop"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-2xl font-bold transition-all text-lg border border-white/20 hover:border-white/40"
-              >
-                <ShoppingBag className="w-5 h-5" />
-                Browse Products
-              </Link>
-            </div>
-
-            {/* Trust indicators */}
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-gray-400 text-sm">
-              <span className="flex items-center gap-1.5">
-                <Shield className="w-4 h-4 text-green-400" />
-                Secure Payment
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 className="w-4 h-4 text-green-400" />
-                No Monthly Fees
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                Lifetime Access
-              </span>
-            </div>
+        {/* Hero content */}
+        <div className="relative text-center px-6 sm:px-10 max-w-5xl mx-auto py-32">
+          {/* Badge */}
+          <div className="hero-animate-1 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-white text-xs sm:text-sm font-semibold mb-8">
+            <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse flex-shrink-0" />{" "}
+            DONE-FOR-YOU BUSINESS SYSTEM
           </div>
+
+          {/* Main headline */}
+          <h1 className="hero-animate-2 text-5xl sm:text-7xl lg:text-8xl font-black text-white uppercase leading-none tracking-tight mb-2">
+            EQUIPPING PEOPLE
+          </h1>
+          <h2 className="hero-animate-3 text-3xl sm:text-5xl lg:text-6xl font-black text-orange-500 uppercase leading-none tracking-tight mb-8">
+            TO LEAD BETTER LIVES
+          </h2>
+
+          {/* Subtitle */}
+          <p className="hero-animate-4 text-gray-300 text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+            Start your Dropshipping journey with us! Bibigyan ka namin ng SYSTEM
+            na pwede mong gamitin agad.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="hero-animate-5 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/register"
+              className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base sm:text-lg px-10 py-4 rounded-full transition-all shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 active:scale-95"
+            >
+              GET STARTED
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <Link
+              href="/shop"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold text-base sm:text-lg px-10 py-4 rounded-full transition-all border border-white/20 hover:border-white/40 hover:-translate-y-1"
+            >
+              <ShoppingBag className="w-5 h-5" />
+              Browse Products
+            </Link>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-gray-400 text-sm">
+            <span className="flex items-center gap-1.5">
+              <Shield className="w-4 h-4 text-green-400" />
+              Secure Payment
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4 text-green-400" />
+              No Monthly Fees
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+              Lifetime Access
+            </span>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gray-400 text-xs animate-bounce">
+          <span>Scroll Down</span>
+          <div className="w-px h-8 bg-gradient-to-b from-gray-400 to-transparent" />
         </div>
       </section>
 
-      {/* ── Stats Bar ────────────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-gray-100">
+      {/* ══════════════════════════════════════════════════════════════════════
+          2. SERVICES SECTION — White bg, 3 icon cards
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-3 divide-x divide-gray-100">
-            {STATS.map((stat) => (
-              <div key={stat.label} className="py-6 sm:py-8 text-center px-4">
-                <p className="text-2xl sm:text-3xl font-extrabold text-orange-500 mb-1">
-                  {stat.value}
-                </p>
-                <p className="text-sm font-bold text-gray-900">{stat.label}</p>
-                <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">
-                  {stat.sub}
-                </p>
-              </div>
+          <RevealSection className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-3">
+              Services We Offer
+            </h2>
+            <p className="text-orange-500 font-semibold text-lg">
+              Your Partner in Scaling Dropshipping & Affiliate Success
+            </p>
+          </RevealSection>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 reveal-stagger">
+            {SERVICES.map((service, idx) => (
+              <RevealSection key={service.title} delay={idx * 120}>
+                <div className="border border-gray-200 rounded-2xl p-8 text-center card-hover card-hover-orange h-full flex flex-col items-center">
+                  <div className="w-20 h-20 mx-auto mb-6 flex items-center justify-center text-orange-500 bg-orange-50 rounded-2xl">
+                    <service.icon size={36} strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-orange-500 mb-3">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {service.description}
+                  </p>
+                </div>
+              </RevealSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── What is this system? ─────────────────────────────────────────────── */}
-      <section id="ano-ba" className="py-16 sm:py-20 bg-white">
+      {/* ══════════════════════════════════════════════════════════════════════
+          3. WHY CHOOSE US — Light gray bg, 2-col + center image
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-gray-50">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
-              About the System
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
-              Ano ba talaga itong system na ito?
+          <RevealSection className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-black text-orange-500 mb-3">
+              Why Choose Us
             </h2>
-            <p className="text-gray-500 text-lg">
-              Ito ay isang{" "}
-              <span className="font-bold text-orange-600">
-                DONE-FOR-YOU ONLINE BUSINESS SYSTEM
-              </span>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Your trusted partner for tailored solutions to fuel your business
+              growth.
             </p>
-          </div>
+          </RevealSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {[
-              {
-                icon: Package,
-                title: "PRODUCT",
-                desc: "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na.",
-                color: "text-orange-600",
-                bg: "bg-orange-50",
-                border: "border-orange-100",
-              },
-              {
-                icon: Bot,
-                title: "SYSTEM & AUTOMATION",
-                desc: "Susunod ka nalang sa proseso. Automated selling process gamit ang guided step-by-step system.",
-                color: "text-blue-600",
-                bg: "bg-blue-50",
-                border: "border-blue-100",
-              },
-              {
-                icon: Video,
-                title: "TRAINING",
-                desc: "May training videos at guide para sa iyong success.",
-                color: "text-emerald-600",
-                bg: "bg-emerald-50",
-                border: "border-emerald-100",
-              },
-            ].map((item) => (
-              <div
-                key={item.title}
-                className={`p-8 rounded-3xl ${item.bg} border ${item.border} flex flex-col items-start`}
-              >
-                <div
-                  className={`w-12 h-12 rounded-2xl bg-white flex items-center justify-center mb-5 shadow-sm`}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12 items-center">
+            {/* Left column */}
+            <div className="space-y-8">
+              {WHY_CHOOSE_LEFT.map((item, idx) => (
+                <RevealSection
+                  key={item.title}
+                  delay={idx * 100}
+                  className="reveal-left"
                 >
-                  <item.icon className={`w-6 h-6 ${item.color}`} />
-                </div>
-                <h3 className="text-lg font-extrabold text-gray-900 mb-3">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {item.desc}
-                </p>
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 flex-shrink-0 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
+                      <item.icon size={22} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1 text-base">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </RevealSection>
+              ))}
+            </div>
+
+            {/* Center image */}
+            <RevealSection className="flex justify-center reveal-scale">
+              <div className="relative">
+                <div className="absolute inset-0 bg-orange-500/10 rounded-3xl blur-3xl scale-110" />
+                <img
+                  src="/images/Drpshipping-1.jpg"
+                  alt="Our System"
+                  className="relative w-full max-w-sm rounded-3xl shadow-2xl shadow-orange-500/20 border border-orange-100"
+                />
               </div>
-            ))}
+            </RevealSection>
+
+            {/* Right column */}
+            <div className="space-y-8">
+              {WHY_CHOOSE_RIGHT.map((item, idx) => (
+                <RevealSection
+                  key={item.title}
+                  delay={idx * 100}
+                  className="reveal-right"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 flex-shrink-0 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500">
+                      <item.icon size={22} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 mb-1 text-base">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-500 text-sm leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                </RevealSection>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Inclusions Section ───────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-orange-50/40">
+      {/* ══════════════════════════════════════════════════════════════════════
+          4. HOW IT WORKS — White bg, 3-step process
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-white">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
-              What You Get
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
-              Lahat ng makukuha mo pag nag-activate ka
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
-            {INCLUSIONS.map((item) => (
-              <div
-                key={item}
-                className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all"
-              >
-                <div className="w-8 h-8 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="w-4 h-4 text-orange-500" />
-                </div>
-                <span className="text-gray-700 font-semibold text-sm">
-                  {item}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── How It Works Section ─────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-2xl mx-auto text-center mb-12">
+          <RevealSection className="text-center mb-16">
             <span className="inline-block text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
               How It Works
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4">
               Ganito ka kikita sa system na ito
             </h2>
-            <p className="text-gray-500">
+            <p className="text-gray-500 text-lg">
               ₱999 one-time access • 15–20% commission per sale
             </p>
-          </div>
+          </RevealSection>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-4xl mx-auto">
             {HOW_IT_WORKS.map((item, idx) => (
-              <div key={item.step} className="relative text-center">
+              <RevealSection
+                key={item.step}
+                delay={idx * 150}
+                className="text-center"
+              >
                 {/* Connector line */}
-                {idx < HOW_IT_WORKS.length - 1 && (
-                  <div className="hidden md:block absolute top-10 left-[calc(50%+3rem)] right-0 h-px bg-gradient-to-r from-orange-200 to-transparent" />
-                )}
-                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl flex flex-col items-center justify-center mx-auto mb-5 shadow-lg shadow-orange-200">
-                  <span className="text-orange-100 text-[10px] font-bold tracking-widest">
-                    {item.step}
-                  </span>
-                  <item.icon className="w-6 h-6 text-white mt-0.5" />
+                <div className="relative">
+                  {idx < HOW_IT_WORKS.length - 1 && (
+                    <div className="hidden md:block absolute top-10 left-[calc(50%+3rem)] right-0 h-px bg-gradient-to-r from-orange-200 to-transparent" />
+                  )}
+                  <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl flex flex-col items-center justify-center mx-auto mb-5 shadow-lg shadow-orange-200">
+                    <span className="text-orange-100 text-[10px] font-bold tracking-widest">
+                      {item.step}
+                    </span>
+                    <item.icon className="w-6 h-6 text-white mt-0.5" />
+                  </div>
                 </div>
                 <h3 className="text-xl font-extrabold text-gray-900 mb-2">
                   {item.title}
@@ -369,170 +773,232 @@ const HomePageInner = () => {
                 <p className="text-gray-500 text-sm leading-relaxed">
                   {item.description}
                 </p>
-              </div>
+              </RevealSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── Benefits/Why Join Section ────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-orange-50/60 to-amber-50/60">
+      {/* ══════════════════════════════════════════════════════════════════════
+          5. PRICING PLANS — White bg, 2 pricing cards
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-gray-50">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-2xl mx-auto text-center mb-12">
-            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
-              Why Join
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
-              Bakit pumili ng system na ito?
+          <RevealSection className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-black text-orange-500 mb-3">
+              Pricing Plans
             </h2>
-            <p className="text-gray-500">Hindi ito magic… pero gumagana ito</p>
-          </div>
+            <p className="text-gray-600 text-lg">
+              Choose a Plan That Suits Your Business Needs
+            </p>
+          </RevealSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {BENEFITS.map((benefit) => (
-              <div
-                key={benefit.title}
-                className="p-6 rounded-3xl bg-white border border-white shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
-              >
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            {PLANS.map((plan, idx) => (
+              <RevealSection key={plan.name} delay={idx * 150}>
                 <div
-                  className={`w-11 h-11 ${benefit.bg} rounded-2xl flex items-center justify-center mb-4`}
+                  className={`rounded-3xl p-8 h-full flex flex-col border-2 transition-all duration-300 ${
+                    plan.available
+                      ? "border-orange-200 bg-white hover:border-orange-400 hover:shadow-xl hover:shadow-orange-100 hover:-translate-y-1"
+                      : "border-gray-200 bg-gray-50 opacity-75"
+                  }`}
                 >
-                  <benefit.icon className={`w-5 h-5 ${benefit.color}`} />
+                  <h3 className="text-2xl font-black text-orange-500 mb-2">
+                    {plan.name}
+                  </h3>
+                  <div className="text-5xl font-black text-gray-900 mb-6">
+                    ₱{plan.price}
+                  </div>
+                  <ul className="space-y-3 mb-8 flex-1">
+                    {plan.features.map((f) => (
+                      <li
+                        key={f}
+                        className="flex items-center gap-2 text-sm text-gray-700"
+                      >
+                        <CheckCircle2 className="text-orange-500 w-4 h-4 flex-shrink-0" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  {plan.available ? (
+                    <Link
+                      href={plan.href}
+                      className="block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-full text-center transition-all shadow-lg shadow-orange-200 hover:shadow-orange-300 hover:-translate-y-0.5"
+                    >
+                      Subscribe Now
+                    </Link>
+                  ) : (
+                    <button
+                      disabled
+                      className="block w-full bg-gray-200 text-gray-400 font-bold py-3.5 rounded-full text-center cursor-not-allowed"
+                    >
+                      Subscribe Now
+                    </button>
+                  )}
+                  {!plan.available && (
+                    <p className="text-center text-xs text-red-500 mt-2 flex items-center justify-center gap-1">
+                      <span>🚫</span> All slots filled — subscription currently
+                      closed.
+                    </p>
+                  )}
                 </div>
-                <h3 className="text-base font-extrabold text-gray-900 mb-2">
-                  {benefit.title}
-                </h3>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  {benefit.description}
-                </p>
-              </div>
+              </RevealSection>
             ))}
           </div>
-
-          <div className="mt-10 p-6 bg-amber-50 border border-amber-200 rounded-3xl max-w-2xl mx-auto text-center">
-            <p className="text-gray-800 font-bold text-base">
-              💡 Hindi ito get-rich-quick. Kailangan mo pa din kumilos.
-            </p>
-            <p className="text-gray-600 text-sm mt-2 leading-relaxed">
-              Pero ang difference ay{" "}
-              <span className="font-bold text-amber-700">
-                Hindi ka manghuhula
-              </span>{" "}
-              at{" "}
-              <span className="font-bold text-amber-700">
-                Hindi ka mag trial and error
-              </span>{" "}
-              — may system ka na susundin.
-            </p>
-          </div>
         </div>
       </section>
 
-      {/* ── Pricing Section ──────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-md mx-auto">
-            <div className="relative overflow-hidden p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white shadow-2xl shadow-gray-900/30">
-              {/* Background decoration */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full -translate-y-1/2 translate-x-1/2" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
+      {/* ══════════════════════════════════════════════════════════════════════
+          6. STATS SECTION — Dark bg + photo overlay, 3 stats
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="relative py-20 sm:py-28 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/background.jpeg"
+            alt="Background"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gray-950/85" />
+        </div>
 
-              <div className="relative">
-                <div className="text-center mb-6">
-                  <span className="inline-block text-xs font-bold text-orange-300 bg-white/10 border border-white/20 px-3 py-1 rounded-full mb-4 tracking-widest uppercase">
-                    Pricing
-                  </span>
-                  <h3 className="text-2xl font-extrabold mb-2">
-                    Magkano para makapag-start?
-                  </h3>
-                  <p className="text-gray-400 text-sm line-through">
-                    Sa ibang system: ₱5,000 – ₱15,000
-                  </p>
-                </div>
-
-                <div className="text-center mb-8">
-                  <div className="flex items-end justify-center gap-2">
-                    <span className="text-6xl font-extrabold tracking-tight text-orange-400">
-                      ₱999
-                    </span>
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 text-center">
+            {STATS.map((stat, idx) => (
+              <RevealSection key={stat.label} delay={idx * 150}>
+                <div className="flex flex-col items-center">
+                  <div className="w-20 h-20 mb-4 flex items-center justify-center text-orange-500/80">
+                    <stat.icon size={48} strokeWidth={1} />
                   </div>
-                  <p className="text-gray-400 text-sm mt-2 font-semibold tracking-widest uppercase">
-                    One-Time Activation Only
-                  </p>
+                  <div className="text-4xl sm:text-5xl font-black text-orange-500 mb-2">
+                    {stat.value}
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    {stat.label}
+                  </h3>
+                  <p className="text-gray-400 text-sm">{stat.description}</p>
                 </div>
-
-                <Link
-                  href="/affiliate/registration"
-                  className="block w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white text-center py-4 rounded-2xl font-extrabold transition-all text-lg shadow-lg shadow-orange-500/20 hover:shadow-orange-500/30 hover:-translate-y-0.5"
-                >
-                  ACTIVATE NOW
-                </Link>
-
-                <p className="text-gray-400 text-xs text-center mt-4">
-                  Kung gusto mo ng extra income… eto na yun
-                </p>
-              </div>
-            </div>
+              </RevealSection>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── FAQ Section ──────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-orange-50/40">
+      {/* ══════════════════════════════════════════════════════════════════════
+          7. TESTIMONIALS — Light gray bg, carousel
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-gray-50">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="max-w-2xl mx-auto text-center mb-12">
+          <RevealSection className="text-center mb-16">
+            <h2 className="text-4xl sm:text-5xl font-black text-orange-500 mb-3">
+              Testimonials
+            </h2>
+            <p className="text-gray-600 text-lg">
+              What Our Clients Say About Us
+            </p>
+          </RevealSection>
+
+          <RevealSection>
+            <TestimonialsCarousel />
+          </RevealSection>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          8. INCLUSIONS — White bg, checklist
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-white">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <RevealSection className="text-center mb-16">
+            <span className="inline-block text-xs font-bold text-orange-600 bg-orange-50 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
+              What You Get
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4">
+              Lahat ng makukuha mo pag nag-activate ka
+            </h2>
+          </RevealSection>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+            {[
+              "Ready dropshipping system",
+              "Order processing setup",
+              "Ready-to-sell items (no need mag stock)",
+              "Chatbot system with auto replies",
+              "Ready funnel page (high-converting design)",
+              "Step-by-step training videos",
+              "Beginner-friendly guide",
+              "Lifetime access",
+            ].map((item, idx) => (
+              <RevealSection key={item} delay={idx * 60}>
+                <div className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-200 transition-all">
+                  <div className="w-8 h-8 bg-orange-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-orange-500" />
+                  </div>
+                  <span className="text-gray-700 font-semibold text-sm">
+                    {item}
+                  </span>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          9. FAQ — Light gray bg, accordion
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="py-20 sm:py-28 bg-gray-50">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
+          <RevealSection className="text-center mb-16">
             <span className="inline-block text-xs font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full mb-4 tracking-widest uppercase border border-orange-200">
               FAQ
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 leading-tight">
+            <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4">
               Frequently Asked Questions
             </h2>
-          </div>
+          </RevealSection>
 
-          <div className="max-w-2xl mx-auto space-y-3">
-            {FAQ.map((faq) => (
-              <div
-                key={faq.question}
-                className="p-5 sm:p-6 bg-white rounded-2xl border border-orange-100 shadow-sm hover:shadow-md hover:border-orange-300 transition-all"
-              >
-                <h4 className="font-extrabold text-gray-900 mb-2 flex items-start gap-2">
-                  <span className="text-orange-500 mt-0.5 flex-shrink-0">
-                    Q.
-                  </span>
-                  {faq.question}
-                </h4>
-                <p className="text-gray-500 text-sm leading-relaxed pl-5">
-                  {faq.answer}
-                </p>
-              </div>
-            ))}
-          </div>
+          <RevealSection className="max-w-2xl mx-auto">
+            <FAQAccordion />
+          </RevealSection>
         </div>
       </section>
 
-      {/* ── CTA Section ──────────────────────────────────────────────────────── */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
-        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4 leading-tight">
-              Hindi mo kailangan maging expert.
+      {/* ══════════════════════════════════════════════════════════════════════
+          10. CTA SECTION — Dark bg + photo overlay
+      ══════════════════════════════════════════════════════════════════════ */}
+      <section className="relative py-20 sm:py-28 overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/background.jpeg"
+            alt="Background"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gray-950/80" />
+        </div>
+
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
+          <RevealSection className="max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-6 leading-tight">
+              Ready to take your dropshipping business to the next level?
             </h2>
-            <p className="text-gray-400 mb-8 text-lg leading-relaxed">
-              Kailangan mo lang magsimula. Mag-activate ngayon at simulan ang
-              iyong online business journey!
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+              Let us know how we can support you in building a successful
+              business. Start your journey today!
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
                 href="/affiliate/registration"
-                className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white px-8 py-4 rounded-2xl font-extrabold transition-all text-lg shadow-xl shadow-orange-500/20 hover:-translate-y-0.5"
+                className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg px-10 py-4 rounded-full transition-all shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1"
               >
                 ACTIVATE NOW — ₱999
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-2xl font-bold transition-all text-lg border border-white/20 hover:border-white/40"
+                className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold text-lg px-10 py-4 rounded-full transition-all border border-white/20 hover:border-white/40 hover:-translate-y-1"
               >
                 <ShoppingBag className="w-5 h-5" />
                 Browse Products
@@ -543,7 +1009,7 @@ const HomePageInner = () => {
               <Phone className="w-4 h-4" />
               <span>CONTACT US: 0920 329 5363</span>
             </div>
-          </div>
+          </RevealSection>
         </div>
       </section>
     </div>
@@ -553,7 +1019,7 @@ const HomePageInner = () => {
 const HomePage = () => (
   <Suspense
     fallback={
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-gray-950">
         <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
       </div>
     }

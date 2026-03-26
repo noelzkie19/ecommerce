@@ -25,7 +25,7 @@ export default async function StoreRedirectPage({
     redirect("/");
   }
 
-  // Redirect to the store homepage with the storeId tracking param.
+  // Redirect to the store shop page with the storeId as ref param
   // The AffiliateTracking component will resolve the pixelId from the storeId.
-  redirect(`/?store=${encodeURIComponent(storeId)}`);
+  redirect(`/shop?ref=store_${encodeURIComponent(storeId)}`);
 }
