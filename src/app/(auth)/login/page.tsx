@@ -11,7 +11,13 @@ import {
 import { LoginForm, GoogleButton, useForgotPassword } from "@/features/auth";
 import { getGuestId } from "@/utils/guest.utils";
 
-type SignInType = "select" | "guest" | "customer" | "affiliate";
+type SignInType =
+  | "select"
+  | "guest"
+  | "customer"
+  | "affiliate"
+  | "shop-guest"
+  | "shop-signup";
 type AuthMode = "login" | "signup" | "forgot";
 
 // ── Back Button ─────────────────────────────────────────────────────
@@ -172,77 +178,87 @@ function SelectScreen({
           </p>
         </div>
 
-        {/* Sign-in type cards */}
-        <div className="space-y-3">
-          {/* Guest */}
-          <button
-            onClick={onGuestContinue}
-            className="w-full group flex items-center gap-4 p-5 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-200 text-left"
-          >
-            <div className="w-12 h-12 bg-gray-400/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-400/30 transition-colors">
-              <UserCheck className="w-6 h-6 text-gray-200" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-white text-base">
-                Continue as Guest
-              </p>
-              <p className="text-gray-400 text-sm mt-0.5">
-                Browse and buy without signing up
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
-          </button>
+        {/* Shop Section */}
+        <div className="mb-8">
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <ShoppingBag className="w-5 h-5 text-blue-400" />
+            Shop
+          </h2>
+          <div className="space-y-3">
+            {/* Guest */}
+            <button
+              onClick={onGuestContinue}
+              className="w-full group flex items-center gap-4 p-5 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-200 text-left"
+            >
+              <div className="w-12 h-12 bg-gray-400/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-400/30 transition-colors">
+                <UserCheck className="w-6 h-6 text-gray-200" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-white text-base">
+                  Sign in as Guest
+                </p>
+                <p className="text-gray-400 text-sm mt-0.5">
+                  Browse and buy without signing up
+                </p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
+            </button>
 
-          {/* Customer */}
-          <button
-            onClick={onSelectCustomer}
-            className="w-full group flex items-center gap-4 p-5 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-200 text-left"
-          >
-            <div className="w-12 h-12 bg-gray-400/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-400/30 transition-colors">
-              <ShoppingBag className="w-6 h-6 text-gray-200" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-white text-base">
-                Sign in as Customer
-              </p>
-              <p className="text-gray-400 text-sm mt-0.5">
-                Track orders and manage your account
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
-          </button>
-
-          {/* Affiliate */}
-          <button
-            onClick={onSelectAffiliate}
-            className="w-full group flex items-center gap-4 p-5 bg-orange-500/10 hover:bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 hover:border-orange-400/60 rounded-2xl transition-all duration-200 text-left"
-          >
-            <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/30 transition-colors">
-              <Users className="w-6 h-6 text-orange-300" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-bold text-white text-base">
-                Sign in as Affiliate
-              </p>
-              <p className="text-orange-300/80 text-sm mt-0.5">
-                Access your dashboard and earn commissions
-              </p>
-            </div>
-            <ArrowRight className="w-5 h-5 text-orange-400/60 group-hover:text-orange-300 group-hover:translate-x-1 transition-all flex-shrink-0" />
-          </button>
+            {/* Customer Sign Up */}
+            <button
+              onClick={onSelectCustomer}
+              className="w-full group flex items-center gap-4 p-5 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-2xl transition-all duration-200 text-left"
+            >
+              <div className="w-12 h-12 bg-gray-400/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-gray-400/30 transition-colors">
+                <ShoppingBag className="w-6 h-6 text-gray-200" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-white text-base">Sign Up</p>
+                <p className="text-gray-400 text-sm mt-0.5">
+                  Create an account to track orders
+                </p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
+            </button>
+          </div>
         </div>
 
-        {/* Become an affiliate CTA */}
-        <div className="mt-6 text-center">
-          <p className="text-gray-500 text-sm">
-            Want to earn commissions?{" "}
+        {/* Affiliate Section */}
+        <div>
+          <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+            <Users className="w-5 h-5 text-orange-400" />
+            Affiliate
+          </h2>
+          <div className="space-y-3">
+            {/* Become an Affiliate */}
             <a
-              href="/register"
-              className="text-orange-400 hover:text-orange-300 font-semibold transition-colors"
+              href="/affiliate/onboarding"
+              className="w-full group flex items-center gap-4 p-5 bg-orange-500/10 hover:bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 hover:border-orange-400/60 rounded-2xl transition-all duration-200 text-left"
             >
-              Become an Affiliate →
+              <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/30 transition-colors">
+                <Users className="w-6 h-6 text-orange-300" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-bold text-white text-base">
+                  Become an Affiliate
+                </p>
+                <p className="text-orange-300/80 text-sm mt-0.5">
+                  Start earning commissions today
+                </p>
+              </div>
+              <ArrowRight className="w-5 h-5 text-orange-400/60 group-hover:text-orange-300 group-hover:translate-x-1 transition-all flex-shrink-0" />
             </a>
-          </p>
+          </div>
+        </div>
+
+        {/* Pricing Link */}
+        <div className="mt-8 text-center">
+          <a
+            href="/pricing"
+            className="text-gray-400 hover:text-white text-sm font-medium transition-colors"
+          >
+            View Pricing Plans →
+          </a>
         </div>
       </div>
     </div>
@@ -386,10 +402,10 @@ function AffiliateScreen({
             <p className="text-gray-500 text-xs">
               Not yet an affiliate?{" "}
               <a
-                href="/register"
+                href="/affiliate/onboarding"
                 className="text-gray-700 hover:text-gray-900 font-semibold transition-colors"
               >
-                Activate your account →
+                Become an Affiliate →
               </a>
             </p>
           </div>
@@ -427,6 +443,14 @@ function LoginPageInner() {
         onSelectAffiliate={() => setSignInType("affiliate")}
       />
     );
+  }
+
+  if (signInType === "shop-guest") {
+    return <CustomerScreen onBack={handleBack} redirectTo={redirectTo} />;
+  }
+
+  if (signInType === "shop-signup") {
+    return <CustomerScreen onBack={handleBack} redirectTo={redirectTo} />;
   }
 
   if (signInType === "customer") {

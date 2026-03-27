@@ -52,7 +52,7 @@ const HOW_IT_WORKS = [
   {
     step: "ACTIVATE",
     title: "Mag-activate",
-    description: "Magbayad ng ₱999 one-time access para makuha ang system.",
+    description: "Magbayad ng ₱99 one-time access para makuha ang system.",
   },
   {
     step: "SHARE",

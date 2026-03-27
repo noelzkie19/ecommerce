@@ -22,8 +22,7 @@ import type {
 
 export const HOME_NAV_LINKS: HomeNavLink[] = [
   { href: "/", label: "Home" },
-  { href: "/shop", label: "Shop" },
-  { href: "/orders", label: "Orders" },
+  { href: "/services", label: "Services" },
   { href: "/testimonials", label: "Testimonials" },
 ];
 
