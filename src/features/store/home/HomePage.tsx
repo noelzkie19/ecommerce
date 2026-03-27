@@ -18,13 +18,14 @@ import {
   Truck,
   Award,
   Clock,
-  DollarSign,
+  Banknote,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
 import { useHomePageRedirect } from "@/features/auth/hooks/useAuthRedirect";
 import { useScrollReveal } from "./hooks/useScrollReveal";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -72,7 +73,7 @@ const WHY_CHOOSE_LEFT = [
 
 const WHY_CHOOSE_RIGHT = [
   {
-    icon: DollarSign,
+    icon: Banknote,
     title: "Pricing",
     description:
       "Our transparent, flexible pricing suits any business stage. No hidden fees.",
@@ -91,27 +92,6 @@ const WHY_CHOOSE_RIGHT = [
   },
 ];
 
-const STATS = [
-  {
-    icon: Users,
-    value: "28,000+",
-    label: "Community Members",
-    description: "Join a thriving network of entrepreneurs.",
-  },
-  {
-    icon: TrendingUp,
-    value: "₱18M+",
-    label: "Member Sales",
-    description: "Helping members achieve remarkable sales.",
-  },
-  {
-    icon: Clock,
-    value: "24/7",
-    label: "Hours Of Support",
-    description: "24/7 assistance for your success.",
-  },
-];
-
 const PLANS = [
   {
     name: "Affiliate",
@@ -125,6 +105,35 @@ const PLANS = [
     ],
     available: true,
     href: "/affiliate/registration",
+    cta: "Subscribe Now",
+  },
+  {
+    name: "E-Commerce Shop",
+    price: "30K-50K",
+    features: [
+      "Complete e-commerce website",
+      "Product sourcing & inventory",
+      "Payment gateway integration",
+      "Order management system",
+      "Marketing & branding support",
+    ],
+    available: true,
+    href: "/pricing",
+    cta: "Get Started",
+  },
+  {
+    name: "Web Development",
+    price: "50K+",
+    features: [
+      "Custom web application",
+      "Business website development",
+      "E-commerce system setup",
+      "Inventory system development",
+      "Ongoing maintenance support",
+    ],
+    available: true,
+    href: "/services",
+    cta: "Get a Quote",
   },
 ];
 
@@ -557,30 +566,31 @@ const HomePageInner = () => {
           {/* Badge */}
           <div className="hero-animate-1 inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full text-white text-xs sm:text-sm font-semibold mb-8">
             <span className="w-2 h-2 bg-orange-400 rounded-full animate-pulse flex-shrink-0" />{" "}
-            DONE-FOR-YOU BUSINESS SYSTEM
+            YOUR TRUSTED BUSINESS PARTNER
           </div>
 
           {/* Main headline */}
           <h1 className="hero-animate-2 text-5xl sm:text-7xl lg:text-8xl font-black text-white uppercase leading-none tracking-tight mb-2">
-            EQUIPPING PEOPLE
+            TRIAD365
           </h1>
           <h2 className="hero-animate-3 text-3xl sm:text-5xl lg:text-6xl font-black text-orange-500 uppercase leading-none tracking-tight mb-8">
-            TO LEAD BETTER LIVES
+            MULTISTREAM SYSTEM
           </h2>
 
           {/* Subtitle */}
           <p className="hero-animate-4 text-gray-300 text-lg sm:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
-            Start your Dropshipping journey with us! Bibigyan ka namin ng SYSTEM
-            na pwede mong gamitin agad.
+            We aim to support businesses and entrepreneurs in creating
+            sustainable wealth and achieving their financial objectives through
+            a combination of strategic guidance and technological solutions.
           </p>
 
           {/* CTA Buttons */}
           <div className="hero-animate-5 flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/register"
+              href="/services"
               className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-base sm:text-lg px-10 py-4 rounded-full transition-all shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:-translate-y-1 active:scale-95"
             >
-              GET STARTED
+              VIEW SERVICES
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
@@ -647,6 +657,16 @@ const HomePageInner = () => {
               </RevealSection>
             ))}
           </div>
+
+          <RevealSection className="text-center mt-12">
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 text-orange-500 hover:text-orange-600 font-semibold text-lg transition-colors"
+            >
+              View All Services
+              <ArrowRight size={20} />
+            </Link>
+          </RevealSection>
         </div>
       </section>
 
@@ -793,7 +813,7 @@ const HomePageInner = () => {
             </p>
           </RevealSection>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {PLANS.map((plan, idx) => (
               <RevealSection key={plan.name} delay={idx * 150}>
                 <div
@@ -825,14 +845,14 @@ const HomePageInner = () => {
                       href={plan.href}
                       className="block w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-full text-center transition-all shadow-lg shadow-orange-200 hover:shadow-orange-300 hover:-translate-y-0.5"
                     >
-                      Subscribe Now
+                      {plan.cta}
                     </Link>
                   ) : (
                     <button
                       disabled
                       className="block w-full bg-gray-200 text-gray-400 font-bold py-3.5 rounded-full text-center cursor-not-allowed"
                     >
-                      Subscribe Now
+                      {plan.cta}
                     </button>
                   )}
                   {!plan.available && (
@@ -849,43 +869,7 @@ const HomePageInner = () => {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════════
-          6. STATS SECTION — Dark bg + photo overlay, 3 stats
-      ══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative py-20 sm:py-28 overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0">
-          <img
-            src="/images/background.jpeg"
-            alt="Background"
-            className="w-full h-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gray-950/85" />
-        </div>
-
-        <div className="relative w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 text-center">
-            {STATS.map((stat, idx) => (
-              <RevealSection key={stat.label} delay={idx * 150}>
-                <div className="flex flex-col items-center">
-                  <div className="w-20 h-20 mb-4 flex items-center justify-center text-orange-500/80">
-                    <stat.icon size={48} strokeWidth={1} />
-                  </div>
-                  <div className="text-4xl sm:text-5xl font-black text-orange-500 mb-2">
-                    {stat.value}
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    {stat.label}
-                  </h3>
-                  <p className="text-gray-400 text-sm">{stat.description}</p>
-                </div>
-              </RevealSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════════════════════════════
-          7. TESTIMONIALS — Light gray bg, carousel
+          6. TESTIMONIALS — Light gray bg, carousel
       ══════════════════════════════════════════════════════════════════════ */}
       <section className="py-20 sm:py-28 bg-gray-50">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
@@ -1017,15 +1001,18 @@ const HomePageInner = () => {
 };
 
 const HomePage = () => (
-  <Suspense
-    fallback={
-      <div className="min-h-screen flex items-center justify-center bg-gray-950">
-        <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
-      </div>
-    }
-  >
-    <HomePageInner />
-  </Suspense>
+  <>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-gray-950">
+          <div className="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+      }
+    >
+      <HomePageInner />
+    </Suspense>
+    <ScrollToTop />
+  </>
 );
 
 export default HomePage;
