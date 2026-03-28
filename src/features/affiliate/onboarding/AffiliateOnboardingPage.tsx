@@ -222,7 +222,7 @@ const OnboardingCard = ({
 
       {/* Price */}
       <div className="bg-orange-50 rounded-xl py-5 text-center mb-6">
-        <p className="text-4xl font-extrabold text-orange-500">₱99</p>
+        <p className="text-4xl font-extrabold text-orange-500">₱999</p>
         <p className="text-orange-400 text-sm mt-1">PHP via Maya Wallet</p>
       </div>
 
@@ -262,7 +262,7 @@ const OnboardingCard = ({
         loading={isLoading}
         className="w-full"
       >
-        {isLoading ? "Processing..." : "Pay ₱99 with Maya Wallet"}
+        {isLoading ? "Processing..." : "Pay ₱999 with Maya Wallet"}
       </Button>
 
       <p className="text-gray-400 text-xs text-center mt-4 flex items-center justify-center gap-1">
