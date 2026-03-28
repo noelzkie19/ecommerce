@@ -231,8 +231,8 @@ function SelectScreen({
           </h2>
           <div className="space-y-3">
             {/* Become an Affiliate */}
-            <a
-              href="/affiliate/onboarding"
+            <button
+              onClick={onSelectAffiliate}
               className="w-full group flex items-center gap-4 p-5 bg-orange-500/10 hover:bg-orange-500/20 backdrop-blur-sm border border-orange-500/30 hover:border-orange-400/60 rounded-2xl transition-all duration-200 text-left"
             >
               <div className="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-orange-500/30 transition-colors">
@@ -247,7 +247,7 @@ function SelectScreen({
                 </p>
               </div>
               <ArrowRight className="w-5 h-5 text-orange-400/60 group-hover:text-orange-300 group-hover:translate-x-1 transition-all flex-shrink-0" />
-            </a>
+            </button>
           </div>
         </div>
 
@@ -435,12 +435,18 @@ function LoginPageInner() {
     setMode("login");
   };
 
+  const handleSelectAffiliate = () => {
+    // Update URL to include redirect param so useLogin can redirect after login
+    router.replace("/login?redirect=/affiliate/onboarding");
+    setSignInType("affiliate");
+  };
+
   if (signInType === "select") {
     return (
       <SelectScreen
         onGuestContinue={handleGuestContinue}
         onSelectCustomer={() => setSignInType("customer")}
-        onSelectAffiliate={() => setSignInType("affiliate")}
+        onSelectAffiliate={handleSelectAffiliate}
       />
     );
   }
