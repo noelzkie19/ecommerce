@@ -70,14 +70,6 @@ export function useRegister({ referralCode }: UseRegisterOptions = {}) {
 
       // Determine and execute redirect (default to "/" if null)
       const redirectPath = getRedirectPath(data.user, referralCode) || "/";
-      console.log("[useRegister] Redirect decision:", {
-        userRole: data.user.role,
-        isAffiliate: data.user.isAffiliate,
-        affiliateStatus: data.user.affiliateStatus,
-        affiliatePaymentStatus: data.user.affiliatePaymentStatus,
-        referralCode,
-        redirectPath,
-      });
       router.push(redirectPath);
     } catch (err: any) {
       setError(err.response?.data?.message || "Registration failed");

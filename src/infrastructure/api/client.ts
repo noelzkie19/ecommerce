@@ -9,7 +9,6 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config) => {
   const token = tokenStorage.getAccessToken();
-  console.log("[API Client] Token from storage:", token ? `exists (${token.substring(0, 20)}...)` : "NULL");
   if (token) config.headers.Authorization = `Bearer ${token}`;
 
   const guestId = getGuestId();
@@ -43,7 +42,6 @@ apiClient.interceptors.response.use(
       !original.url?.includes("/auth/me") &&
       !isGuestEndpoint
     ) {
-      console.log("[API Client] 401 error on:", original.url, "isGuestEndpoint:", isGuestEndpoint);
       original._retry = true;
       const refresh = tokenStorage.getRefreshToken();
 
@@ -55,7 +53,7 @@ apiClient.interceptors.response.use(
           tokenStorage.set(data.accessToken, data.refreshToken);
           original.headers.Authorization = `Bearer ${data.accessToken}`;
           return apiClient(original);
-        } catch {
+        } catch (refreshErr) {
           tokenStorage.clear();
           if (typeof globalThis !== "undefined")
             globalThis.location.href = "/login";

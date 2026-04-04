@@ -42,13 +42,11 @@ function CallbackContent() {
 
     const verify = async () => {
       try {
-        console.log("[AffiliateCallback] Verifying:", { intentId, userId });
         const result =
           await affiliateDashboardService.verifyRegistrationPayment(
             intentId,
             userId ?? undefined,
           );
-        console.log("[AffiliateCallback] Result:", result);
 
         // Check if result is valid
         if (!result) {
@@ -62,8 +60,6 @@ function CallbackContent() {
         const res = result as any;
         const paymentStatus: string =
           res.status || res.message?.replace("Payment status: ", "") || "";
-
-        console.log("[AffiliateCallback] Payment status:", paymentStatus);
 
         // Handle both successful payment and already-confirmed cases
         if (paymentStatus === "succeeded" || result.alreadyConfirmed) {
