@@ -1,4 +1,5 @@
 import { apiClient } from "./client";
+import { tokenStorage } from "@/infrastructure/storage/tokenStorage";
 import type {
   Product,
   ProductsResponse,
