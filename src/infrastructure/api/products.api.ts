@@ -76,6 +76,7 @@ export const productsApi = {
   uploadImage: (file: File) => {
     const formData = new FormData();
     formData.append("image", file);
+    console.log("[productsApi] Upload image - checking token:", tokenStorage.getAccessToken() ? "exists" : "NULL");
     return apiClient.post<{ url: string }>(
       "/api/products/admin/upload-image",
       formData,

@@ -9,6 +9,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use((config) => {
   const token = tokenStorage.getAccessToken();
+  console.log("[API Client] Token from storage:", token ? `exists (${token.substring(0, 20)}...)` : "NULL");
   if (token) config.headers.Authorization = `Bearer ${token}`;
 
   const guestId = getGuestId();
@@ -30,7 +31,9 @@ apiClient.interceptors.response.use(
       // Affiliate payment verification is public (callback from PayMongo)
       original.url?.includes("/api/affiliates/payment/verify") ||
       // Products and stocks are public - allow guest users to browse shop
-      original.url?.includes("/api/products") ||
+      // Exclude admin endpoints (they contain /admin/ in the path)
+      (original.url?.includes("/api/products") &&
+        !original.url?.includes("/admin")) ||
       original.url?.includes("/api/stocks/availability");
 
     if (
@@ -40,6 +43,7 @@ apiClient.interceptors.response.use(
       !original.url?.includes("/auth/me") &&
       !isGuestEndpoint
     ) {
+      console.log("[API Client] 401 error on:", original.url, "isGuestEndpoint:", isGuestEndpoint);
       original._retry = true;
       const refresh = tokenStorage.getRefreshToken();
 
