@@ -19,27 +19,13 @@ export function AuthProvider({
 
     const hydrate = async () => {
       try {
-        console.log("[AuthProvider] Hydrating with token exists");
-
         const { data } = await authApi.me();
         const user = (data as any)?.data?.user ?? (data as any)?.user;
-
-        console.log(
-          "[AuthProvider] /api/auth/me returned:",
-          user?.email,
-          "ID:",
-          user?.id,
-        );
 
         if (!user) {
           setHydrated();
           return;
         }
-
-        console.log("[AuthProvider] Hydrated with user:", user.email, {
-          role: user.role,
-          isAffiliate: user.isAffiliate,
-        });
 
         if (user.role === "admin") {
           setUser(user);
@@ -48,8 +34,6 @@ export function AuthProvider({
           try {
             const { data: affiliateData } = await affiliatesApi.getMyStatus();
             const affiliate = (affiliateData as any)?.data ?? affiliateData;
-
-            console.log("[AuthProvider] Affiliate status:", affiliate);
 
             if (affiliate) {
               setUser({

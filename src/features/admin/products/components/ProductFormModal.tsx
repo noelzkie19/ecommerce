@@ -126,7 +126,6 @@ export default function ProductFormModal({
           badge: product.badge ?? "",
           rating: product.rating ?? undefined,
           review_count: product.review_count ?? undefined,
-          affiliate_link: product.affiliate_link ?? "",
         }
       : {},
   });
@@ -191,7 +190,6 @@ export default function ProductFormModal({
     const payload = {
       ...values,
       image_url: primaryImageUrl,
-      affiliate_link: values.affiliate_link?.trim() || null,
     };
     const galleryUrls = gallery.map((img) => img.url);
 
@@ -476,28 +474,6 @@ export default function ProductFormModal({
                 placeholder="0"
               />
             </div>
-          </div>
-
-          {/* ── Affiliate Link ────────────────────────────────────────────── */}
-          <div>
-            <label
-              htmlFor="product-affiliate-link"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Affiliate Link
-            </label>
-            <input
-              id="product-affiliate-link"
-              {...register("affiliate_link")}
-              type="url"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="https://example.com/ref=..."
-            />
-            {errors.affiliate_link && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.affiliate_link.message}
-              </p>
-            )}
           </div>
 
           {/* ── Actions ───────────────────────────────────────────────────── */}

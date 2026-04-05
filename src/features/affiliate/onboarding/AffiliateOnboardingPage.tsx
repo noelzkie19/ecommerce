@@ -312,12 +312,9 @@ const AffiliateOnboardingContent = () => {
     setIsLoading(true);
     setError(null);
     try {
-      console.log("[Onboarding] Creating payment...");
       const result = await affiliateDashboardService.register(
         referralCode || undefined,
       );
-      console.log("[Onboarding] Payment result:", result);
-      console.log("[Onboarding] Redirect URL:", result.redirectUrl);
 
       // Clear the sessionStorage ref now that it has been consumed by the
       // payment creation request — prevents stale refs on future visits.
@@ -330,17 +327,9 @@ const AffiliateOnboardingContent = () => {
       // Priority: Maya Wallet deep link > QR code (fallback)
       // Maya Wallet opens the app directly via deep link
       if (result.redirectUrl) {
-        console.log(
-          "[Onboarding] Opening Maya Wallet via deep link:",
-          result.redirectUrl,
-        );
         // Direct redirect to Maya Wallet - this opens the Maya app
         globalThis.location.href = result.redirectUrl;
       } else if (result.qrCodeUrl) {
-        console.log(
-          "[Onboarding] Using QR code flow, intent:",
-          result.paymentIntentId,
-        );
         setQrCodeUrl(result.qrCodeUrl);
         setPaymentIntentId(result.paymentIntentId);
       } else {
@@ -368,7 +357,6 @@ const AffiliateOnboardingContent = () => {
         paymentIntentId,
         user?.id,
       );
-      console.log("[Onboarding] Payment status raw:", result);
 
       // Backend may return { status } or { message: "Payment status: <status>" }
       // Normalize the status field from either source (same as checkout callback)
@@ -379,8 +367,6 @@ const AffiliateOnboardingContent = () => {
         (typeof res.message === "string"
           ? res.message.replace("Payment status: ", "")
           : "");
-
-      console.log("[Onboarding] Payment status parsed:", status);
 
       if (status === "succeeded" || result.alreadyConfirmed) {
         setPollStatus("paid");
@@ -414,11 +400,6 @@ const AffiliateOnboardingContent = () => {
   useEffect(() => {
     // Only poll if QR is shown and we're still waiting
     if (qrCodeUrl && paymentIntentId && !isPaid && pollStatus === "waiting") {
-      console.log(
-        "[Onboarding] Starting payment polling for:",
-        paymentIntentId,
-      );
-
       // Check immediately
       checkPaymentStatus();
 
@@ -428,7 +409,6 @@ const AffiliateOnboardingContent = () => {
 
         // Check if we've exceeded max attempts
         if (pollAttempts.current >= MAX_POLL_ATTEMPTS) {
-          console.log("[Onboarding] Max poll attempts reached, stopping");
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
           }
