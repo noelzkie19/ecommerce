@@ -10,11 +10,6 @@ export const productSchema = z.object({
   badge: z.string().optional(),
   rating: z.coerce.number().min(0).max(5).optional(),
   review_count: z.coerce.number().int().min(0).optional(),
-  affiliate_link: z
-    .string()
-    .url("Affiliate link must be a valid URL")
-    .optional()
-    .or(z.literal("")),
 });
 
 export type ProductFormValues = z.infer<typeof productSchema>;
