@@ -60,11 +60,11 @@ export const CHECKOUT = {
       label: "Cash on Delivery",
       description: "Pay when you receive your order",
     },
-    {
-      id: "maya" as PaymentMethod,
-      label: "Maya",
-      description: "Pay via Maya mobile wallet",
-    },
+    // {
+    //   id: "maya" as PaymentMethod,
+    //   label: "Maya",
+    //   description: "Pay via Maya mobile wallet",
+    // },
   ] as const,
 } as const;
 
