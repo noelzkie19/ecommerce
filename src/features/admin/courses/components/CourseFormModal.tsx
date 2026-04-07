@@ -30,15 +30,12 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
           title: course.title,
           description: course.description ?? "",
           youtubeUrl: course.youtubeUrl,
-          duration: course.duration ?? undefined,
           category: course.category ?? "",
           isPremium: course.isPremium,
-          displayOrder: course.displayOrder,
           isActive: course.isActive,
         }
       : {
           isPremium: false,
-          displayOrder: 0,
           isActive: true,
         },
   });
@@ -166,59 +163,24 @@ export default function CourseFormModal({ course, onClose, onSuccess }: Props) {
             </select>
           </div>
 
-          {/* Duration */}
-          <div>
-            <label
-              htmlFor="duration"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Duration (seconds)
-            </label>
-            <input
-              id="duration"
-              {...register("duration", { valueAsNumber: true })}
-              type="number"
-              min="0"
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="3600"
-            />
-          </div>
-
-          {/* Order and Checkboxes */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="displayOrder"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Order
-              </label>
+          {/* Checkboxes */}
+          <div className="flex flex-col gap-2 pt-2">
+            <label className="flex items-center gap-2 cursor-pointer">
               <input
-                id="displayOrder"
-                {...register("displayOrder", { valueAsNumber: true })}
-                type="number"
-                min="0"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                type="checkbox"
+                {...register("isPremium")}
+                className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
               />
-            </div>
-            <div className="flex flex-col gap-2 pt-6">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  {...register("isPremium")}
-                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
-                />
-                <span className="text-sm text-gray-700">Premium</span>
-              </label>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  {...register("isActive")}
-                  className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
-                />
-                <span className="text-sm text-gray-700">Active</span>
-              </label>
-            </div>
+              <span className="text-sm text-gray-700">Premium</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                {...register("isActive")}
+                className="w-4 h-4 text-emerald-600 rounded border-gray-300 focus:ring-orange-500"
+              />
+              <span className="text-sm text-gray-700">Active</span>
+            </label>
           </div>
 
           {/* Submit */}

@@ -70,6 +70,11 @@ const PaymentSuccessCard = ({ initial }: { initial: string }) => (
         </p>
       </div>
 
+      <p className="text-gray-400 text-xs text-center mb-4">
+        Please check your email for confirmation. You will receive a
+        confirmation email once your registration is processed.
+      </p>
+
       <p className="text-gray-400 text-xs text-center">
         You can check back later or contact support if you have questions.
       </p>

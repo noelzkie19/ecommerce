@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Loader2, Download } from "lucide-react";
+import { Loader2, Download, Copy, Check } from "lucide-react";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
 import { mediaLibraryPublicApi } from "@/infrastructure/api/media-library-public.api";
 import {
@@ -21,7 +21,9 @@ export const AffiliateMediaLibraryPage = () => {
       try {
         setIsLoading(true);
         const response = await mediaLibraryPublicApi.getAll({ isActive: true });
-        const result = response as unknown as {
+        // API returns { success: true, data: [...], meta: {...} }
+        // response.data.data contains the actual array
+        const result = response.data as unknown as {
           success: boolean;
           data: ImageLibrary[];
         };
@@ -35,32 +37,6 @@ export const AffiliateMediaLibraryPage = () => {
 
     fetchImages();
   }, []);
-
-  const handleDownload = async (image: ImageLibrary) => {
-    try {
-      const response = await fetch(`/api/image-library/${image.id}/download`, {
-        method: "GET",
-      });
-
-      if (!response.ok) {
-        throw new Error("Download failed");
-      }
-
-      const blob = await response.blob();
-      const url = globalThis.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${image.title || "image"}.jpg`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      globalThis.URL.revokeObjectURL(url);
-    } catch (e) {
-      console.error("Download error:", e);
-      // Fallback: open image URL in new tab
-      window.open(image.imageUrl, "_blank");
-    }
-  };
 
   // Get unique categories from images
   const categories = useMemo(() => {
@@ -109,6 +85,7 @@ export const AffiliateMediaLibraryPage = () => {
         <AffiliateTopBar
           title="Media Library"
           subtitle="Browse available images and media"
+          showDate={true}
         />
         <div className="flex items-center justify-center py-12">
           <Loader2 className="w-6 h-6 animate-spin text-orange-500" />
@@ -123,6 +100,7 @@ export const AffiliateMediaLibraryPage = () => {
         <AffiliateTopBar
           title="Media Library"
           subtitle="Browse available images and media"
+          showDate={true}
         />
         <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3">
           {error}
@@ -136,6 +114,7 @@ export const AffiliateMediaLibraryPage = () => {
       <AffiliateTopBar
         title="Media Library"
         subtitle="Browse available images and media"
+        showDate={true}
       />
 
       {/* Category Filter */}
@@ -161,12 +140,8 @@ export const AffiliateMediaLibraryPage = () => {
                 {formatCategoryName(selectedCategory)}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                {filteredImages.map((image) => (
-                  <ImageCard
-                    key={image.id}
-                    image={image}
-                    onDownload={handleDownload}
-                  />
+                {filteredImages.map((image, index) => (
+                  <ImageCard key={image.id} image={image} index={index} />
                 ))}
               </div>
             </div>
@@ -184,12 +159,8 @@ export const AffiliateMediaLibraryPage = () => {
                       </span>
                     </h2>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                      {categoryImages.map((image) => (
-                        <ImageCard
-                          key={image.id}
-                          image={image}
-                          onDownload={handleDownload}
-                        />
+                      {categoryImages.map((image, index) => (
+                        <ImageCard key={image.id} image={image} index={index} />
                       ))}
                     </div>
                   </div>
@@ -206,41 +177,68 @@ export const AffiliateMediaLibraryPage = () => {
 // Image Card Component
 interface ImageCardProps {
   readonly image: ImageLibrary;
-  readonly onDownload: (image: ImageLibrary) => void;
+  readonly index: number;
 }
 
-function ImageCard({ image, onDownload }: ImageCardProps) {
+function ImageCard({ image, index }: ImageCardProps) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyUrl = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (e) {
+      console.error("Failed to copy:", e);
+    }
+  };
+
+  const handleDownload = () => {
+    // Open the Supabase URL directly in new tab to download
+    window.open(image.imageUrl, "_blank");
+  };
+
   return (
-    <div className="group relative aspect-square rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
-      <img
-        src={image.thumbnailUrl || image.imageUrl}
-        alt={image.title || "Image"}
-        className="w-full h-full object-cover"
-      />
-      {/* Hover overlay with actions */}
-      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
-        <a
-          href={image.imageUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-white text-sm font-medium hover:text-purple-300 transition-colors"
-        >
-          View Full
-        </a>
+    <div className="group relative flex flex-col rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+      {/* Image section */}
+      <div className="relative aspect-square">
+        <img
+          src={image.thumbnailUrl || image.imageUrl}
+          alt={image.title || "Image"}
+          className="w-full h-full object-cover"
+        />
+        {/* Day badge in top right of image */}
+        <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-full">
+          Day {index + 1}
+        </div>
+      </div>
+      {/* Info section with copy button */}
+      <div className="flex items-center justify-between p-2 bg-white border-t border-gray-200">
+        <div className="flex flex-col flex-1 min-w-0">
+          <p className="text-xs truncate font-medium text-gray-700">
+            {image.title || "Untitled"}
+          </p>
+        </div>
         <button
-          onClick={() => onDownload(image)}
-          className="text-white text-sm font-medium hover:text-purple-300 transition-colors flex items-center gap-1"
+          onClick={() => handleCopyUrl(image.imageUrl)}
+          className="p-1 text-gray-500 hover:text-orange-600 transition-colors"
+          title="Copy URL"
         >
-          <Download className="w-4 h-4" />
-          Download
+          {copied ? (
+            <Check className="w-4 h-4 text-green-500" />
+          ) : (
+            <Copy className="w-4 h-4" />
+          )}
         </button>
       </div>
-      {/* Title overlay at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white p-2">
-        <p className="text-xs truncate font-medium">
-          {image.title || "Untitled"}
-        </p>
-      </div>
+      {/* Download button at bottom */}
+      <button
+        onClick={handleDownload}
+        className="w-full py-2 bg-orange-500 text-white text-sm font-medium hover:bg-orange-600 transition-colors flex items-center justify-center gap-1"
+      >
+        <Download className="w-4 h-4" />
+        Download
+      </button>
     </div>
   );
 }

@@ -1,12 +1,52 @@
 "use client";
 
-import { Edit, Trash2, ExternalLink, Play } from "lucide-react";
+import { Edit, Trash2, Play } from "lucide-react";
 import type { Course } from "@/types/course.types";
 
 interface CoursesTableProps {
   readonly courses: Course[];
   readonly onEdit: (course: Course) => void;
   readonly onDelete: (course: Course) => void;
+}
+
+function getYouTubeId(url: string): string | null {
+  const match =
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/.exec(
+      url,
+    );
+  return match ? match[1] : null;
+}
+
+function CoursePreview({ course }: { readonly course: Course }) {
+  const videoId = getYouTubeId(course.youtubeUrl);
+
+  if (videoId) {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}`}
+        title={course.title}
+        className="w-40 h-24 rounded-lg"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    );
+  }
+
+  if (course.thumbnailUrl) {
+    return (
+      <img
+        src={course.thumbnailUrl}
+        alt={course.title}
+        className="w-16 h-12 object-cover rounded-lg"
+      />
+    );
+  }
+
+  return (
+    <div className="w-16 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
+      <Play size={16} className="text-gray-400" />
+    </div>
+  );
 }
 
 export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
@@ -24,16 +64,13 @@ export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
         <thead>
           <tr className="border-b border-gray-200">
             <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
-              Thumbnail
+              Preview
             </th>
             <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
               Title
             </th>
             <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
               Category
-            </th>
-            <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
-              Duration
             </th>
             <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
               Premium
@@ -56,17 +93,7 @@ export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
               className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
             >
               <td className="py-3 px-4">
-                {course.thumbnailUrl ? (
-                  <img
-                    src={course.thumbnailUrl}
-                    alt={course.title}
-                    className="w-16 h-12 object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="w-16 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
-                    <Play size={16} className="text-gray-400" />
-                  </div>
-                )}
+                <CoursePreview course={course} />
               </td>
               <td className="py-3 px-4">
                 <div className="font-medium text-gray-900">{course.title}</div>
@@ -78,9 +105,6 @@ export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
               </td>
               <td className="py-3 px-4 text-gray-600 text-sm">
                 {course.category || "-"}
-              </td>
-              <td className="py-3 px-4 text-gray-600 text-sm">
-                {course.formattedDuration || "-"}
               </td>
               <td className="py-3 px-4">
                 <span
@@ -109,15 +133,6 @@ export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
               </td>
               <td className="py-3 px-4">
                 <div className="flex items-center justify-end gap-2">
-                  <a
-                    href={course.youtubeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
-                    title="View on YouTube"
-                  >
-                    <ExternalLink size={16} />
-                  </a>
                   <button
                     onClick={() => onEdit(course)}
                     className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-colors"
