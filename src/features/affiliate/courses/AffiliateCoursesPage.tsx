@@ -1,18 +1,59 @@
 "use client";
 
 import { useAffiliateCourses } from "./hooks/useAffiliateCourses";
-import { BookOpen, PlayCircle, Lock, Loader2 } from "lucide-react";
+import { BookOpen, Lock, Loader2 } from "lucide-react";
 import { AffiliateTopBar } from "../shared/components/AffiliateTopBar";
-import { Course } from "@/types/course.types";
+
+function getYouTubeId(url: string): string | null {
+  const match =
+    /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/.exec(
+      url,
+    );
+  return match ? match[1] : null;
+}
+
+function CourseEmbed({
+  youtubeUrl,
+  thumbnailUrl,
+  title,
+}: {
+  readonly youtubeUrl?: string;
+  readonly thumbnailUrl?: string | null;
+  readonly title: string;
+}) {
+  const videoId = youtubeUrl ? getYouTubeId(youtubeUrl) : null;
+
+  if (videoId) {
+    return (
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}`}
+        title={title}
+        className="w-full h-full"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    );
+  }
+
+  if (thumbnailUrl) {
+    return (
+      <img
+        src={thumbnailUrl}
+        alt={title}
+        className="w-full h-full object-cover"
+      />
+    );
+  }
+
+  return (
+    <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+      Coming Soon
+    </div>
+  );
+}
 
 export const AffiliateCoursesPage = () => {
   const { courses, isLoading, error } = useAffiliateCourses();
-
-  const handlePlayCourse = (course: Course) => {
-    if (course.youtubeUrl) {
-      window.open(course.youtubeUrl, "_blank", "noopener,noreferrer");
-    }
-  };
 
   if (isLoading) {
     return (
@@ -88,33 +129,12 @@ export const AffiliateCoursesPage = () => {
                 </p>
               </div>
 
-              {course.thumbnailUrl && (
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100">
-                  <img
-                    src={course.thumbnailUrl}
-                    alt={course.title}
-                    className="w-full h-full object-cover"
-                  />
-                  {course.youtubeUrl && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors">
-                      <PlayCircle className="w-12 h-12 text-white" />
-                    </div>
-                  )}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between mt-auto pt-2 border-t border-gray-50">
-                <span className="text-xs text-gray-400">
-                  {course.duration ? `${course.duration} min` : "Duration N/A"}
-                </span>
-                <button
-                  disabled={!course.isActive || !course.youtubeUrl}
-                  onClick={() => handlePlayCourse(course)}
-                  className="flex items-center gap-1.5 text-xs font-semibold text-orange-600 hover:text-orange-600 disabled:text-gray-400 disabled:cursor-not-allowed transition-colors"
-                >
-                  <PlayCircle className="w-4 h-4" />
-                  {course.youtubeUrl ? "Watch Course" : "Coming Soon"}
-                </button>
+              <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100">
+                <CourseEmbed
+                  youtubeUrl={course.youtubeUrl}
+                  thumbnailUrl={course.thumbnailUrl}
+                  title={course.title}
+                />
               </div>
             </div>
           ))

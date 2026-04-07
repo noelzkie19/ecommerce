@@ -11,11 +11,8 @@ export interface Course {
   youtubeUrl: string;
   youtubeVideoId: string;
   thumbnailUrl: string | null;
-  duration: number | null;
-  formattedDuration: string | null;
   category: string | null;
   isPremium: boolean;
-  displayOrder: number;
   isActive: boolean;
   viewsCount: number;
   embedUrl: string;

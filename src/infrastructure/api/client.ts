@@ -27,6 +27,7 @@ apiClient.interceptors.response.use(
       original.url?.includes("/api/orders") ||
       original.url?.includes("/api/cart") ||
       original.url?.includes("/api/testimonials") ||
+      original.url?.includes("/api/courses") ||
       // Affiliate payment verification is public (callback from PayMongo)
       original.url?.includes("/api/affiliates/payment/verify") ||
       // Products and stocks are public - allow guest users to browse shop

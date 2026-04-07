@@ -119,6 +119,10 @@ function CallbackContent() {
             Your affiliate account is now active.
           </p>
           <p className="text-sm text-orange-600 font-medium">
+            Please check your email for confirmation. You will receive a
+            confirmation email once your registration is processed.
+          </p>
+          <p className="text-sm text-orange-600 font-medium mt-2">
             Redirecting to your dashboard...
           </p>
         </>
