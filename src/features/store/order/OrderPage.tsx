@@ -331,6 +331,8 @@ export default function OrderPage() {
     quantity: item.quantity,
     image: item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
     stock: item.product.stock ?? null,
+    bundleLabel: item.bundleLabel,
+    bundlePrice: item.bundlePrice,
   }));
 
   // Check if any item exceeds available stock

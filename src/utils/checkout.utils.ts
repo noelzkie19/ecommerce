@@ -13,6 +13,7 @@ import {
   calculateBaseTotal,
   calculateGCashTotal,
   getPaymentMethodLabel,
+  calculateBestBundlePrice,
 } from "@/domain/rules";
 
 // Re-export PRICING from domain
@@ -65,19 +66,14 @@ export const getPaymentMethodLabelFn = (method: PaymentMethod): string => {
 };
 
 /**
- * Calculate subtotal - delegates to domain
+ * Calculate subtotal - with auto-applied best bundle pricing
  */
 export const calcSubtotal = (items: ModalCartItem[]): number => {
-  // Convert ModalCartItem to domain CartItem format
-  const domainItems = items.map((item) => ({
-    id: item.id,
-    productId: "",
-    name: item.name,
-    price: item.price,
-    quantity: item.quantity,
-    imageUrl: item.image ?? null,
-  }));
-  return calculateSubtotal(domainItems);
+  return items.reduce((sum, item) => {
+    // Calculate best bundle price for any quantity
+    const bestBundle = calculateBestBundlePrice(item.price, item.quantity);
+    return sum + bestBundle.price;
+  }, 0);
 };
 
 /**

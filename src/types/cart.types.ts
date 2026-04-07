@@ -5,6 +5,8 @@ export interface CartItem {
   quantity: number;
   createdAt: string;
   updatedAt: string;
+  bundleLabel?: string;
+  bundlePrice?: number;
 }
 
 export interface CartProduct {
@@ -23,6 +25,8 @@ export interface CartItemWithProduct extends CartItem {
 export interface AddToCartPayload {
   productId: string;
   quantity: number;
+  bundleLabel?: string;
+  bundlePrice?: number;
 }
 
 export interface UpdateCartItemPayload {

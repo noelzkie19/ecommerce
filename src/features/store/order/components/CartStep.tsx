@@ -9,6 +9,7 @@ import {
   PRICING,
 } from "@/utils/checkout.utils";
 import { getLowStockThreshold } from "@/utils/stock.utils";
+import { calculateBestBundlePrice } from "@/domain/rules";
 
 interface Props {
   readonly items: ModalCartItem[];
@@ -113,6 +114,11 @@ export const CartStep = ({
             lowStock,
           );
 
+          // Auto-calculate best bundle price for any quantity
+          const bestBundle = calculateBestBundlePrice(item.price, item.quantity);
+          const hasBundleDiscount = bestBundle.label !== null;
+          const displayPrice = bestBundle.price;
+
           return (
             <div
               key={item.id}
@@ -138,9 +144,15 @@ export const CartStep = ({
                 <p className="text-sm font-bold text-gray-900 truncate">
                   {item.name}
                 </p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  ₱{item.price.toLocaleString()} each
-                </p>
+                {hasBundleDiscount ? (
+                  <p className="text-xs text-orange-600 font-semibold mt-0.5">
+                    {bestBundle.label}
+                  </p>
+                ) : (
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    ₱{item.price.toLocaleString()} each
+                  </p>
+                )}
                 {/* Stock label */}
                 {stockLabelText !== null && (
                   <p
@@ -178,7 +190,7 @@ export const CartStep = ({
 
               {/* Line total */}
               <p className="text-sm font-extrabold text-gray-900 w-16 text-right flex-shrink-0">
-                ₱{(item.price * item.quantity).toLocaleString()}
+                ₱{displayPrice.toLocaleString()}
               </p>
 
               {/* Over-stock warning */}
@@ -213,20 +225,8 @@ export const CartStep = ({
         </div>
         <div className="flex justify-between text-gray-500">
           <span>Shipping</span>
-          {shipping === 0 ? (
-            <span className="font-semibold text-emerald-500">FREE</span>
-          ) : (
-            <span className="font-semibold text-gray-900">
-              ₱{shipping.toLocaleString()}
-            </span>
-          )}
+          <span className="font-semibold text-emerald-500">FREE</span>
         </div>
-        {shipping > 0 && (
-          <p className="text-[11px] text-gray-400">
-            Free shipping on orders ₱
-            {PRICING.FREE_SHIPPING_THRESHOLD.toLocaleString()}+
-          </p>
-        )}
         <div className="flex justify-between font-extrabold text-gray-900 pt-2 border-t border-gray-100">
           <span>Total</span>
           <span className="text-orange-600">₱{total.toLocaleString()}</span>

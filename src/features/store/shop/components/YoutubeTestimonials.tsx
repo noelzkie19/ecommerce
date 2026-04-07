@@ -5,24 +5,34 @@ import { Play, ChevronLeft, ChevronRight } from "lucide-react";
 
 const TESTIMONIALS = [
   {
-    videoId: "J5Ggjvimb8M",
-    label: "Great Experience ✨",
+    videoId: "F62RI5vaHUc",
+    label: "Amazing Results ✨",
     quote: "Watch what this customer had to say about their experience!",
   },
   {
-    videoId: "ohuK7-U25rI",
+    videoId: "G2podNXyRpI",
     label: "Highly Recommended 🔥",
     quote: "This product exceeded my expectations.",
   },
   {
-    videoId: "SNINF7JSPJo",
+    videoId: "15Q5VwGi9Yo",
     label: "Very Satisfied 💪",
     quote: "I noticed a huge difference in quality right away.",
   },
   {
-    videoId: "mVx4JIaqb3I",
+    videoId: "4oXv7wYELtk",
     label: "Will Buy Again 🌟",
     quote: "Great value for money and excellent service.",
+  },
+  {
+    videoId: "S0H44lu-nNA",
+    label: "Best Purchase 🎉",
+    quote: "Highly recommend to everyone looking for quality.",
+  },
+  {
+    videoId: "6zM4HVWu0aU",
+    label: "Loves It 💖",
+    quote: "Exceeded all my expectations, highly satisfied!",
   },
 ];
 

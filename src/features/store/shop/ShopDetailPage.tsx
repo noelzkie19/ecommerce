@@ -34,9 +34,9 @@ import YoutubeTestimonials from "./components/YoutubeTestimonials";
 import FAQSection from "./components/FaqSection";
 
 const BUNDLE_OPTIONS = [
-  { label: "1 Pack", multiplier: 1, discount: 0 },
-  { label: "Bundle of 2", multiplier: 2, discount: 100 },
-  { label: "Bundle of 4", multiplier: 4, discount: 200 },
+  { label: "1 Pack", quantity: 1, price: null },
+  { label: "Buy 2 Get 1 Free", quantity: 3, price: 990 },
+  { label: "Buy 5 Get 3 Free", quantity: 8, price: 2560 },
 ];
 
 const TRUST_BADGES = [
@@ -99,27 +99,6 @@ function buildImages(product: ProductLike): ProductImage[] {
   return [];
 }
 
-function buildSavingsBadge(
-  packDiscount: number,
-  productDiscount: number | null,
-): React.ReactNode {
-  if (packDiscount > 0) {
-    return (
-      <span className="text-sm font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">
-        Save ₱{packDiscount}
-      </span>
-    );
-  }
-  if (productDiscount) {
-    return (
-      <span className="text-sm font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">
-        -{productDiscount}% OFF
-      </span>
-    );
-  }
-  return null;
-}
-
 export default function ShopDetailPage() {
   const params = useParams();
   const id = String(params?.id ?? "");
@@ -156,7 +135,7 @@ export default function ShopDetailPage() {
 
   const handleSelectPack = (pack: (typeof BUNDLE_OPTIONS)[number]) => {
     setSelectedPack(pack);
-    setQty(pack.multiplier);
+    setQty(pack.quantity);
   };
 
   const handleDecrement = () => setQty((q) => Math.max(1, q - 1));
@@ -169,7 +148,9 @@ export default function ShopDetailPage() {
 
   const handleAddToCart = async () => {
     if (!product || outOfStock || atCapacity || overStock) return;
-    await addToCart({ productId: product.id, quantity: qty });
+    const bundleLabel = selectedPack.price !== null ? selectedPack.label : undefined;
+    const bundlePrice = selectedPack.price ?? undefined;
+    await addToCart({ productId: product.id, quantity: qty, bundleLabel, bundlePrice });
     trackAddToCart(product.price * qty, [
       { id: product.id, quantity: qty, price: product.price },
     ]);
@@ -186,6 +167,8 @@ export default function ShopDetailPage() {
     price: item.product.price,
     quantity: item.quantity,
     image: item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
+    bundleLabel: item.bundleLabel,
+    bundlePrice: item.bundlePrice,
   }));
 
   if (isLoading) {
@@ -226,7 +209,11 @@ export default function ShopDetailPage() {
     stock ?? 0,
   );
   const cartBtnLabel = getCartButtonLabel(outOfStock, atCapacity, overStock);
-  const savingsBadge = buildSavingsBadge(selectedPack.discount, discount);
+  const savingsBadge = discount ? (
+    <span className="text-sm font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">
+      -{discount}% OFF
+    </span>
+  ) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
@@ -293,17 +280,16 @@ export default function ShopDetailPage() {
               <div className="flex items-baseline gap-3 flex-wrap">
                 <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">
                   ₱
-                  {(
-                    product.price * qty -
-                    selectedPack.discount
-                  ).toLocaleString()}
+                  {selectedPack.price !== null
+                    ? selectedPack.price.toLocaleString()
+                    : (product.price * qty).toLocaleString()}
                 </span>
-                {selectedPack.multiplier > 1 && (
+                {selectedPack.price !== null && (
                   <span className="text-base sm:text-lg text-gray-400 line-through">
                     ₱{(product.price * qty).toLocaleString()}
                   </span>
                 )}
-                {product.original_price && selectedPack.multiplier === 1 && (
+                {product.original_price && selectedPack.quantity === 1 && (
                   <span className="text-base sm:text-lg text-gray-400 line-through">
                     ₱{product.original_price.toLocaleString()}
                   </span>
@@ -354,13 +340,13 @@ export default function ShopDetailPage() {
                         <span className="text-sm font-bold leading-tight">
                           {pack.label}
                         </span>
-                        {pack.discount > 0 && (
+                        {pack.price !== null && (
                           <span
                             className={`mt-0.5 text-[11px] font-semibold ${
                               isActive ? "text-orange-200" : "text-emerald-600"
                             }`}
                           >
-                            Save ₱{pack.discount}
+                            ₱{pack.price.toLocaleString()}
                           </span>
                         )}
                       </button>
@@ -370,47 +356,56 @@ export default function ShopDetailPage() {
               </div>
 
               {/* Quantity + Add to Cart */}
-              <p className="text-sm font-semibold text-gray-800 -mb-1">
-                Quantity
-              </p>
+              {selectedPack.price === null && (
+                <p className="text-sm font-semibold text-gray-800 -mb-1">
+                  Quantity
+                </p>
+              )}
 
               <div className="flex items-center gap-3">
-                <div
-                  className={`flex items-center rounded-2xl border-2 overflow-hidden bg-white transition-colors ${
-                    qtyDisabled
-                      ? "border-gray-100 bg-gray-50"
-                      : "border-gray-200"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    aria-label="Decrease quantity"
-                    onClick={handleDecrement}
-                    disabled={qtyDisabled || qty <= 1}
-                    className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
-                  >
-                    <Minus size={16} />
-                  </button>
-                  <span
-                    className={`w-9 sm:w-10 text-base font-bold text-center ${
-                      qtyDisabled ? "text-gray-300" : "text-gray-900"
+                {selectedPack.price === null ? (
+                  <div
+                    className={`flex items-center rounded-2xl border-2 overflow-hidden bg-white transition-colors ${
+                      qtyDisabled
+                        ? "border-gray-100 bg-gray-50"
+                        : "border-gray-200"
                     }`}
                   >
-                    {qty}
-                  </span>
-                  <button
-                    type="button"
-                    aria-label="Increase quantity"
-                    onClick={handleIncrement}
-                    disabled={
-                      qtyDisabled ||
-                      (remaining !== Infinity && qty >= remaining)
-                    }
-                    className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
-                  >
-                    <Plus size={16} />
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      aria-label="Decrease quantity"
+                      onClick={handleDecrement}
+                      disabled={qtyDisabled || qty <= 1}
+                      className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                    >
+                      <Minus size={16} />
+                    </button>
+                    <span
+                      className={`w-9 sm:w-10 text-base font-bold text-center ${
+                        qtyDisabled ? "text-gray-300" : "text-gray-900"
+                      }`}
+                    >
+                      {qty}
+                    </span>
+                    <button
+                      type="button"
+                      aria-label="Increase quantity"
+                      onClick={handleIncrement}
+                      disabled={
+                        qtyDisabled ||
+                        (remaining !== Infinity && qty >= remaining)
+                      }
+                      className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center text-gray-500 hover:text-orange-600 hover:bg-orange-50 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent transition-colors"
+                    >
+                      <Plus size={16} />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 bg-gray-50 px-4 py-2 rounded-xl">
+                    <span>Quantity:</span>
+                    <span className="text-orange-600">{selectedPack.quantity} items</span>
+                  </div>
+                )}
 
                 <button
                   type="button"
@@ -431,10 +426,7 @@ export default function ShopDetailPage() {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                   <PackageCheck size={16} className="text-blue-500 shrink-0" />
-                  <span>
-                    FREE SHIPPING on all orders above{" "}
-                    <span className="font-semibold">₱2500</span>
-                  </span>
+                  <span>FREE SHIPPING on all orders</span>
                 </div>
               </div>
 

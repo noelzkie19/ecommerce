@@ -133,6 +133,16 @@ export default function ProductCard({
             {product.badge}
           </span>
         )}
+
+        {/* Bundle Badges */}
+        <div className="absolute top-2.5 right-2.5 flex flex-col gap-1">
+          <span className="bg-orange-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-md">
+            Buy 2 Get 1 ₱990
+          </span>
+          <span className="bg-emerald-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-md">
+            Buy 5 Get 3 ₱2560
+          </span>
+        </div>
       </div>
 
       {/* Content */}
