@@ -5,13 +5,18 @@ import type {
   AddToCartPayload,
   UpdateCartItemPayload,
 } from "@/types/cart.types";
+import { calculateBestBundlePrice } from "@/domain/rules";
 
 const buildSummary = (items: CartItemWithProduct[]): CartSummary => {
   return {
     items,
     itemCount: items.length,
     totalQty: items.reduce((sum, i) => sum + i.quantity, 0),
-    subtotal: items.reduce((sum, i) => sum + i.product.price * i.quantity, 0),
+    subtotal: items.reduce((sum, i) => {
+      const unitPrice = i.product.price ?? 0;
+      const bestBundle = calculateBestBundlePrice(unitPrice, i.quantity);
+      return sum + bestBundle.price;
+    }, 0),
   };
 };
 

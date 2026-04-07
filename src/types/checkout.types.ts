@@ -7,6 +7,8 @@ export interface ModalCartItem {
   quantity: number;
   image?: string;
   stock?: number | null;
+  bundleLabel?: string;
+  bundlePrice?: number;
 }
 
 export interface ShippingData {

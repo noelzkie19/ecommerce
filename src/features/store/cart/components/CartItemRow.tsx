@@ -8,6 +8,7 @@ import {
   getStockLabel,
   getLowStockThreshold,
 } from "@/utils/stock.utils";
+import { calculateBestBundlePrice } from "@/domain/rules";
 
 interface Props {
   readonly item: CartItemWithProduct;
@@ -21,18 +22,26 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
       ? [...item.product.images].sort((a, b) => a.position - b.position)[0].url
       : item.product.image_url;
 
-  const stock = item.product.stock ?? null;
-  const outOfStock = stock !== null && stock === 0;
-  const atMax = stock !== null && item.quantity >= stock;
-  const overStock = stock !== null && item.quantity > stock;
+  const stock = item.product?.stock;
+  const stockValue = typeof stock === "number" ? stock : null;
+  const outOfStock = stockValue !== null && stockValue === 0;
+  const atMax = stockValue !== null && item.quantity >= stockValue;
+  const overStock = stockValue !== null && item.quantity > stockValue;
   const lowStock =
-    stock !== null &&
-    stock > 0 &&
+    stockValue !== null &&
+    stockValue > 0 &&
     !atMax &&
-    stock <= getLowStockThreshold(stock);
+    stockValue <= getLowStockThreshold(stockValue);
 
   const stockColorClass = getStockColorClass(outOfStock, atMax, lowStock);
-  const stockLabel = getStockLabel(outOfStock, atMax, lowStock, stock ?? 0, 0);
+  const stockLabel = stockValue !== null 
+    ? getStockLabel(outOfStock, atMax, lowStock, stockValue, 0)
+    : null;
+
+  // Auto-calculate best bundle price for any quantity
+  const bestBundle = calculateBestBundlePrice(item.product.price, item.quantity);
+  const hasBundleDiscount = bestBundle.label !== null;
+  const displayPrice = bestBundle.price;
 
   return (
     <div className="flex items-center gap-4 py-5 border-b border-gray-100 last:border-0">
@@ -60,17 +69,23 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
         >
           {item.product.name}
         </Link>
-        <p className="text-sm font-extrabold text-orange-600 mt-1">
-          ₱{item.product.price.toLocaleString()}
-        </p>
+        {hasBundleDiscount ? (
+          <p className="text-sm font-semibold text-orange-600 mt-1">
+            {bestBundle.label}
+          </p>
+        ) : (
+          <p className="text-sm font-extrabold text-orange-600 mt-1">
+            ₱{item.product.price.toLocaleString()} each
+          </p>
+        )}
         {/* Stock label */}
-        {stock !== null && (
+        {stockValue !== null && (
           <p
             className={`text-[11px] font-semibold mt-0.5 ${overStock ? "text-red-500" : stockColorClass}`}
           >
             {overStock
-              ? `Only ${stock} available — reduce quantity`
-              : stockLabel}
+              ? `Only ${stockValue} available — reduce quantity`
+              : stockLabel ?? "In stock"}
           </p>
         )}
       </div>
@@ -101,7 +116,7 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
 
       {/* Line total */}
       <p className="text-sm font-extrabold text-gray-900 w-20 text-right flex-shrink-0">
-        ₱{(item.product.price * item.quantity).toLocaleString()}
+        ₱{displayPrice.toLocaleString()}
       </p>
 
       {/* Over-stock warning icon */}

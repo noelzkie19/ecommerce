@@ -4,10 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ShoppingBag, AlertTriangle } from "lucide-react";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
-import { PRICING } from "@/domain/rules";
-
-const FREE_SHIPPING_THRESHOLD = PRICING.FREE_SHIPPING_THRESHOLD;
-const SHIPPING_COST = PRICING.SHIPPING_COST;
 
 interface Props {
   readonly subtotal: number;
@@ -23,7 +19,7 @@ export default function CartSummary({
   hasStockIssues = false,
 }: Props) {
   const router = useRouter();
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const shipping = 0;
   const total = subtotal + shipping;
 
   const handleCheckoutClick = () => {
@@ -88,20 +84,8 @@ export default function CartSummary({
         </div>
         <div className="flex justify-between text-gray-600">
           <span>Shipping</span>
-          {shipping === 0 ? (
-            <span className="font-semibold text-emerald-600">Free</span>
-          ) : (
-            <span className="font-semibold text-gray-900">
-              ₱{shipping.toLocaleString()}
-            </span>
-          )}
+          <span className="font-semibold text-emerald-600">Free</span>
         </div>
-        {shipping > 0 && (
-          <p className="text-xs text-gray-400 bg-gray-50 rounded-xl px-3 py-2">
-            Add ₱{(FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()} more
-            for free shipping
-          </p>
-        )}
       </div>
 
       <hr className="my-5 border-gray-100" />

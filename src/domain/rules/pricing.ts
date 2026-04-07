@@ -19,10 +19,24 @@ export const PRICING = {
   GCASH_DISCOUNT: 50,
 
   /** Minimum order amount for free shipping */
-  FREE_SHIPPING_THRESHOLD: 999,
+  FREE_SHIPPING_THRESHOLD: 0,
 
-  /** Shipping cost when not meeting free shipping threshold */
-  SHIPPING_COST: 150,
+  /** Shipping cost - always free now */
+  SHIPPING_COST: 0,
+
+  /** Bundle pricing */
+  BUNDLE: {
+    BUY_2_GET_1: {
+      quantity: 3,
+      price: 990,
+      label: "Buy 2 Get 1 Free",
+    },
+    BUY_5_GET_3: {
+      quantity: 8,
+      price: 2560,
+      label: "Buy 5 Get 3 Free",
+    },
+  },
 } as const;
 
 /**
@@ -63,12 +77,125 @@ export const calculateSubtotal = (items: CartItem[]): number => {
 
 /**
  * Calculate shipping cost based on subtotal
- * Returns 0 if subtotal meets free shipping threshold
+ * Returns 0 (free shipping on all orders)
  */
 export const calculateShipping = (subtotal: number): number => {
-  return subtotal >= PRICING.FREE_SHIPPING_THRESHOLD
-    ? 0
-    : PRICING.SHIPPING_COST;
+  return 0;
+};
+
+/**
+ * Calculate bundle price based on quantity
+ * - Buy 2 get 1 free: 3 items for P990
+ * - Buy 5 get 3 free: 8 items for P2560
+ * - Else: regular price per item
+ */
+export const calculateBundlePrice = (
+  unitPrice: number,
+  quantity: number,
+): number => {
+  const { BUNDLE } = PRICING;
+
+  if (quantity >= BUNDLE.BUY_5_GET_3.quantity) {
+    return BUNDLE.BUY_5_GET_3.price;
+  }
+
+  if (quantity >= BUNDLE.BUY_2_GET_1.quantity) {
+    return BUNDLE.BUY_2_GET_1.price;
+  }
+
+  return unitPrice * quantity;
+};
+
+/**
+ * Get bundle offer info if applicable
+ */
+export const getBundleOffer = (
+  quantity: number,
+): { label: string; description: string } | null => {
+  const { BUNDLE } = PRICING;
+
+  if (quantity >= BUNDLE.BUY_5_GET_3.quantity) {
+    return {
+      label: BUNDLE.BUY_5_GET_3.label,
+      description: `${quantity} items for ₱${BUNDLE.BUY_5_GET_3.price.toLocaleString()}`,
+    };
+  }
+
+  if (quantity >= BUNDLE.BUY_2_GET_1.quantity) {
+    return {
+      label: BUNDLE.BUY_2_GET_1.label,
+      description: `${quantity} items for ₱${BUNDLE.BUY_2_GET_1.price.toLocaleString()}`,
+    };
+  }
+
+  return null;
+};
+
+/**
+ * Calculate the best bundle price for any quantity
+ * Tries all combinations of Buy 2 Get 1 (₱990) and Buy 5 Get 3 (₱2560)
+ * Also compares against regular price × quantity
+ * Returns the minimum price with bundle combination label
+ */
+export const calculateBestBundlePrice = (
+  unitPrice: number,
+  quantity: number,
+): { price: number; label: string | null } => {
+  const { BUNDLE } = PRICING;
+  
+  // Regular price option
+  const regularPrice = unitPrice * quantity;
+  
+  // Start with regular price as baseline
+  let bestPrice = regularPrice;
+  let bestLabel: string | null = null;
+  
+  // Try different combinations of bundles
+  // We can use 0, 1, 2, 3... of each bundle type
+  const maxBuy5Get3 = Math.floor(quantity / BUNDLE.BUY_5_GET_3.quantity);
+  const maxBuy2Get1 = Math.floor(quantity / BUNDLE.BUY_2_GET_1.quantity);
+  
+  // Try all possible combinations
+  for (let numBuy5Get3 = 0; numBuy5Get3 <= maxBuy5Get3; numBuy5Get3++) {
+    const remainingAfter5 = quantity - (numBuy5Get3 * BUNDLE.BUY_5_GET_3.quantity);
+    const maxBuy2ForRemaining = Math.floor(remainingAfter5 / BUNDLE.BUY_2_GET_1.quantity);
+    
+    for (let numBuy2Get1 = 0; numBuy2Get1 <= maxBuy2ForRemaining; numBuy2Get1++) {
+      const remainingAfter2 = remainingAfter5 - (numBuy2Get1 * BUNDLE.BUY_2_GET_1.quantity);
+      
+      // Calculate total price for this combination
+      const bundlePrice = 
+        (numBuy5Get3 * BUNDLE.BUY_5_GET_3.price) + 
+        (numBuy2Get1 * BUNDLE.BUY_2_GET_1.price) +
+        (remainingAfter2 * unitPrice);
+      
+      // If this is better, update best
+      if (bundlePrice < bestPrice) {
+        bestPrice = bundlePrice;
+        
+        // Build label
+        const parts: string[] = [];
+        if (numBuy5Get3 > 0) {
+          parts.push(`${numBuy5Get3}× ${BUNDLE.BUY_5_GET_3.label}`);
+        }
+        if (numBuy2Get1 > 0) {
+          parts.push(`${numBuy2Get1}× ${BUNDLE.BUY_2_GET_1.label}`);
+        }
+        if (remainingAfter2 > 0) {
+          parts.push(`${remainingAfter2}× regular`);
+        }
+        
+        bestLabel = parts.join(" + ");
+      }
+    }
+  }
+  
+  // If best price is regular price, no bundle label needed
+  if (bestPrice === regularPrice) {
+    return { price: regularPrice, label: null };
+  }
+  
+  return { price: bestPrice, label: bestLabel };
 };
 
 /**

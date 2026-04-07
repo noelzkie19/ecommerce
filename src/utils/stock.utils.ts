@@ -23,7 +23,9 @@ export const getStockLabel = (
   cartQty: number = 0,
 ): string => {
   if (outOfStock || atCapacity) return "Out of stock";
+  if (stock === 0) return "Out of stock";
   const remaining = stock - cartQty;
+  if (remaining <= 0) return "Out of stock";
   if (lowStock) return `Only ${remaining} left`;
   return `${remaining} in stock`;
 };

@@ -66,6 +66,8 @@ export default function ShopPage() {
     price: item.product.price,
     quantity: item.quantity,
     image: item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
+    bundleLabel: item.bundleLabel,
+    bundlePrice: item.bundlePrice,
   }));
 
   return (
