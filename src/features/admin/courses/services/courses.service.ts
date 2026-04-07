@@ -16,9 +16,9 @@ interface GetAllParams {
   isActive?: boolean;
 }
 
-interface ApiResponse {
+interface GetAllResponse {
   success: boolean;
-  data: Record<string, unknown>[];
+  data: Course[];
   meta: {
     total: number;
     page: number;
@@ -27,23 +27,23 @@ interface ApiResponse {
   };
 }
 
-const mapCourse = (raw: Record<string, unknown>): Course => ({
-  id: String(raw.id ?? ""),
-  title: String(raw.title ?? ""),
-  description: raw.description ? String(raw.description) : null,
-  youtubeUrl: String(raw.youtubeUrl ?? ""),
-  youtubeVideoId: String(raw.youtubeVideoId ?? ""),
-  thumbnailUrl: raw.thumbnailUrl ? String(raw.thumbnailUrl) : null,
-  category: raw.category ? String(raw.category) : null,
-  isPremium: Boolean(raw.isPremium),
-  isActive: Boolean(raw.isActive),
-  viewsCount: Number(raw.viewsCount) || 0,
-  embedUrl: String(raw.embedUrl ?? ""),
-  createdAt: String(raw.createdAt ?? ""),
-  updatedAt: String(raw.updatedAt ?? ""),
+const mapCourse = (raw: Course): Course => ({
+  id: raw.id,
+  title: raw.title,
+  description: raw.description,
+  youtubeUrl: raw.youtubeUrl,
+  youtubeVideoId: raw.youtubeVideoId,
+  thumbnailUrl: raw.thumbnailUrl,
+  category: raw.category,
+  isPremium: raw.isPremium,
+  isActive: raw.isActive,
+  viewsCount: raw.viewsCount,
+  embedUrl: raw.embedUrl,
+  createdAt: raw.createdAt,
+  updatedAt: raw.updatedAt,
 });
 
-const mapResponse = (raw: ApiResponse): CoursesResponse => {
+const mapResponse = (raw: GetAllResponse): CoursesResponse => {
   const records = raw.data ?? [];
   const meta = raw.meta ?? { total: 0, page: 1, limit: 20, totalPages: 0 };
   return {
