@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit, Trash2, Play } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import type { Course } from "@/types/course.types";
 
 interface CoursesTableProps {
@@ -17,6 +17,8 @@ function getYouTubeId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+const DEFAULT_THUMBNAIL = "/images/thumbnail.jpg";
+
 function CoursePreview({ course }: { readonly course: Course }) {
   const videoId = getYouTubeId(course.youtubeUrl);
 
@@ -32,20 +34,13 @@ function CoursePreview({ course }: { readonly course: Course }) {
     );
   }
 
-  if (course.thumbnailUrl) {
-    return (
-      <img
-        src={course.thumbnailUrl}
-        alt={course.title}
-        className="w-16 h-12 object-cover rounded-lg"
-      />
-    );
-  }
-
+  const thumbnailSrc = course.thumbnailUrl || DEFAULT_THUMBNAIL;
   return (
-    <div className="w-16 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
-      <Play size={16} className="text-gray-400" />
-    </div>
+    <img
+      src={thumbnailSrc}
+      alt={course.title}
+      className="w-16 h-12 object-cover rounded-lg"
+    />
   );
 }
 
@@ -74,9 +69,6 @@ export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
             </th>
             <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
               Premium
-            </th>
-            <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
-              Views
             </th>
             <th className="text-left py-3 px-4 font-medium text-gray-600 text-sm">
               Status
@@ -116,9 +108,6 @@ export function CoursesTable({ courses, onEdit, onDelete }: CoursesTableProps) {
                 >
                   {course.isPremium ? "Premium" : "Free"}
                 </span>
-              </td>
-              <td className="py-3 px-4 text-gray-600 text-sm">
-                {course.viewsCount.toLocaleString()}
               </td>
               <td className="py-3 px-4">
                 <span

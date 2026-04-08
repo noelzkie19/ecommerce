@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, Star, Zap, ShoppingBag, Users, Code } from "lucide-react";
+import { Check, Star, Zap, ShoppingBag, Users, Code, Lock } from "lucide-react";
 
 export default function PricingPage() {
   return (
@@ -19,8 +19,72 @@ export default function PricingPage() {
       </div>
 
       {/* Pricing Cards */}
-      <div className="max-w-6xl mx-auto px-4 pb-20">
-        <div className="grid md:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 pb-20">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* LNG Reseller Package - Coming Soon */}
+          <div className="relative bg-gradient-to-br from-green-900/30 to-green-950/50 rounded-3xl border border-green-500/30 p-8 hover:border-green-500/60 transition-all duration-300 overflow-hidden">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <span className="bg-green-500 text-white px-4 py-1 rounded-full text-sm font-semibold flex items-center gap-1">
+                <Lock className="w-3 h-3" />
+                COMING SOON
+              </span>
+            </div>
+
+            {/* Locked overlay at bottom */}
+            <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center justify-center py-6 bg-gradient-to-t from-green-950/90 to-transparent">
+              <div className="w-14 h-14 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mb-3">
+                <Lock size={28} className="text-green-400" />
+              </div>
+              <p className="text-white font-bold text-2xl mb-1">₱6,990</p>
+              <p className="text-green-400 text-sm">
+                Start Your Online Business Today 🚀
+              </p>
+            </div>
+
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-green-400" />
+              </div>
+              <h2 className="text-2xl font-bold text-white mb-2">
+                LNG Reseller Package
+              </h2>
+              <p className="text-gray-400">
+                Premium coffee products with dropshipping system
+              </p>
+            </div>
+
+            <div className="text-center mb-8">
+              <div className="flex items-center justify-center gap-2">
+                <span className="text-4xl font-bold text-white">₱6,990</span>
+              </div>
+              <p className="text-gray-400 mt-2">One-time package</p>
+            </div>
+
+            <ul className="space-y-4 mb-8">
+              {[
+                "Premium Lean N' Green Coffee",
+                "Up to 40% Discount per item",
+                "Done-for-you Dropshipping Website",
+                "Complete Dropshipping System",
+                "Step-by-step Training Included",
+                "Referral Commission Opportunity",
+                "Affiliate Marketing Access",
+              ].map((feature) => (
+                <li key={feature} className="flex items-center gap-3">
+                  <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
+                  <span className="text-gray-300 text-sm">{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              disabled
+              className="block w-full bg-gray-600 text-gray-300 text-center py-4 rounded-xl font-semibold cursor-not-allowed"
+            >
+              Coming Soon
+            </button>
+          </div>
+
           {/* Affiliate Plan */}
           <div className="relative bg-gradient-to-br from-orange-900/30 to-orange-950/50 rounded-3xl border border-orange-500/30 p-8 hover:border-orange-500/60 transition-all duration-300">
             <div className="absolute -top-4 left-1/2 -translate-x-1/2">
