@@ -12,6 +12,8 @@ function getYouTubeId(url: string): string | null {
   return match ? match[1] : null;
 }
 
+const DEFAULT_THUMBNAIL = "/images/thumbnail.jpg";
+
 function CourseEmbed({
   youtubeUrl,
   thumbnailUrl,
@@ -35,20 +37,13 @@ function CourseEmbed({
     );
   }
 
-  if (thumbnailUrl) {
-    return (
-      <img
-        src={thumbnailUrl}
-        alt={title}
-        className="w-full h-full object-cover"
-      />
-    );
-  }
-
+  const thumbnailSrc = thumbnailUrl || DEFAULT_THUMBNAIL;
   return (
-    <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
-      Coming Soon
-    </div>
+    <img
+      src={thumbnailSrc}
+      alt={title}
+      className="w-full h-full object-cover"
+    />
   );
 }
 

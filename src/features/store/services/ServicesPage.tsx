@@ -12,6 +12,7 @@ import {
   Truck,
   Award,
   Code,
+  Lock,
 } from "lucide-react";
 import { useScrollReveal } from "../home/hooks/useScrollReveal";
 
@@ -20,10 +21,29 @@ import { useScrollReveal } from "../home/hooks/useScrollReveal";
 const SERVICES = [
   {
     icon: Users,
+    title: "LNG Reseller Package",
+    description:
+      "Start your online business today with premium Lean N' Green coffee products. Get up to 40% discount per item, a done-for-you dropshipping website, complete dropshipping system, step-by-step training, referral commission opportunity, and affiliate marketing access.",
+    href: "#",
+    isLocked: true,
+    price: "₱6,990",
+    features: [
+      "Premium Lean N' Green Coffee Products",
+      "Up to 40% Discount per item",
+      "Done-for-you Dropshipping Website",
+      "Complete Dropshipping System",
+      "Step-by-step Training Included",
+      "Referral Commission Opportunity",
+      "Affiliate Marketing Access",
+    ],
+  },
+  {
+    icon: Users,
     title: "Affiliate 999",
     description:
       "Join our affiliate program and earn commissions by promoting our products. Perfect for entrepreneurs looking to build a sustainable income stream.",
     href: "/affiliate/landing",
+    isLocked: false,
     features: [
       "Dropshipping Training Series",
       "3-Day Dropship Bootcamp",
@@ -38,6 +58,7 @@ const SERVICES = [
     description:
       "Browse and purchase high-quality products from our curated collection. From ready-to-sell items to exclusive deals, we have everything you need.",
     href: "/shop",
+    isLocked: false,
     features: [
       "Ready-to-sell Products",
       "High-quality Items",
@@ -52,6 +73,7 @@ const SERVICES = [
     description:
       "Custom web development solutions tailored to your business needs. From e-commerce platforms to custom applications, we build it all.",
     href: "/pricing",
+    isLocked: false,
     features: [
       "Custom Website Design",
       "E-commerce Development",
@@ -158,14 +180,41 @@ export function ServicesPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {SERVICES.map((service, index) => (
               <RevealSection key={service.title} delay={index * 100}>
-                <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-orange-500/50 transition-all duration-300">
+                <div
+                  className={`bg-gray-900/50 border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-orange-500/50 transition-all duration-300 ${service.isLocked ? "relative overflow-hidden" : ""}`}
+                >
+                  {/* Locked Overlay */}
+                  {service.isLocked && (
+                    <div className="absolute inset-x-0 bottom-0 z-10 flex flex-col items-center justify-center py-6 bg-gradient-to-t from-gray-900/90 to-transparent">
+                      <div className="w-14 h-14 rounded-full bg-orange-500/20 border border-orange-500/30 flex items-center justify-center mb-3">
+                        <Lock size={28} className="text-orange-400" />
+                      </div>
+                      <p className="text-orange-400 font-semibold text-base mb-1">
+                        Coming Soon
+                      </p>
+                      <p className="text-white font-bold text-xl">
+                        {service.price}
+                      </p>
+                      <p className="text-orange-400 mt-2 text-sm">
+                        Start Your Online Business Today 🚀
+                      </p>
+                    </div>
+                  )}
                   <div className="flex items-center gap-4 mb-6">
                     <div className="w-12 h-12 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center">
                       <service.icon size={24} className="text-orange-400" />
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-bold text-white">
-                      {service.title}
-                    </h2>
+                    <div className="flex items-center gap-3">
+                      <h2 className="text-xl sm:text-2xl font-bold text-white">
+                        {service.title}
+                      </h2>
+                      {service.isLocked && (
+                        <span className="inline-flex items-center gap-1 text-orange-400 text-sm font-medium bg-orange-500/10 px-2 py-1 rounded-lg">
+                          <Lock size={14} />
+                          Locked
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-6">
                     {service.description}
@@ -180,13 +229,15 @@ export function ServicesPage() {
                       </li>
                     ))}
                   </ul>
-                  <Link
-                    href={service.href}
-                    className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 font-semibold text-sm transition-colors"
-                  >
-                    Learn More
-                    <ArrowRight size={16} />
-                  </Link>
+                  {!service.isLocked && (
+                    <Link
+                      href={service.href}
+                      className="inline-flex items-center gap-2 text-orange-400 hover:text-orange-300 font-semibold text-sm transition-colors"
+                    >
+                      Learn More
+                      <ArrowRight size={16} />
+                    </Link>
+                  )}
                 </div>
               </RevealSection>
             ))}
