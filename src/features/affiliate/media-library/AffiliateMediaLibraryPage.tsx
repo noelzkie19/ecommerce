@@ -183,9 +183,11 @@ interface ImageCardProps {
 function ImageCard({ image, index }: ImageCardProps) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopyUrl = async (url: string) => {
+  const handleCopyDescription = async () => {
+    const textToCopy = image.description || image.title || "";
+    if (!textToCopy) return;
     try {
-      await navigator.clipboard.writeText(url);
+      await navigator.clipboard.writeText(textToCopy);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (e) {
@@ -193,9 +195,25 @@ function ImageCard({ image, index }: ImageCardProps) {
     }
   };
 
-  const handleDownload = () => {
-    // Open the Supabase URL directly in new tab to download
-    window.open(image.imageUrl, "_blank");
+  const handleDownload = async () => {
+    try {
+      // Fetch the image as a blob to ensure direct download
+      const response = await fetch(image.imageUrl);
+      const blob = await response.blob();
+      const blobUrl = globalThis.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = image.title || `image-${image.id}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      globalThis.URL.revokeObjectURL(blobUrl);
+    } catch (e) {
+      console.error("Download failed:", e);
+      // Fallback: open in new tab
+      globalThis.open(image.imageUrl, "_blank");
+    }
   };
 
   return (
@@ -212,22 +230,34 @@ function ImageCard({ image, index }: ImageCardProps) {
           Day {index + 1}
         </div>
       </div>
-      {/* Info section with copy button */}
-      <div className="flex items-center justify-between p-2 bg-white border-t border-gray-200">
+      {/* Info section with description and copy button */}
+      <div className="flex flex-col p-3 bg-white border-t border-gray-200 gap-2">
         <div className="flex flex-col flex-1 min-w-0">
-          <p className="text-xs truncate font-medium text-gray-700">
+          <p className="text-sm font-medium text-gray-800">
             {image.title || "Untitled"}
           </p>
+          {image.description && (
+            <p className="text-xs text-gray-500 mt-1 line-clamp-3">
+              {image.description}
+            </p>
+          )}
         </div>
         <button
-          onClick={() => handleCopyUrl(image.imageUrl)}
-          className="p-1 text-gray-500 hover:text-orange-600 transition-colors"
-          title="Copy URL"
+          onClick={handleCopyDescription}
+          className="flex items-center justify-center gap-1.5 w-full py-1.5 px-2 text-xs text-gray-600 hover:text-orange-600 hover:bg-orange-50 border border-gray-200 rounded transition-colors"
+          title="Copy description"
+          disabled={!image.description && !image.title}
         >
           {copied ? (
-            <Check className="w-4 h-4 text-green-500" />
+            <>
+              <Check className="w-3.5 h-3.5 text-green-500" />
+              <span className="text-green-600">Copied!</span>
+            </>
           ) : (
-            <Copy className="w-4 h-4" />
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              <span>Copy Description</span>
+            </>
           )}
         </button>
       </div>
