@@ -114,13 +114,13 @@ export default function AffiliateLandingPage() {
               <span>DONE-FOR-YOU BUSINESS SYSTEM</span>
             </div>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4 sm:mb-6 leading-tight">
-              Mag-activate Ng{" "}
+              Activate{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
-                Your System
+                Your System Now
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-300 mb-6 sm:mb-8 leading-relaxed">
-              Bibigyan ka namin ng SYSTEM na pwede mong gamitin agad.
+              No setup. No experience needed. Just plug in and start.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
