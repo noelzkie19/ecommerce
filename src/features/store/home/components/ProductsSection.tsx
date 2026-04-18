@@ -47,15 +47,24 @@ export const ProductsSection = () => {
     fetchCart();
   }, []);
 
-  const modalItems: ModalCartItem[] = cart.items.map((item) => ({
-    id: item.id,
-    name: item.product.name,
-    price: item.product.price,
-    quantity: item.quantity,
-    image: item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
-    bundleLabel: item.bundleLabel,
-    bundlePrice: item.bundlePrice,
-  }));
+  const modalItems: ModalCartItem[] = cart.items.map((item) => {
+    // Use bundle price if applicable
+    const unitPrice =
+      item.productBundle && item.quantity >= item.productBundle.bundleQty
+        ? item.productBundle.bundlePrice / item.productBundle.bundleQty
+        : item.product.price;
+    return {
+      id: item.id,
+      name: item.product.name,
+      price: unitPrice,
+      quantity: item.quantity,
+      image:
+        item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
+      stock: item.product.stock ?? null,
+      productBundleId: item.productBundleId,
+      productBundle: item.productBundle,
+    };
+  });
 
   return (
     <section className="bg-white py-20 sm:py-28 lg:py-32">

@@ -30,6 +30,7 @@ import { CartStep } from "../../order/components/CartStep";
 import { ShippingStep } from "../../order/components/ShippingStep";
 import { PaymentStep } from "../../order/components/PaymentStep";
 import { trackPurchase, trackInitiateCheckout } from "@/lib/meta-pixel";
+import { calculateItemTotal } from "@/domain/rules";
 
 // ─── Step Indicator ───────────────────────────────────────────────────────────
 const StepIndicator = ({ current }: { readonly current: number }) => (
@@ -127,7 +128,7 @@ const SuccessScreen = ({ onClose }: { readonly onClose: () => void }) => (
       <p className="text-sm text-gray-500 leading-relaxed">
         Thank you for your purchase.
         <br />
-        We&apos;ll send you a confirmation shortly.
+        We'll send you a confirmation shortly.
       </p>
     </div>
     <button
@@ -255,7 +256,7 @@ const QrPaymentScreen = ({
         onClick={onSkip}
         className="text-gray-400 text-xs underline underline-offset-2 hover:text-gray-600 transition-colors py-1"
       >
-        I&apos;ll pay later — close
+        I'll pay later — close
       </button>
     </div>
   );
@@ -308,17 +309,28 @@ export const CheckoutModal = ({
 
       // Track InitiateCheckout event when checkout modal opens
       if (items && items.length > 0) {
-        const total = items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0,
-        );
+        const total = items.reduce((sum, item) => {
+          const lineTotal = calculateItemTotal(
+            item.price,
+            item.quantity,
+            item.productBundle,
+          );
+          return sum + lineTotal;
+        }, 0);
         trackInitiateCheckout(
           total,
-          items.map((item) => ({
-            id: item.id,
-            quantity: item.quantity,
-            price: item.price,
-          })),
+          items.map((item) => {
+            const lineTotal = calculateItemTotal(
+              item.price,
+              item.quantity,
+              item.productBundle,
+            );
+            return {
+              id: item.id,
+              quantity: item.quantity,
+              price: lineTotal / item.quantity,
+            };
+          }),
         );
       }
     } else {
@@ -357,17 +369,28 @@ export const CheckoutModal = ({
   // Track purchase event when order is successful
   useEffect(() => {
     if (success && items.length > 0) {
-      const total = items.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0,
-      );
+      const total = items.reduce((sum, item) => {
+        const lineTotal = calculateItemTotal(
+          item.price,
+          item.quantity,
+          item.productBundle,
+        );
+        return sum + lineTotal;
+      }, 0);
       trackPurchase(
         total,
-        items.map((item) => ({
-          id: item.id,
-          quantity: item.quantity,
-          price: item.price,
-        })),
+        items.map((item) => {
+          const lineTotal = calculateItemTotal(
+            item.price,
+            item.quantity,
+            item.productBundle,
+          );
+          return {
+            id: item.id,
+            quantity: item.quantity,
+            price: lineTotal / item.quantity,
+          };
+        }),
       );
     }
   }, [success, items]);
@@ -413,15 +436,26 @@ export const CheckoutModal = ({
       // Store order data for Meta Pixel tracking (used by Maya callback)
       if (typeof sessionStorage !== "undefined") {
         const orderData = {
-          items: items.map((item) => ({
-            id: item.id,
-            quantity: item.quantity,
-            price: item.price,
-          })),
-          total: items.reduce(
-            (sum, item) => sum + item.price * item.quantity,
-            0,
-          ),
+          items: items.map((item) => {
+            const lineTotal = calculateItemTotal(
+              item.price,
+              item.quantity,
+              item.productBundle,
+            );
+            return {
+              id: item.id,
+              quantity: item.quantity,
+              price: lineTotal / item.quantity,
+            };
+          }),
+          total: items.reduce((sum, item) => {
+            const lineTotal = calculateItemTotal(
+              item.price,
+              item.quantity,
+              item.productBundle,
+            );
+            return sum + lineTotal;
+          }, 0),
           timestamp: Date.now(),
         };
         sessionStorage.setItem("pending_order", JSON.stringify(orderData));

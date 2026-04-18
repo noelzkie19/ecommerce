@@ -88,6 +88,7 @@ const mapCartProduct = (dto: CartProduct): Product => ({
 
 /**
  * Map API cart item to domain cart item
+ * Includes productBundle data if present
  */
 export const mapCartItemDtoToEntity = (dto: CartItemWithProduct): CartItem => ({
   id: dto.id,
@@ -96,6 +97,15 @@ export const mapCartItemDtoToEntity = (dto: CartItemWithProduct): CartItem => ({
   price: dto.product.price,
   quantity: dto.quantity,
   imageUrl: dto.product.image_url,
+  productBundleId: dto.productBundleId ?? null,
+  productBundle: dto.productBundle
+    ? {
+        id: dto.productBundle.id,
+        name: dto.productBundle.name,
+        bundleQty: dto.productBundle.bundleQty,
+        bundlePrice: dto.productBundle.bundlePrice,
+      }
+    : null,
 });
 
 /**

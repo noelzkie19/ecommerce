@@ -4,7 +4,7 @@ import { Banknote, Smartphone } from "lucide-react";
 import type { PaymentData, ModalCartItem } from "@/types/checkout.types";
 import type { PaymentMethod } from "@/types/order.types";
 import { calcSubtotal, calcShipping, calcTotal } from "@/utils/checkout.utils";
-import { CHECKOUT } from "@/domain/rules";
+import { calculateItemTotal, CHECKOUT } from "@/domain/rules";
 
 const PAYMENT_ICONS: Record<
   PaymentMethod,
@@ -121,17 +121,27 @@ export const PaymentStep = ({
             <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-1">
               Order Summary
             </p>
-            {items.map((item) => (
-              <div key={item.id} className="flex justify-between text-gray-600">
-                <span className="truncate mr-2">
-                  {item.name}{" "}
-                  <span className="text-gray-400">x{item.quantity}</span>
-                </span>
-                <span className="font-semibold text-gray-900 flex-shrink-0">
-                  ₱{(item.price * item.quantity).toLocaleString()}
-                </span>
-              </div>
-            ))}
+            {items.map((item) => {
+              const lineTotal = calculateItemTotal(
+                item.price,
+                item.quantity,
+                item.productBundle,
+              );
+              return (
+                <div
+                  key={item.id}
+                  className="flex justify-between text-gray-600"
+                >
+                  <span className="truncate mr-2">
+                    {item.name}{" "}
+                    <span className="text-gray-400">x{item.quantity}</span>
+                  </span>
+                  <span className="font-semibold text-gray-900 flex-shrink-0">
+                    ₱{lineTotal.toLocaleString()}
+                  </span>
+                </div>
+              );
+            })}
           </>
         )}
         <div className="flex justify-between text-gray-500 mt-1">

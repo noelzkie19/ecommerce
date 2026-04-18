@@ -34,19 +34,19 @@ const SERVICES = [
     icon: Package,
     title: "Ready Products",
     description:
-      "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na. Ready-to-sell products para sa iyong negosyo.",
+      "You do not start from scratch. Everything you need is already here — ready-to-sell products designed for your business.",
   },
   {
     icon: Bot,
     title: "Automation System",
     description:
-      "Chatbot system at auto replies para sa iyong negosyo. Done-for-you automation na gagawin ang trabaho para sa iyo.",
+      "Chatbot system and auto-reply tools built for your business. A done-for-you automation solution that works on your behalf.",
   },
   {
     icon: BookOpen,
     title: "Training & Support",
     description:
-      "Step-by-step videos at beginner-friendly guide. May dedicated support team na handang tumulong sa iyo.",
+      "Step-by-step video tutorials and beginner-friendly guides, backed by a dedicated support team ready to assist you at every stage.",
   },
 ];
 
@@ -88,7 +88,7 @@ const WHY_CHOOSE_RIGHT = [
     icon: Clock,
     title: "24/7 Support",
     description:
-      "Round-the-clock assistance for your success. We're always here when you need us.",
+      "Round-the-clock assistance for your success. We are always here when you need us.",
   },
 ];
 
@@ -144,7 +144,7 @@ const TESTIMONIALS = [
     role: "Stay-at-home Mom",
     rating: 5,
     quote:
-      "As a stay-at-home mom with no tech skills, I never thought I could succeed in online business. Thanks to the training, tools, and community, I did it. I'm so glad I took the leap of faith!",
+      "As a stay-at-home mom with no tech skills, I never thought I could succeed in online business. Thanks to the training, tools, and community, I did it. I am so glad I took that leap of faith!",
     avatar: null,
   },
   {
@@ -162,16 +162,16 @@ const TESTIMONIALS = [
     role: "Fresh Graduate",
     rating: 5,
     quote:
-      "I started with zero experience and now I'm earning consistently. The system is so easy to follow and the community is amazing. Best investment I've ever made!",
+      "I started with zero experience and now I am earning consistently. The system is easy to follow and the community is amazing. The best investment I have ever made!",
     avatar: null,
   },
   {
     id: "4",
     name: "Pedro Bautista",
-    role: "OFW",
+    role: "Overseas Worker",
     rating: 5,
     quote:
-      "Even while working abroad, I can manage my online business. The automation tools make everything so easy. Kumikita na ako kahit tulog!",
+      "Even while working abroad, I can manage my online business with ease. The automation tools handle everything seamlessly — generating income even while I sleep.",
     avatar: null,
   },
 ];
@@ -179,42 +179,45 @@ const TESTIMONIALS = [
 const HOW_IT_WORKS = [
   {
     step: "01",
-    title: "Mag-activate",
-    description: "Magbayad ng ₱999 one-time access para makuha ang system.",
+    title: "Activate",
+    description: "Pay a one-time access fee of ₱999 to unlock the full system.",
     icon: Zap,
   },
   {
     step: "02",
-    title: "Mag-share",
+    title: "Share",
     description:
-      "Gamitin ang iyong unique referral link para ipakita ang system.",
+      "Use your unique referral link to introduce the system to others.",
     icon: Users,
   },
   {
     step: "03",
-    title: "Kumita",
-    description:
-      "Kumita ng commission sa benta na gagawin mo gamit ang system.",
+    title: "Earn",
+    description: "Earn commissions on every sale generated through the system.",
     icon: TrendingUp,
   },
 ];
 
 const FAQ = [
   {
-    question: "Beginner ako — pwede ba?",
-    answer: "Yes. Designed ito for beginners. Walang experience needed.",
+    question: "I am a complete beginner — is this for me?",
+    answer:
+      "Absolutely. This system is designed specifically for beginners. No prior experience is required.",
   },
   {
-    question: "Kailangan ba magbenta?",
-    answer: "Opo — pero may system kang susundan, hindi trial and error.",
+    question: "Do I need to sell products myself?",
+    answer:
+      "Yes — but you will follow a proven system, not trial and error. Everything is structured for you.",
   },
   {
-    question: "Ilang oras kailangan?",
-    answer: "1–2 hrs/day sapat na para magsimula.",
+    question: "How many hours per day does this require?",
+    answer:
+      "Just 1–2 hours per day is sufficient to get started and build momentum.",
   },
   {
-    question: "May support ba?",
-    answer: "Yes, may guide + system ka. Hindi ka mag-iisa.",
+    question: "Will I receive any support?",
+    answer:
+      "Yes. You will have access to guides, a complete system, and a support team. You will never be left to figure things out alone.",
   },
 ];
 
@@ -761,7 +764,7 @@ const HomePageInner = () => {
               How It Works
             </span>
             <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4">
-              Ganito ka kikita sa system na ito
+              How You Earn Through This System
             </h2>
             <p className="text-gray-500 text-lg">
               ₱999 one-time access • 15–20% commission per sale
@@ -800,7 +803,7 @@ const HomePageInner = () => {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════════
-          5. PRICING PLANS — White bg, 2 pricing cards
+          5. PRICING PLANS — White bg, 3 pricing cards
       ══════════════════════════════════════════════════════════════════════ */}
       <section className="py-20 sm:py-28 bg-gray-50">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
@@ -898,17 +901,17 @@ const HomePageInner = () => {
               What You Get
             </span>
             <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4">
-              Lahat ng makukuha mo pag nag-activate ka
+              Everything Included When You Activate
             </h2>
           </RevealSection>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
             {[
-              "Ready dropshipping system",
+              "Ready-to-use dropshipping system",
               "Order processing setup",
-              "Ready-to-sell items (no need mag stock)",
-              "Chatbot system with auto replies",
-              "Ready funnel page (high-converting design)",
+              "Ready-to-sell products (no inventory required)",
+              "Chatbot system with automated replies",
+              "Ready-made funnel page (high-converting design)",
               "Step-by-step training videos",
               "Beginner-friendly guide",
               "Lifetime access",

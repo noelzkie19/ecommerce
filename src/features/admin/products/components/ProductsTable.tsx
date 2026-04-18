@@ -174,6 +174,9 @@ export default function ProductsTable({
               Badge
             </th>
             <th className="text-left px-6 py-4 text-gray-500 font-medium">
+              Bundles
+            </th>
+            <th className="text-left px-6 py-4 text-gray-500 font-medium">
               Stock
             </th>
             <th className="text-right px-6 py-4 text-gray-500 font-medium">
@@ -257,6 +260,24 @@ export default function ProductsTable({
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
                       {product.badge}
                     </span>
+                  ) : (
+                    <span className="text-gray-300">—</span>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {product.bundles && product.bundles.length > 0 ? (
+                    <div className="flex flex-wrap gap-1">
+                      {product.bundles
+                        .filter((b) => b.isActive)
+                        .map((bundle) => (
+                          <span
+                            key={bundle.id}
+                            className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100"
+                          >
+                            {bundle.name} ({bundle.bundleQty})
+                          </span>
+                        ))}
+                    </div>
                   ) : (
                     <span className="text-gray-300">—</span>
                   )}

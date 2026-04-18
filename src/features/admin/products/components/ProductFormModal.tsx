@@ -3,8 +3,20 @@
 import { useRef, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X, Loader2, GripVertical, Trash2, ImagePlus } from "lucide-react";
-import { productSchema, ProductFormValues } from "../schemas/product.schema";
+import {
+  X,
+  Loader2,
+  GripVertical,
+  Trash2,
+  ImagePlus,
+  Plus,
+  Package,
+} from "lucide-react";
+import {
+  productSchema,
+  ProductFormValues,
+  BundleFormValues,
+} from "../schemas/product.schema";
 import { Product, ProductImage } from "@/types/product.types";
 import { useProductMutations } from "../hooks/useProductMutation";
 import { productsService } from "../../../shared/services/products.service";
@@ -51,8 +63,8 @@ function Thumbnail({
       onDragEnter={() => onDragEnter(index)}
       onDragEnd={onDragEnd}
       onDragOver={(e) => e.preventDefault()}
-      className={`relative group flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all cursor-grab active:cursor-grabbing select-none list-none
-        ${isOver ? "border-emerald-400 scale-105 shadow-lg" : "border-gray-200"}
+      className={`relative group flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all cursor-grab active:cursor-grabbing select-none list-none
+        ${isOver ? "border-orange-500 scale-105" : "border-gray-200"}
         ${isDragging ? "opacity-40" : "opacity-100"}
       `}
     >
@@ -62,13 +74,18 @@ function Thumbnail({
         className="w-full h-full object-cover pointer-events-none"
       />
       {index === 0 && (
-        <span className="absolute top-1 left-1 bg-emerald-500 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-full leading-none">
-          Main
+        <span className="absolute top-1 left-1 bg-orange-500 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-full">
+          MAIN
         </span>
       )}
-      <div className="absolute bottom-1 left-1 text-white/80 opacity-0 group-hover:opacity-100 transition-opacity">
-        <GripVertical size={12} />
+      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <GripVertical size={16} className="text-white" />
       </div>
+      {image.isPending && (
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <Loader2 size={16} className="text-white animate-spin" />
+        </div>
+      )}
       <button
         type="button"
         onClick={() => onRemove(image.id)}
@@ -107,6 +124,18 @@ export default function ProductFormModal({
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
 
+  // Bundles state
+  const [bundles, setBundles] = useState<BundleFormValues[]>(
+    () =>
+      product?.bundles?.map((b) => ({
+        id: b.id,
+        name: b.name,
+        bundleQty: b.bundleQty,
+        bundlePrice: b.bundlePrice,
+        isActive: b.isActive,
+      })) ?? [],
+  );
+
   const { uploadImages, isLoading, error } = useProductMutations(onSuccess);
 
   const {
@@ -120,15 +149,39 @@ export default function ProductFormModal({
           name: product.name,
           description: product.description ?? "",
           price: product.price,
-          original_price: product.original_price ?? undefined,
           category: product.category,
           image_url: product.image_url ?? "",
           badge: product.badge ?? "",
           rating: product.rating ?? undefined,
           review_count: product.review_count ?? undefined,
+          bundles: product.bundles ?? [],
         }
       : {},
   });
+
+  // Bundle handlers
+  const addBundle = () => {
+    setBundles((prev) => [
+      ...prev,
+      { name: "", bundleQty: 2, bundlePrice: 100, isActive: true },
+    ]);
+  };
+
+  const removeBundle = (index: number) => {
+    setBundles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const updateBundle = (
+    index: number,
+    field: keyof BundleFormValues,
+    value: string | number | boolean,
+  ) => {
+    setBundles((prev) =>
+      prev.map((bundle, i) =>
+        i === index ? { ...bundle, [field]: value } : bundle,
+      ),
+    );
+  };
 
   const handleFilesSelected = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,9 +240,20 @@ export default function ProductFormModal({
   const onSubmit = async (values: ProductFormValues) => {
     const primaryImageUrl =
       gallery.length > 0 ? gallery[0].url : (values.image_url ?? null);
+    // Prepare bundles - only filter out completely empty entries
+    const bundlesPayload = bundles
+      .filter((b) => b.name && b.name.trim().length > 0)
+      .map((b) => ({
+        name: b.name,
+        bundleQty: b.bundleQty,
+        bundlePrice: b.bundlePrice,
+        isActive: b.isActive,
+      }));
+
     const payload = {
       ...values,
       image_url: primaryImageUrl,
+      bundles: bundlesPayload,
     };
     const galleryUrls = gallery.map((img) => img.url);
 
@@ -214,14 +278,15 @@ export default function ProductFormModal({
   const displayError = submitError ?? error;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
       <button
         type="button"
         className="absolute inset-0 w-full h-full cursor-default"
         onClick={onClose}
         aria-label="Close modal"
       />
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4 relative">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative">
+        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <h2 className="text-lg font-semibold text-gray-900">
             {isEdit ? "Edit Product" : "Add Product"}
@@ -234,6 +299,7 @@ export default function ProductFormModal({
           </button>
         </div>
 
+        {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-5">
           {displayError && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3">
@@ -241,20 +307,15 @@ export default function ProductFormModal({
             </div>
           )}
 
-          {/* ── Images ────────────────────────────────────────────────────── */}
+          {/* Images */}
           <div>
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-1.5">
-                <label
-                  htmlFor="product-images-input"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Product Images
-                </label>
-                <span className="text-xs font-normal text-gray-400">
-                  (up to 10 · drag to reorder · first = main)
-                </span>
-              </div>
+              <label
+                htmlFor="product-images-input"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Product Images
+              </label>
               <span className="text-xs text-gray-400">{gallery.length}/10</span>
             </div>
 
@@ -281,7 +342,7 @@ export default function ProductFormModal({
                 type="button"
                 onClick={() => fileRef.current?.click()}
                 disabled={uploadingImages}
-                className="w-full border-2 border-dashed border-gray-200 rounded-xl py-4 flex flex-col items-center gap-2 hover:border-emerald-400 hover:bg-emerald-50/30 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                className="w-full border-2 border-dashed border-gray-200 rounded-xl py-4 flex flex-col items-center gap-2 hover:border-orange-400 hover:bg-orange-50/30 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {uploadingImages ? (
                   <>
@@ -300,7 +361,7 @@ export default function ProductFormModal({
                         : "Add more images"}
                     </span>
                     <span className="text-xs text-gray-400">
-                      JPEG, PNG, WEBP, GIF · max 10 files
+                      JPEG, PNG, WEBP, GIF • max 10 files
                     </span>
                   </>
                 )}
@@ -318,7 +379,7 @@ export default function ProductFormModal({
             />
           </div>
 
-          {/* ── Name ──────────────────────────────────────────────────────── */}
+          {/* Name */}
           <div>
             <label
               htmlFor="product-name"
@@ -337,7 +398,7 @@ export default function ProductFormModal({
             )}
           </div>
 
-          {/* ── Description ───────────────────────────────────────────────── */}
+          {/* Description */}
           <div>
             <label
               htmlFor="product-description"
@@ -354,48 +415,30 @@ export default function ProductFormModal({
             />
           </div>
 
-          {/* ── Price / Original Price ─────────────────────────────────────── */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label
-                htmlFor="product-price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Price *
-              </label>
-              <input
-                id="product-price"
-                {...register("price")}
-                type="number"
-                step="0.01"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                placeholder="0.00"
-              />
-              {errors.price && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.price.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label
-                htmlFor="product-original-price"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Original Price
-              </label>
-              <input
-                id="product-original-price"
-                {...register("original_price")}
-                type="number"
-                step="0.01"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-                placeholder="0.00"
-              />
-            </div>
+          {/* Price */}
+          <div>
+            <label
+              htmlFor="product-price"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Price *
+            </label>
+            <input
+              id="product-price"
+              {...register("price")}
+              type="number"
+              step="0.01"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              placeholder="0.00"
+            />
+            {errors.price && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.price.message}
+              </p>
+            )}
           </div>
 
-          {/* ── Category / Badge ──────────────────────────────────────────── */}
+          {/* Category / Badge */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
@@ -438,7 +481,7 @@ export default function ProductFormModal({
             </div>
           </div>
 
-          {/* ── Rating / Review Count ─────────────────────────────────────── */}
+          {/* Rating / Review Count */}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label
@@ -476,7 +519,140 @@ export default function ProductFormModal({
             </div>
           </div>
 
-          {/* ── Actions ───────────────────────────────────────────────────── */}
+          {/* Bundles */}
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-1.5">
+                <Package size={16} className="text-orange-500" />
+                <span className="block text-sm font-medium text-gray-700">
+                  Bundle Pricing
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={addBundle}
+                className="text-xs font-medium text-orange-600 hover:text-orange-700 flex items-center gap-1"
+              >
+                <Plus size={14} />
+                Add Bundle
+              </button>
+            </div>
+
+            {bundles.length > 0 ? (
+              <div className="space-y-2">
+                {bundles.map((bundle, index) => (
+                  <div
+                    key={bundle.id ?? `bundle-${index}`}
+                    className="flex flex-col md:flex-row md:items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-100"
+                  >
+                    {/* Bundle Name */}
+                    <div className="flex-1">
+                      <label
+                        htmlFor={`bundle-name-${index}`}
+                        className="block text-xs text-gray-500 mb-1"
+                      >
+                        Bundle Name
+                      </label>
+                      <input
+                        id={`bundle-name-${index}`}
+                        type="text"
+                        value={bundle.name}
+                        onChange={(e) =>
+                          updateBundle(index, "name", e.target.value)
+                        }
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="e.g., Buy 2 Get 1 Free"
+                      />
+                    </div>
+
+                    {/* Quantity */}
+                    <div className="w-20">
+                      <label
+                        htmlFor={`bundle-qty-${index}`}
+                        className="block text-xs text-gray-500 mb-1"
+                      >
+                        Qty
+                      </label>
+                      <input
+                        id={`bundle-qty-${index}`}
+                        type="number"
+                        value={bundle.bundleQty}
+                        onChange={(e) =>
+                          updateBundle(
+                            index,
+                            "bundleQty",
+                            Number.parseInt(e.target.value) || 0,
+                          )
+                        }
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="0"
+                        min="1"
+                      />
+                    </div>
+
+                    {/* Price */}
+                    <div className="w-24">
+                      <label
+                        htmlFor={`bundle-price-${index}`}
+                        className="block text-xs text-gray-500 mb-1"
+                      >
+                        Price
+                      </label>
+                      <input
+                        id={`bundle-price-${index}`}
+                        type="number"
+                        value={bundle.bundlePrice}
+                        onChange={(e) =>
+                          updateBundle(
+                            index,
+                            "bundlePrice",
+                            Number.parseFloat(e.target.value) || 0,
+                          )
+                        }
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                        placeholder="0"
+                        step="0.01"
+                      />
+                    </div>
+
+                    {/* Active Toggle */}
+                    <div className="flex items-center justify-between md:justify-start gap-2 pt-2 md:pt-5">
+                      <label
+                        htmlFor={`bundle-active-${index}`}
+                        className="flex items-center gap-2 text-sm cursor-pointer"
+                      >
+                        <input
+                          id={`bundle-active-${index}`}
+                          type="checkbox"
+                          checked={bundle.isActive}
+                          onChange={(e) =>
+                            updateBundle(index, "isActive", e.target.checked)
+                          }
+                          className="rounded border-gray-300 text-orange-500 focus:ring-orange-500"
+                        />
+                        <span className="text-gray-600">Active</span>
+                      </label>
+
+                      <button
+                        type="button"
+                        onClick={() => removeBundle(index)}
+                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-gray-400 text-center py-3 border border-dashed border-gray-200 rounded-lg">
+                No bundles added. Click "Add Bundle" to create bundle pricing
+                options.
+              </p>
+            )}
+          </div>
+
+          {/* Actions */}
           <div className="flex gap-3 pt-2">
             <button
               type="button"
@@ -488,7 +664,7 @@ export default function ProductFormModal({
             <button
               type="submit"
               disabled={isLoading || uploadingImages}
-              className="flex-1 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-60 text-white rounded-lg py-2.5 text-sm font-medium transition-colors flex items-center justify-center gap-2"
+              className="flex-1 bg-orange-500 hover:bg-orange-600 disabled:opacity-60 text-white rounded-lg py-2.5 text-sm font-medium transition-colors flex items-center justify-center gap-2"
             >
               {(isLoading || uploadingImages) && (
                 <Loader2 size={15} className="animate-spin" />

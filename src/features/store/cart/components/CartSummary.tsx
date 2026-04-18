@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ShoppingBag, AlertTriangle } from "lucide-react";
 import { trackInitiateCheckout } from "@/lib/meta-pixel";
+import { calculateItemTotal } from "@/domain/rules";
+import type { CartItemWithProduct } from "@/types/cart.types";
 
 interface Props {
   readonly subtotal: number;
   readonly itemCount: number;
   readonly totalQty: number;
   readonly hasStockIssues?: boolean;
+  readonly items: CartItemWithProduct[];
 }
 
 export default function CartSummary({
@@ -17,6 +20,7 @@ export default function CartSummary({
   itemCount,
   totalQty,
   hasStockIssues = false,
+  items,
 }: Props) {
   const router = useRouter();
   const shipping = 0;
@@ -24,32 +28,21 @@ export default function CartSummary({
 
   const handleCheckoutClick = () => {
     if (itemCount > 0 && !hasStockIssues) {
-      // Get item details from cart stored in localStorage
-      const cartData =
-        globalThis.window === undefined
-          ? null
-          : localStorage.getItem("shopping-cart");
-      let items: Array<{ id: string; quantity: number; price: number }> = [];
+      // Build tracking items with effective unit prices using calculateItemTotal
+      const trackingItems = items.map((item) => {
+        const lineTotal = calculateItemTotal(
+          item.product.price,
+          item.quantity,
+          item.productBundle,
+        );
+        return {
+          id: item.id,
+          quantity: item.quantity,
+          price: lineTotal / item.quantity,
+        };
+      });
 
-      if (cartData) {
-        try {
-          const parsed = JSON.parse(cartData);
-          items = parsed.map(
-            (item: { id: string; price: number; quantity: number }) => ({
-              id: item.id,
-              quantity: item.quantity,
-              price: item.price || subtotal / totalQty,
-            }),
-          );
-        } catch {
-          // Fallback: use subtotal as single item
-          items = [{ id: "cart", quantity: totalQty, price: subtotal }];
-        }
-      } else {
-        items = [{ id: "cart", quantity: totalQty, price: subtotal }];
-      }
-
-      trackInitiateCheckout(subtotal, items, "PHP");
+      trackInitiateCheckout(subtotal, trackingItems, "PHP");
       router.push("/order");
     }
   };

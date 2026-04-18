@@ -8,7 +8,7 @@ import {
   getStockLabel,
   getLowStockThreshold,
 } from "@/utils/stock.utils";
-import { calculateBestBundlePrice } from "@/domain/rules";
+import { calculateItemTotal } from "@/domain/rules";
 
 interface Props {
   readonly item: CartItemWithProduct;
@@ -34,14 +34,20 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
     stockValue <= getLowStockThreshold(stockValue);
 
   const stockColorClass = getStockColorClass(outOfStock, atMax, lowStock);
-  const stockLabel = stockValue !== null 
-    ? getStockLabel(outOfStock, atMax, lowStock, stockValue, 0)
-    : null;
+  const stockLabel =
+    stockValue === null
+      ? null
+      : getStockLabel(outOfStock, atMax, lowStock, stockValue, 0);
 
-  // Auto-calculate best bundle price for any quantity
-  const bestBundle = calculateBestBundlePrice(item.product.price, item.quantity);
-  const hasBundleDiscount = bestBundle.label !== null;
-  const displayPrice = bestBundle.price;
+  // Determine if bundle is applicable (quantity >= bundleQty)
+  const bundleApplicable =
+    !!item.productBundle && item.quantity >= item.productBundle.bundleQty;
+  const lineTotal = calculateItemTotal(
+    item.product.price,
+    item.quantity,
+    item.productBundle,
+  );
+  const bundleLabel = bundleApplicable ? item.productBundle!.name : null;
 
   return (
     <div className="flex items-center gap-4 py-5 border-b border-gray-100 last:border-0">
@@ -69,9 +75,9 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
         >
           {item.product.name}
         </Link>
-        {hasBundleDiscount ? (
+        {bundleApplicable ? (
           <p className="text-sm font-semibold text-orange-600 mt-1">
-            {bestBundle.label}
+            {bundleLabel}
           </p>
         ) : (
           <p className="text-sm font-extrabold text-orange-600 mt-1">
@@ -85,7 +91,7 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
           >
             {overStock
               ? `Only ${stockValue} available — reduce quantity`
-              : stockLabel ?? "In stock"}
+              : (stockLabel ?? "In stock")}
           </p>
         )}
       </div>
@@ -116,7 +122,7 @@ export default function CartItemRow({ item, onUpdate, onRemove }: Props) {
 
       {/* Line total */}
       <p className="text-sm font-extrabold text-gray-900 w-20 text-right flex-shrink-0">
-        ₱{displayPrice.toLocaleString()}
+        ₱{lineTotal.toLocaleString()}
       </p>
 
       {/* Over-stock warning icon */}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Eye, ShoppingCart, Loader2, Star } from "lucide-react";
-import type { Product } from "@/types/product.types";
+import type { Product, ProductBundle } from "@/types/product.types";
 import { useCartStore } from "@/store/cart.store";
 import { trackAddToCart } from "@/lib/meta-pixel";
 import {
@@ -29,6 +29,187 @@ const StarRating = ({ rating }: { readonly rating: number }) => (
   </div>
 );
 
+// Helper to find the best bundle (lowest per-item price)
+function findBestBundle(
+  bundles: ProductBundle[] | undefined,
+): ProductBundle | undefined {
+  if (!bundles || bundles.length === 0) return undefined;
+  return [...bundles]
+    .filter((b) => b.isActive)
+    .sort(
+      (a, b) => a.bundlePrice / a.bundleQty - b.bundlePrice / b.bundleQty,
+    )[0];
+}
+
+// Helper to check if bundle is a good deal
+function isBundleCheaper(bundle: ProductBundle, unitPrice: number): boolean {
+  return bundle.bundlePrice / bundle.bundleQty < unitPrice;
+}
+
+interface PriceDisplayProps {
+  readonly product: Product;
+  readonly selectedBundle: ProductBundle | null | undefined;
+  readonly outOfStock: boolean;
+  readonly atCapacity: boolean;
+  readonly onSelectBundle: (bundle: ProductBundle | null) => void;
+}
+
+function PriceDisplay({
+  product,
+  selectedBundle,
+  outOfStock,
+  atCapacity,
+  onSelectBundle,
+}: PriceDisplayProps) {
+  const hasBundles = product.bundles && product.bundles.length > 0;
+  const bundles = product.bundles ?? [];
+  const bestBundle = hasBundles ? findBestBundle(bundles) : undefined;
+  const isDisabled = outOfStock || atCapacity;
+
+  // Case 1: Specific bundle is selected - show that bundle's price
+  if (selectedBundle !== null && selectedBundle !== undefined) {
+    return (
+      <div className="flex flex-col">
+        <span
+          className={`text-lg font-extrabold tracking-tight ${
+            isDisabled ? "text-gray-300" : "text-orange-600"
+          }`}
+        >
+          ₱{selectedBundle.bundlePrice.toLocaleString()}
+        </span>
+        <span className="text-[10px] text-gray-500">
+          {selectedBundle.name} ({selectedBundle.bundleQty} items)
+        </span>
+        <span className="text-[10px] text-gray-400 line-through">
+          ₱{(product.price * selectedBundle.bundleQty).toLocaleString()}
+        </span>
+        {/* Bundle selector */}
+        <BundleSelector
+          bundles={bundles}
+          selectedBundle={selectedBundle}
+          productPrice={product.price}
+          onSelect={onSelectBundle}
+        />
+      </div>
+    );
+  }
+
+  // Case 2: Has bundles but none explicitly selected - show best bundle price
+  if (hasBundles && bestBundle && selectedBundle === undefined) {
+    return (
+      <div className="flex flex-col">
+        <span
+          className={`text-lg font-extrabold tracking-tight ${
+            isDisabled ? "text-gray-300" : "text-orange-600"
+          }`}
+        >
+          ₱{bestBundle.bundlePrice.toLocaleString()}
+        </span>
+        <span className="text-[10px] text-emerald-600 font-semibold">
+          {bestBundle.name} ({bestBundle.bundleQty} items)
+        </span>
+        <span className="text-[10px] text-gray-400 line-through">
+          ₱{(product.price * bestBundle.bundleQty).toLocaleString()}
+        </span>
+        {/* Bundle selector */}
+        <BundleSelector
+          bundles={bundles}
+          selectedBundle={bestBundle ?? undefined}
+          productPrice={product.price}
+          onSelect={onSelectBundle}
+        />
+      </div>
+    );
+  }
+
+  // Case 2b: User explicitly selected 1pc (no bundle)
+  if (hasBundles && selectedBundle === null) {
+    return (
+      <div className="flex flex-col">
+        <span
+          className={`text-lg font-extrabold tracking-tight ${
+            isDisabled ? "text-gray-300" : "text-gray-900"
+          }`}
+        >
+          ₱{product.price.toLocaleString()}
+        </span>
+        <span className="text-[10px] text-gray-500">1 item</span>
+        {/* Bundle selector */}
+        <BundleSelector
+          bundles={bundles}
+          selectedBundle={null}
+          productPrice={product.price}
+          onSelect={onSelectBundle}
+        />
+      </div>
+    );
+  }
+
+  // Case 3: No bundles - show regular price
+  return (
+    <span
+      className={`text-lg font-extrabold tracking-tight ${
+        isDisabled ? "text-gray-300" : "text-gray-900"
+      }`}
+    >
+      ₱{product.price.toLocaleString()}
+    </span>
+  );
+}
+
+interface BundleSelectorProps {
+  readonly bundles: ProductBundle[];
+  readonly selectedBundle: ProductBundle | null | undefined;
+  readonly productPrice: number;
+  readonly onSelect: (bundle: ProductBundle | null) => void;
+}
+
+function BundleSelector({
+  bundles,
+  selectedBundle,
+  productPrice,
+  onSelect,
+}: BundleSelectorProps) {
+  return (
+    <div className="flex flex-wrap gap-1 mt-1">
+      <button
+        type="button"
+        onClick={() => onSelect(null)}
+        className={`text-[10px] font-bold px-2 py-0.5 rounded-full border transition-colors ${
+          selectedBundle === null || selectedBundle === undefined
+            ? "bg-orange-500 text-white border-orange-500"
+            : "bg-white text-gray-600 border-gray-200 hover:border-orange-300"
+        }`}
+      >
+        1pc
+      </button>
+      {bundles.slice(0, 2).map((bundle) => {
+        const isCheaper = isBundleCheaper(bundle, productPrice);
+        const isSelected = selectedBundle?.id === bundle.id;
+        let buttonClass: string;
+        if (isSelected) {
+          buttonClass = "bg-orange-500 text-white border-orange-500";
+        } else if (isCheaper) {
+          buttonClass =
+            "bg-emerald-50 text-emerald-600 border-emerald-200 hover:border-emerald-300";
+        } else {
+          buttonClass = "bg-white text-gray-600 border-gray-200";
+        }
+        return (
+          <button
+            key={bundle.id}
+            type="button"
+            onClick={() => onSelect(bundle)}
+            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border transition-colors ${buttonClass}`}
+          >
+            {bundle.name}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 interface Props {
   readonly product: Product;
   readonly stock?: number | null;
@@ -43,6 +224,9 @@ export default function ProductCard({
   onAddSuccess,
 }: Props) {
   const [isAdding, setIsAdding] = useState(false);
+  const [selectedBundle, setSelectedBundle] = useState<
+    ProductBundle | null | undefined
+  >(undefined);
   const { addToCart } = useCartStore();
 
   const thumb = product.images?.length
@@ -51,12 +235,19 @@ export default function ProductCard({
 
   const outOfStock = stock !== null && stock === 0;
   const atCapacity = stock !== null && stock > 0 && cartQty >= stock;
+  // Check if selected bundle quantity exceeds available stock
+  const bundleExceedsStock =
+    selectedBundle !== null &&
+    selectedBundle !== undefined &&
+    stock !== null &&
+    stock > 0 &&
+    selectedBundle.bundleQty > stock;
   const lowStock =
     stock !== null &&
     stock > 0 &&
     !atCapacity &&
     stock <= getLowStockThreshold(stock);
-  const isDisabled = outOfStock || atCapacity || isAdding;
+  const isDisabled = outOfStock || atCapacity || isAdding || bundleExceedsStock;
 
   const stockColorClass = getStockColorClass(outOfStock, atCapacity, lowStock);
   const stockLabel = getStockLabel(
@@ -78,11 +269,43 @@ export default function ProductCard({
     if (isDisabled) return;
     setIsAdding(true);
     try {
-      await addToCart({ productId: product.id, quantity: 1 });
-      // Track AddToCart event
-      trackAddToCart(product.price, [
-        { id: product.id, quantity: 1, price: product.price },
-      ]);
+      let bundleId: string | null = null;
+      let price = product.price;
+
+      if (selectedBundle === undefined) {
+        // Default: use best bundle
+        const best = findBestBundle(product.bundles ?? []);
+        if (best) {
+          bundleId = best.id;
+          price = best.bundlePrice;
+        }
+      } else if (selectedBundle === null) {
+        // User chose 1pc - already initialized correctly
+        // quantity = 1, bundleId = null, price = product.price
+      } else {
+        // User chose specific bundle
+        bundleId = selectedBundle.id;
+        price = selectedBundle.bundlePrice;
+      }
+
+      // Determine quantity based on selection
+      let quantity: number;
+      if (bundleId) {
+        if (selectedBundle === undefined) {
+          quantity = findBestBundle(product.bundles ?? [])?.bundleQty ?? 1;
+        } else {
+          quantity = (selectedBundle as ProductBundle).bundleQty;
+        }
+      } else {
+        quantity = 1;
+      }
+
+      await addToCart({
+        productId: product.id,
+        quantity,
+        productBundleId: bundleId,
+      });
+      trackAddToCart(price, [{ id: product.id, quantity, price }]);
       onAddSuccess?.();
     } finally {
       setIsAdding(false);
@@ -134,15 +357,19 @@ export default function ProductCard({
           </span>
         )}
 
-        {/* Bundle Badges */}
-        <div className="absolute top-2.5 right-2.5 flex flex-col gap-1">
-          <span className="bg-orange-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-md">
-            Buy 2 Get 1 ₱990
-          </span>
-          <span className="bg-emerald-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-md">
-            Buy 5 Get 3 ₱2560
-          </span>
-        </div>
+        {/* Bundle Badges - dynamic from product.bundles */}
+        {product.bundles && product.bundles.length > 0 && (
+          <div className="absolute top-2.5 right-2.5 flex flex-col gap-1">
+            {product.bundles.map((bundle) => (
+              <span
+                key={bundle.id}
+                className="bg-emerald-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full shadow-md"
+              >
+                {bundle.name} ₱{bundle.bundlePrice.toLocaleString()}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -169,13 +396,13 @@ export default function ProductCard({
         <div className="border-t border-gray-100 pt-3 flex flex-col gap-2">
           {/* Price row */}
           <div>
-            <span
-              className={`text-lg font-extrabold tracking-tight ${
-                outOfStock || atCapacity ? "text-gray-300" : "text-gray-900"
-              }`}
-            >
-              ₱{product.price.toLocaleString()}
-            </span>
+            <PriceDisplay
+              product={product}
+              selectedBundle={selectedBundle}
+              outOfStock={outOfStock}
+              atCapacity={atCapacity}
+              onSelectBundle={setSelectedBundle}
+            />
             {stock !== null && (
               <p
                 className={`text-[10px] font-semibold mt-0.5 ${stockColorClass}`}
