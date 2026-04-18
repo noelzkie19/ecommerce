@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { useShop } from "./hooks/useShop";
 import ProductGallery from "./components/ProductGallery";
-import type { ProductImage } from "@/types/product.types";
+import type { ProductImage, ProductBundle } from "@/types/product.types";
 import { useCartStore } from "@/store/cart.store";
 import { CheckoutModal } from "@/features/store/home/modals/CheckoutModal";
 import {
@@ -32,12 +32,6 @@ import TestimonialCarousel from "./components/TestimonialCarousel";
 import MoneyBackGuarantee from "./components/MoneyBackGuarantee";
 import YoutubeTestimonials from "./components/YoutubeTestimonials";
 import FAQSection from "./components/FaqSection";
-
-const BUNDLE_OPTIONS = [
-  { label: "1 Pack", quantity: 1, price: null },
-  { label: "Buy 2 Get 1 Free", quantity: 3, price: 990 },
-  { label: "Buy 5 Get 3 Free", quantity: 8, price: 2560 },
-];
 
 const TRUST_BADGES = [
   { icon: ShieldCheck, label: "FDA Approved" },
@@ -99,13 +93,41 @@ function buildImages(product: ProductLike): ProductImage[] {
   return [];
 }
 
+function calculateStockState(
+  stock: number | null,
+  cartQty: number,
+  productId: string | undefined,
+) {
+  const outOfStock = stock !== null && stock === 0;
+  const atCapacity = stock !== null && cartQty >= stock;
+  const lowStock =
+    stock !== null &&
+    stock > 0 &&
+    !atCapacity &&
+    stock <= getLowStockThreshold(stock);
+  const remaining =
+    stock !== null && stock > 0 ? Math.max(0, stock - cartQty) : Infinity;
+  const overStock = remaining !== Infinity && remaining === 0;
+  return { outOfStock, atCapacity, lowStock, remaining, overStock };
+}
+
+function calculateDiscount(
+  originalPrice: number | null,
+  currentPrice: number,
+): number | null {
+  if (!originalPrice || originalPrice <= currentPrice) return null;
+  return Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+}
+
 export default function ShopDetailPage() {
   const params = useParams();
   const id = String(params?.id ?? "");
 
   const { product, stock, isLoading, error } = useShop(id);
   const [qty, setQty] = useState(1);
-  const [selectedPack, setSelectedPack] = useState(BUNDLE_OPTIONS[0]);
+  const [selectedBundle, setSelectedBundle] = useState<ProductBundle | null>(
+    null,
+  );
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const { cart, addToCart, updateItem, removeItem, clearCart } = useCartStore();
@@ -116,26 +138,14 @@ export default function ShopDetailPage() {
     }
   }, [product?.id, product?.price]);
 
-  const outOfStock = stock !== null && stock === 0;
-  const atCapacity =
-    stock !== null &&
-    (cart.items.find((i) => i.product_id === product?.id)?.quantity ?? 0) >=
-      stock;
-  const lowStock =
-    stock !== null &&
-    stock > 0 &&
-    !atCapacity &&
-    stock <= getLowStockThreshold(stock);
-
   const cartQty =
     cart.items.find((i) => i.product_id === product?.id)?.quantity ?? 0;
-  const remaining =
-    stock !== null && stock > 0 ? Math.max(0, stock - cartQty) : Infinity;
-  const overStock = remaining !== Infinity && qty > remaining;
+  const { outOfStock, atCapacity, lowStock, remaining, overStock } =
+    calculateStockState(stock, cartQty, product?.id);
 
-  const handleSelectPack = (pack: (typeof BUNDLE_OPTIONS)[number]) => {
-    setSelectedPack(pack);
-    setQty(pack.quantity);
+  const handleSelectBundle = (bundle: ProductBundle | null) => {
+    setSelectedBundle(bundle);
+    setQty(bundle?.bundleQty || 1);
   };
 
   const handleDecrement = () => setQty((q) => Math.max(1, q - 1));
@@ -148,11 +158,24 @@ export default function ShopDetailPage() {
 
   const handleAddToCart = async () => {
     if (!product || outOfStock || atCapacity || overStock) return;
-    const bundleLabel = selectedPack.price !== null ? selectedPack.label : undefined;
-    const bundlePrice = selectedPack.price ?? undefined;
-    await addToCart({ productId: product.id, quantity: qty, bundleLabel, bundlePrice });
-    trackAddToCart(product.price * qty, [
-      { id: product.id, quantity: qty, price: product.price },
+    const payload = {
+      productId: product.id,
+      quantity: qty,
+      productBundleId: selectedBundle?.id ?? null,
+    };
+    console.log(
+      "handleAddToCart payload:",
+      payload,
+      "selectedBundle:",
+      selectedBundle,
+    );
+    await addToCart(payload);
+    trackAddToCart(selectedBundle?.bundlePrice || product.price * qty, [
+      {
+        id: product.id,
+        quantity: qty,
+        price: selectedBundle?.bundlePrice || product.price,
+      },
     ]);
     setCheckoutOpen(true);
   };
@@ -161,15 +184,24 @@ export default function ShopDetailPage() {
     await clearCart();
   };
 
-  const modalItems: ModalCartItem[] = cart.items.map((item) => ({
-    id: item.id,
-    name: item.product.name,
-    price: item.product.price,
-    quantity: item.quantity,
-    image: item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
-    bundleLabel: item.bundleLabel,
-    bundlePrice: item.bundlePrice,
-  }));
+  const modalItems: ModalCartItem[] = cart.items.map((item) => {
+    // Use bundle price if applicable
+    const unitPrice =
+      item.productBundle && item.quantity >= item.productBundle.bundleQty
+        ? item.productBundle.bundlePrice / item.productBundle.bundleQty
+        : item.product.price;
+    return {
+      id: item.id,
+      name: item.product.name,
+      price: unitPrice,
+      quantity: item.quantity,
+      image:
+        item.product.images?.[0]?.url ?? item.product.image_url ?? undefined,
+      stock: item.product.stock ?? null,
+      productBundleId: item.productBundleId,
+      productBundle: item.productBundle,
+    };
+  });
 
   if (isLoading) {
     return (
@@ -193,21 +225,13 @@ export default function ShopDetailPage() {
     );
   }
 
-  const discount =
-    product.original_price && product.original_price > product.price
-      ? Math.round(
-          ((product.original_price - product.price) / product.original_price) *
-            100,
-        )
-      : null;
+  const discount = calculateDiscount(product.original_price, product.price);
 
   const stockColorClass = getStockColorClass(outOfStock, atCapacity, lowStock);
-  const stockLabel = getStockLabel(
-    outOfStock,
-    atCapacity,
-    lowStock,
-    stock ?? 0,
-  );
+  const stockLabel =
+    stock === null
+      ? null
+      : getStockLabel(outOfStock, atCapacity, lowStock, stock ?? 0);
   const cartBtnLabel = getCartButtonLabel(outOfStock, atCapacity, overStock);
   const savingsBadge = discount ? (
     <span className="text-sm font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">
@@ -280,20 +304,24 @@ export default function ShopDetailPage() {
               <div className="flex items-baseline gap-3 flex-wrap">
                 <span className="text-2xl sm:text-3xl font-extrabold text-orange-600">
                   ₱
-                  {selectedPack.price !== null
-                    ? selectedPack.price.toLocaleString()
+                  {selectedBundle?.bundlePrice !== null &&
+                  selectedBundle?.bundlePrice !== undefined
+                    ? selectedBundle.bundlePrice.toLocaleString()
                     : (product.price * qty).toLocaleString()}
                 </span>
-                {selectedPack.price !== null && (
-                  <span className="text-base sm:text-lg text-gray-400 line-through">
-                    ₱{(product.price * qty).toLocaleString()}
-                  </span>
-                )}
-                {product.original_price && selectedPack.quantity === 1 && (
-                  <span className="text-base sm:text-lg text-gray-400 line-through">
-                    ₱{product.original_price.toLocaleString()}
-                  </span>
-                )}
+                {selectedBundle?.bundlePrice !== null &&
+                  selectedBundle?.bundlePrice !== undefined && (
+                    <span className="text-base sm:text-lg text-gray-400 line-through">
+                      ₱{(product.price * qty).toLocaleString()}
+                    </span>
+                  )}
+                {product.original_price &&
+                  selectedBundle === null &&
+                  qty === 1 && (
+                    <span className="text-base sm:text-lg text-gray-400 line-through">
+                      ₱{product.original_price.toLocaleString()}
+                    </span>
+                  )}
                 {savingsBadge}
               </div>
 
@@ -316,54 +344,71 @@ export default function ShopDetailPage() {
               <hr className="border-gray-100" />
 
               {/* Bundle Selector */}
-              <div className="flex flex-col gap-2.5">
-                <p className="text-sm font-semibold text-gray-800">
-                  Bundle:{" "}
-                  <span className="text-gray-500 font-normal">
-                    {selectedPack.label}
-                  </span>
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {BUNDLE_OPTIONS.map((pack) => {
-                    const isActive = selectedPack.label === pack.label;
-                    return (
-                      <button
-                        key={pack.label}
-                        type="button"
-                        onClick={() => handleSelectPack(pack)}
-                        className={`relative flex flex-col items-center justify-center min-w-[84px] sm:min-w-[90px] px-4 sm:px-5 py-3 rounded-2xl border-2 transition-all duration-150 ${
-                          isActive
-                            ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-200 scale-105"
-                            : "bg-white border-gray-200 text-gray-700 hover:border-orange-400 hover:bg-orange-50"
-                        }`}
-                      >
-                        <span className="text-sm font-bold leading-tight">
-                          {pack.label}
-                        </span>
-                        {pack.price !== null && (
-                          <span
-                            className={`mt-0.5 text-[11px] font-semibold ${
-                              isActive ? "text-orange-200" : "text-emerald-600"
-                            }`}
-                          >
-                            ₱{pack.price.toLocaleString()}
+              {product.bundles && product.bundles.length > 0 && (
+                <div className="flex flex-col gap-2.5">
+                  <p className="text-sm font-semibold text-gray-800">
+                    Bundle:{" "}
+                    <span className="text-gray-500 font-normal">
+                      {selectedBundle?.name || "1 Pack"}
+                    </span>
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleSelectBundle(null)}
+                      className={`relative flex flex-col items-center justify-center min-w-[84px] sm:min-w-[90px] px-4 sm:px-5 py-3 rounded-2xl border-2 transition-all duration-150 ${
+                        selectedBundle === null
+                          ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-200 scale-105"
+                          : "bg-white border-gray-200 text-gray-700 hover:border-orange-400 hover:bg-orange-50"
+                      }`}
+                    >
+                      <span className="text-sm font-bold leading-tight">
+                        1 Pack
+                      </span>
+                    </button>
+                    {product.bundles.map((bundle) => {
+                      const isActive = selectedBundle?.id === bundle.id;
+                      return (
+                        <button
+                          key={bundle.id}
+                          type="button"
+                          onClick={() => handleSelectBundle(bundle)}
+                          className={`relative flex flex-col items-center justify-center min-w-[84px] sm:min-w-[90px] px-4 sm:px-5 py-3 rounded-2xl border-2 transition-all duration-150 ${
+                            isActive
+                              ? "bg-orange-500 border-orange-500 text-white shadow-lg shadow-orange-200 scale-105"
+                              : "bg-white border-gray-200 text-gray-700 hover:border-orange-400 hover:bg-orange-50"
+                          }`}
+                        >
+                          <span className="text-sm font-bold leading-tight">
+                            {bundle.name}
                           </span>
-                        )}
-                      </button>
-                    );
-                  })}
+                          {bundle.bundlePrice !== null && (
+                            <span
+                              className={`mt-0.5 text-[11px] font-semibold ${
+                                isActive
+                                  ? "text-orange-200"
+                                  : "text-emerald-600"
+                              }`}
+                            >
+                              ₱{bundle.bundlePrice.toLocaleString()}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Quantity + Add to Cart */}
-              {selectedPack.price === null && (
+              {selectedBundle === null && (
                 <p className="text-sm font-semibold text-gray-800 -mb-1">
                   Quantity
                 </p>
               )}
 
               <div className="flex items-center gap-3">
-                {selectedPack.price === null ? (
+                {selectedBundle === null ? (
                   <div
                     className={`flex items-center rounded-2xl border-2 overflow-hidden bg-white transition-colors ${
                       qtyDisabled
@@ -403,7 +448,9 @@ export default function ShopDetailPage() {
                 ) : (
                   <div className="flex items-center gap-2 text-sm font-semibold text-gray-700 bg-gray-50 px-4 py-2 rounded-xl">
                     <span>Quantity:</span>
-                    <span className="text-orange-600">{selectedPack.quantity} items</span>
+                    <span className="text-orange-600">
+                      {selectedBundle?.bundleQty} items
+                    </span>
                   </div>
                 )}
 

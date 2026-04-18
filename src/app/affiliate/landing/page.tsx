@@ -18,28 +18,29 @@ const BENEFITS = [
     icon: Package,
     title: "Ready Products",
     description:
-      "Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito na.",
+      "Pre-curated inventory available immediately. Launch with ready-to-sell products.",
   },
   {
     icon: Bot,
     title: "Automation",
-    description: "Chatbot system at auto replies para sa iyong negosyo.",
+    description: "Intelligent chatbot system with automated responses.",
   },
   {
     icon: TrendingUp,
     title: "Earnings",
-    description: "Kumita ng 15–20% per sale gamit ang systemang ito.",
+    description: "Earn 15–20% per sale using this system.",
   },
   {
     icon: BookOpen,
     title: "Training",
-    description: "Step-by-step videos at beginner-friendly guide.",
+    description:
+      "Comprehensive step-by-step video tutorials and documentation.",
   },
   {
     icon: Users,
     title: "System",
     description:
-      "DONE-FOR-YOU online business system. May system ka na gagamitin from Day 1.",
+      "DONE-FOR-YOU online business system. You have a system to use from Day 1.",
   },
   {
     icon: Wallet,
@@ -51,50 +52,48 @@ const BENEFITS = [
 const HOW_IT_WORKS = [
   {
     step: "ACTIVATE",
-    title: "Mag-activate",
-    description: "Magbayad ng ₱99 one-time access para makuha ang system.",
+    title: "Activate",
+    description: "Pay ₱999 one-time access to get the system.",
   },
   {
     step: "SHARE",
-    title: "Mag-share",
-    description:
-      "Gamitin ang iyong unique referral link para ipakita ang system.",
+    title: "Share",
+    description: "Use your unique referral link to share the system.",
   },
   {
     step: "EARN",
-    title: "Kumita",
-    description:
-      "Kumita ng commission sa benta na gagawin mo gamit ang system.",
+    title: "Earn",
+    description: "Earn commission on every sale you make using the system.",
   },
 ];
 
 const FAQ = [
   {
-    question: "Beginner ako — pwede ba?",
-    answer: "Yes. Designed ito for beginners.",
+    question: "I'm a beginner — can I do this?",
+    answer: "Yes. Designed for beginners.",
   },
   {
-    question: "Kailangan ba magbenta?",
-    answer: "Opo — pero may system kang susundan, hindi trial and error.",
+    question: "Do I need to sell products?",
+    answer: "Yes — but you have a system to follow, no trial and error.",
   },
   {
-    question: "Ilang oras kailangan?",
-    answer: "1–2 hrs/day sapat na.",
+    question: "How many hours do I need?",
+    answer: "1–2 hours per day is enough.",
   },
   {
-    question: "May support ba?",
-    answer: "Yes, may guide + system ka.",
+    question: "Is there support?",
+    answer: "Yes, you have a guide and system.",
   },
 ];
 
 const INCLUSIONS = [
-  "Ready e-commerce system",
-  "Order processing setup",
-  "Ready-to-sell items (no need mag stock)",
-  "Chatbot system with auto replies",
-  "Ready funnel page (high-converting design)",
-  "Step-by-step training videos",
-  "Beginner-friendly guide",
+  "Complete e-commerce system",
+  "Automated order processing",
+  "Pre-curated inventory (no stocking required)",
+  "Automated chatbot with intelligent responses",
+  "High-converting funnel template",
+  "Comprehensive training video series",
+  "Detailed documentation",
   "Lifetime access",
 ];
 
@@ -151,7 +150,7 @@ export default function AffiliateLandingPage() {
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto text-center mb-10">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
-              Ano ba talaga itong system na ito?
+              So what is this system exactly?
             </h2>
             <p className="text-gray-600 text-lg">
               Ito ay isang{" "}
@@ -164,27 +163,32 @@ export default function AffiliateLandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-6 rounded-2xl bg-orange-50 border border-orange-100">
               <Package className="w-10 h-10 text-orange-600 mb-3" />
-              <h3 className="text-lg font-bold text-gray-900 mb-2">PRODUCT</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                READY PRODUCTS
+              </h3>
               <p className="text-gray-600 text-sm">
-                Hindi ka magsisimula sa zero. Lahat ng kailangan mo — nandito
-                na.
+                Pre-curated product catalog ready for immediate sales. Launch
+                your business with ready-to-sell products.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-blue-50 border border-blue-100">
               <Bot className="w-10 h-10 text-blue-600 mb-3" />
               <h3 className="text-lg font-bold text-gray-900 mb-2">
-                SYSTEM & AUTOMATION
+                AUTOMATION SYSTEM
               </h3>
               <p className="text-gray-600 text-sm">
-                Susunod ka nalang sa proseso. Automated selling process gamit
-                ang guided step-by-step system.
+                Intelligent automated chatbot with auto-replies. Fully managed
+                automation system handling customer interactions.
               </p>
             </div>
             <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-100">
               <Video className="w-10 h-10 text-emerald-600 mb-3" />
-              <h3 className="text-lg font-bold text-gray-900 mb-2">TRAINING</h3>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">
+                TRAINING & SUPPORT
+              </h3>
               <p className="text-gray-600 text-sm">
-                May training videos at guide para sa iyong success.
+                Comprehensive step-by-step video tutorials. Dedicated support
+                team available to assist you.
               </p>
             </div>
           </div>
@@ -199,7 +203,7 @@ export default function AffiliateLandingPage() {
               What You Get
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
-              Lahat ng makukuha mo pag nag activate ka
+              Everything you get when you activate
             </h2>
           </div>
 
@@ -227,7 +231,7 @@ export default function AffiliateLandingPage() {
               How It Works
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
-              Ganito ka kikita sa system na ito
+              Here's how you'll earn with this system
             </h2>
             <p className="text-gray-600">
               ₱999 one-time access • 15–20% commission per sale
@@ -260,9 +264,9 @@ export default function AffiliateLandingPage() {
               Why Join
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4">
-              Bakit pumili ng system na ito?
+              Why choose this system?
             </h2>
-            <p className="text-gray-600">Hindi ito magic… pero gumagana ito</p>
+            <p className="text-gray-600">This isn't magic… but it works</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -284,13 +288,13 @@ export default function AffiliateLandingPage() {
 
           <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-xl max-w-2xl mx-auto text-center">
             <p className="text-gray-800 font-medium">
-              Hindi ito get-rich-quick. 👉 Kailangan mo pa din kumilos.
+              This isn't get-rich-quick. You still need to take action.
             </p>
             <p className="text-gray-600 text-sm mt-2">
-              Pero ang difference ay{" "}
-              <span className="font-bold">Hindi ka manghuhula</span> at{" "}
-              <span className="font-bold">Hindi ka mag trial and error</span> —
-              may system ka na susundin.
+              But the difference is you{" "}
+              <span className="font-bold">won't have to guess</span> and{" "}
+              <span className="font-bold">won't trial and error</span> — you
+              have a proven system to follow.
             </p>
           </div>
         </div>
@@ -305,7 +309,7 @@ export default function AffiliateLandingPage() {
               <div className="absolute bottom-0 left-0 w-36 h-36 bg-orange-500/10 rounded-full translate-y-1/2 -translate-x-1/2" />
               <div className="relative">
                 <h3 className="text-2xl font-bold mb-4 text-center">
-                  Magkano para makapag start?
+                  How much to get started?
                 </h3>
 
                 <div className="text-center mb-2">
@@ -330,7 +334,7 @@ export default function AffiliateLandingPage() {
                 </Link>
 
                 <p className="text-gray-400 text-xs text-center mt-4">
-                  Kung gusto mo ng extra income… eto na yun
+                  If you want extra income… here it is
                 </p>
               </div>
             </div>
@@ -371,11 +375,11 @@ export default function AffiliateLandingPage() {
       <section className="py-12 sm:py-16 bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 text-center">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">
-            Hindi mo kailangan maging expert.
+            You don't need to be an expert.
           </h2>
           <p className="text-gray-400 max-w-xl mx-auto mb-6">
-            Kailangan mo lang magsimula. Mag-activate ngayon at simulan ang
-            iyong online business journey!
+            You just need to get started. Activate now and start your online
+            business journey!
           </p>
           <p className="text-orange-400 text-sm mb-6 font-medium">
             CONTACT US: 0920 329 5363

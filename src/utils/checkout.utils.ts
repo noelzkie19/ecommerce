@@ -8,12 +8,11 @@
 import type { PaymentMethod } from "@/types/order.types";
 import type { ModalCartItem } from "@/types/checkout.types";
 import {
-  calculateSubtotal,
   calculateShipping,
   calculateBaseTotal,
   calculateGCashTotal,
   getPaymentMethodLabel,
-  calculateBestBundlePrice,
+  calculateItemTotal,
 } from "@/domain/rules";
 
 // Re-export PRICING from domain
@@ -66,13 +65,14 @@ export const getPaymentMethodLabelFn = (method: PaymentMethod): string => {
 };
 
 /**
- * Calculate subtotal - with auto-applied best bundle pricing
+ * Calculate subtotal - respects explicit bundle selection
  */
 export const calcSubtotal = (items: ModalCartItem[]): number => {
   return items.reduce((sum, item) => {
-    // Calculate best bundle price for any quantity
-    const bestBundle = calculateBestBundlePrice(item.price, item.quantity);
-    return sum + bestBundle.price;
+    const unitPrice = item.price;
+    return (
+      sum + calculateItemTotal(unitPrice, item.quantity, item.productBundle)
+    );
   }, 0);
 };
 

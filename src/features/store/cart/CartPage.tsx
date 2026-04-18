@@ -89,6 +89,7 @@ export default function CartPage() {
                 itemCount={cart.totalQty}
                 totalQty={cart.totalQty}
                 hasStockIssues={hasStockIssues}
+                items={cart.items}
               />
             </div>
           )}

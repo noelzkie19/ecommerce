@@ -2,11 +2,16 @@ export interface CartItem {
   id: string;
   userId: string;
   product_id: string;
+  productBundleId?: string | null;
   quantity: number;
   createdAt: string;
   updatedAt: string;
-  bundleLabel?: string;
-  bundlePrice?: number;
+  productBundle?: {
+    id: string;
+    name: string;
+    bundleQty: number;
+    bundlePrice: number;
+  } | null;
 }
 
 export interface CartProduct {
@@ -25,8 +30,7 @@ export interface CartItemWithProduct extends CartItem {
 export interface AddToCartPayload {
   productId: string;
   quantity: number;
-  bundleLabel?: string;
-  bundlePrice?: number;
+  productBundleId?: string | null;
 }
 
 export interface UpdateCartItemPayload {

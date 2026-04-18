@@ -6,6 +6,21 @@ export interface ProductImage {
   created_at: string;
 }
 
+/**
+ * Product Bundle - represents a bundle pricing option for a product
+ * e.g., "Buy 2 Get 1 Free" = 3 items for a discounted price
+ */
+export interface ProductBundle {
+  id: string;
+  productId: string;
+  name: string;
+  bundleQty: number;
+  bundlePrice: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -20,6 +35,7 @@ export interface Product {
   affiliate_link: string | null;
   created_at: string;
   images: ProductImage[];
+  bundles?: ProductBundle[];
   stock?: number;
 }
 
@@ -51,6 +67,12 @@ export interface CreateProductPayload {
   review_count?: number | null;
   original_price?: number | null;
   affiliate_link?: string | null;
+  bundles?: {
+    name: string;
+    bundleQty: number;
+    bundlePrice: number;
+    isActive: boolean;
+  }[];
 }
 
 export type UpdateProductPayload = Partial<CreateProductPayload>;

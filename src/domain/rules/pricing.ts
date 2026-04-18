@@ -132,70 +132,22 @@ export const getBundleOffer = (
 };
 
 /**
- * Calculate the best bundle price for any quantity
- * Tries all combinations of Buy 2 Get 1 (₱990) and Buy 5 Get 3 (₱2560)
- * Also compares against regular price × quantity
- * Returns the minimum price with bundle combination label
+ * Calculate line total for a cart item, respecting explicit bundle selection.
+ * If a productBundle is provided and quantity >= bundle.bundleQty, applies
+ * full bundles and charges regular price for any remainder.
+ * Otherwise falls back to unitPrice × quantity.
  */
-export const calculateBestBundlePrice = (
+export const calculateItemTotal = (
   unitPrice: number,
   quantity: number,
-): { price: number; label: string | null } => {
-  const { BUNDLE } = PRICING;
-  
-  // Regular price option
-  const regularPrice = unitPrice * quantity;
-  
-  // Start with regular price as baseline
-  let bestPrice = regularPrice;
-  let bestLabel: string | null = null;
-  
-  // Try different combinations of bundles
-  // We can use 0, 1, 2, 3... of each bundle type
-  const maxBuy5Get3 = Math.floor(quantity / BUNDLE.BUY_5_GET_3.quantity);
-  const maxBuy2Get1 = Math.floor(quantity / BUNDLE.BUY_2_GET_1.quantity);
-  
-  // Try all possible combinations
-  for (let numBuy5Get3 = 0; numBuy5Get3 <= maxBuy5Get3; numBuy5Get3++) {
-    const remainingAfter5 = quantity - (numBuy5Get3 * BUNDLE.BUY_5_GET_3.quantity);
-    const maxBuy2ForRemaining = Math.floor(remainingAfter5 / BUNDLE.BUY_2_GET_1.quantity);
-    
-    for (let numBuy2Get1 = 0; numBuy2Get1 <= maxBuy2ForRemaining; numBuy2Get1++) {
-      const remainingAfter2 = remainingAfter5 - (numBuy2Get1 * BUNDLE.BUY_2_GET_1.quantity);
-      
-      // Calculate total price for this combination
-      const bundlePrice = 
-        (numBuy5Get3 * BUNDLE.BUY_5_GET_3.price) + 
-        (numBuy2Get1 * BUNDLE.BUY_2_GET_1.price) +
-        (remainingAfter2 * unitPrice);
-      
-      // If this is better, update best
-      if (bundlePrice < bestPrice) {
-        bestPrice = bundlePrice;
-        
-        // Build label
-        const parts: string[] = [];
-        if (numBuy5Get3 > 0) {
-          parts.push(`${numBuy5Get3}× ${BUNDLE.BUY_5_GET_3.label}`);
-        }
-        if (numBuy2Get1 > 0) {
-          parts.push(`${numBuy2Get1}× ${BUNDLE.BUY_2_GET_1.label}`);
-        }
-        if (remainingAfter2 > 0) {
-          parts.push(`${remainingAfter2}× regular`);
-        }
-        
-        bestLabel = parts.join(" + ");
-      }
-    }
+  productBundle?: { bundleQty: number; bundlePrice: number } | null,
+): number => {
+  if (productBundle && quantity >= productBundle.bundleQty) {
+    const fullBundles = Math.floor(quantity / productBundle.bundleQty);
+    const remainder = quantity % productBundle.bundleQty;
+    return fullBundles * productBundle.bundlePrice + remainder * unitPrice;
   }
-  
-  // If best price is regular price, no bundle label needed
-  if (bestPrice === regularPrice) {
-    return { price: regularPrice, label: null };
-  }
-  
-  return { price: bestPrice, label: bestLabel };
+  return unitPrice * quantity;
 };
 
 /**

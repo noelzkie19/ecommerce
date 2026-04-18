@@ -2,14 +2,9 @@
 
 import { Minus, Plus, Trash2, ShoppingCart, AlertTriangle } from "lucide-react";
 import type { ModalCartItem } from "@/types/checkout.types";
-import {
-  calcSubtotal,
-  calcShipping,
-  calcTotal,
-  PRICING,
-} from "@/utils/checkout.utils";
+import { calcSubtotal, calcTotal } from "@/utils/checkout.utils";
+import { calculateItemTotal } from "@/domain/rules";
 import { getLowStockThreshold } from "@/utils/stock.utils";
-import { calculateBestBundlePrice } from "@/domain/rules";
 
 interface Props {
   readonly items: ModalCartItem[];
@@ -73,7 +68,6 @@ export const CartStep = ({
   compact = false,
 }: Props) => {
   const subtotal = calcSubtotal(items);
-  const shipping = calcShipping(subtotal);
   const total = calcTotal(subtotal);
 
   if (items.length === 0) {
@@ -114,10 +108,18 @@ export const CartStep = ({
             lowStock,
           );
 
-          // Auto-calculate best bundle price for any quantity
-          const bestBundle = calculateBestBundlePrice(item.price, item.quantity);
-          const hasBundleDiscount = bestBundle.label !== null;
-          const displayPrice = bestBundle.price;
+          // Determine if bundle is applicable (quantity >= bundleQty)
+          const bundleApplicable =
+            !!item.productBundle &&
+            item.quantity >= item.productBundle.bundleQty;
+          const lineTotal = calculateItemTotal(
+            item.price,
+            item.quantity,
+            item.productBundle,
+          );
+          const bundleLabel = bundleApplicable
+            ? item.productBundle!.name
+            : null;
 
           return (
             <div
@@ -144,9 +146,9 @@ export const CartStep = ({
                 <p className="text-sm font-bold text-gray-900 truncate">
                   {item.name}
                 </p>
-                {hasBundleDiscount ? (
+                {bundleApplicable ? (
                   <p className="text-xs text-orange-600 font-semibold mt-0.5">
-                    {bestBundle.label}
+                    {bundleLabel}
                   </p>
                 ) : (
                   <p className="text-xs text-gray-400 mt-0.5">
@@ -190,7 +192,7 @@ export const CartStep = ({
 
               {/* Line total */}
               <p className="text-sm font-extrabold text-gray-900 w-16 text-right flex-shrink-0">
-                ₱{displayPrice.toLocaleString()}
+                ₱{lineTotal.toLocaleString()}
               </p>
 
               {/* Over-stock warning */}

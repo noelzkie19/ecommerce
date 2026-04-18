@@ -36,6 +36,16 @@ export interface ProductImage {
 }
 
 /**
+ * ProductBundle entity - represents a bundle offer for a product
+ */
+export interface ProductBundle {
+  id: string;
+  name: string;
+  bundleQty: number;
+  bundlePrice: number;
+}
+
+/**
  * OrderItem entity - represents an item in an order
  */
 export interface OrderItem {
@@ -80,6 +90,8 @@ export interface CartItem {
   price: number;
   quantity: number;
   imageUrl: string | null;
+  productBundleId: string | null;
+  productBundle: ProductBundle | null;
 }
 
 /**
