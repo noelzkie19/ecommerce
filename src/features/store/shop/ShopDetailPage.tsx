@@ -72,6 +72,7 @@ const StarRating = ({ rating }: { readonly rating: number }) => (
 interface ProductLike {
   images?: ProductImage[];
   image_url?: string | null;
+  videoUrl?: string | null;
   id: string;
 }
 
@@ -270,6 +271,7 @@ export default function ShopDetailPage() {
               images={buildImages(product)}
               productName={product.name}
               badge={product.badge}
+              youtubeUrl={product.videoUrl}
             />
 
             <div className="flex flex-col gap-4 sm:gap-5">

@@ -33,6 +33,7 @@ export interface Product {
   review_count: number | null;
   original_price: number | null;
   affiliate_link: string | null;
+  videoUrl: string | null;
   created_at: string;
   images: ProductImage[];
   bundles?: ProductBundle[];
@@ -67,6 +68,7 @@ export interface CreateProductPayload {
   review_count?: number | null;
   original_price?: number | null;
   affiliate_link?: string | null;
+  videoUrl?: string | null;
   bundles?: {
     name: string;
     bundleQty: number;
