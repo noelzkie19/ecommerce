@@ -18,6 +18,7 @@ export const productSchema = z.object({
   badge: z.string().optional(),
   rating: z.coerce.number().min(0).max(5).optional(),
   review_count: z.coerce.number().int().min(0).optional(),
+  videoUrl: z.string().optional(),
   bundles: z.array(bundleSchema).optional(),
 });
 

@@ -154,6 +154,7 @@ export default function ProductFormModal({
           badge: product.badge ?? "",
           rating: product.rating ?? undefined,
           review_count: product.review_count ?? undefined,
+          videoUrl: product.videoUrl ?? "",
           bundles: product.bundles ?? [],
         }
       : {},
@@ -250,9 +251,13 @@ export default function ProductFormModal({
         isActive: b.isActive,
       }));
 
+    // Transform videoUrl: convert empty string to null
+    const videoUrlValue = values.videoUrl?.trim() || null;
+
     const payload = {
       ...values,
       image_url: primaryImageUrl,
+      videoUrl: videoUrlValue,
       bundles: bundlesPayload,
     };
     const galleryUrls = gallery.map((img) => img.url);
@@ -479,6 +484,26 @@ export default function ProductFormModal({
                 placeholder="e.g. Best Seller"
               />
             </div>
+          </div>
+
+          {/* YouTube URL */}
+          <div>
+            <label
+              htmlFor="product-video-url"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              YouTube Video URL
+            </label>
+            <input
+              id="product-video-url"
+              {...register("videoUrl")}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              placeholder="https://www.youtube.com/watch?v=..."
+            />
+            <p className="text-xs text-gray-400 mt-1">
+              Optional. Enter a YouTube video URL to display in the product
+              gallery.
+            </p>
           </div>
 
           {/* Rating / Review Count */}

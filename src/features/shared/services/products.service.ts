@@ -43,11 +43,13 @@ export const productsService = {
   },
 
   async create(payload: CreateProductPayload): Promise<Product> {
+    // videoUrl is now directly supported by the backend
     const { data } = await productsApi.create(payload);
     return (data as any).data ?? data;
   },
 
   async update(id: string, payload: UpdateProductPayload): Promise<Product> {
+    // videoUrl is now directly supported by the backend
     const { data } = await productsApi.update(id, payload);
     return (data as any).data ?? data;
   },
