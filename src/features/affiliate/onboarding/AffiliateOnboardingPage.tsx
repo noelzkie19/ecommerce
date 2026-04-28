@@ -1,33 +1,13 @@
 "use client";
 
-import { Suspense, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import {
-  Link2,
-  Zap,
-  ShieldCheck,
-  CreditCard,
-  Lock,
-  CheckCircle2,
-  Clock,
-  AlertCircle,
-} from "lucide-react";
+import { Suspense, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Lock, CheckCircle2, Clock, AlertCircle } from "lucide-react";
 import { useAuthStore } from "@/store/auth.store";
-import { affiliateDashboardService } from "../dashboard/services/affiliate-dashboard.service";
 import { Button } from "@/shared/components/ui/Button";
 import { Card, CardContent } from "@/shared/components/ui/Card";
 import { Spinner } from "@/shared/components/ui/Spinner";
-
-// PayMongo polling constants - aligned with checkout modal best practices
-const MAX_POLL_ATTEMPTS = 100; // 100 * 3s = 5 minutes max
-const POLL_INTERVAL_MS = 3000;
-
-const BENEFITS = [
-  { icon: Link2, label: "Unique referral link" },
-  { icon: Zap, label: "Earn commissions on every sale" },
-  { icon: ShieldCheck, label: "Access to training courses" },
-  { icon: CreditCard, label: "Easy Maya cashout" },
-];
+import { authService } from "@/features/auth";
 
 // Reusable BrandHeader component
 const BrandHeader = ({ initial }: { initial: string }) => (
@@ -199,85 +179,6 @@ const QRCard = ({
   </div>
 );
 
-// Reusable OnboardingCard component
-const OnboardingCard = ({
-  isLoading,
-  error,
-  onPay,
-  referralCode,
-}: {
-  isLoading: boolean;
-  error: string | null;
-  onPay: () => void;
-  referralCode?: string | null;
-}) => (
-  <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center px-4 py-12">
-    <BrandHeader initial="T" />
-    <p className="text-orange-300 text-sm mt-1 mb-8">
-      Activate your affiliate account
-    </p>
-
-    <Card className="w-full max-w-sm p-7">
-      <CardContent className="text-center mb-6">
-        <h2 className="text-xl font-extrabold text-gray-900">
-          Join Affiliate Program
-        </h2>
-        <p className="text-gray-400 text-sm mt-1">One-time registration fee</p>
-      </CardContent>
-
-      {/* Price */}
-      <div className="bg-orange-50 rounded-xl py-5 text-center mb-6">
-        <p className="text-4xl font-extrabold text-orange-500">₱999</p>
-        <p className="text-orange-400 text-sm mt-1">PHP via Maya Wallet</p>
-      </div>
-
-      {/* Benefits */}
-      <ul className="space-y-3 mb-7">
-        {BENEFITS.map(({ icon: Icon, label }) => (
-          <li
-            key={label}
-            className="flex items-center gap-3 text-gray-600 text-sm"
-          >
-            <CheckCircle2 className="w-4 h-4 text-orange-500 shrink-0" />
-            {label}
-          </li>
-        ))}
-      </ul>
-
-      {/* Referral indicator */}
-      {referralCode && (
-        <div className="bg-orange-50 border border-orange-100 rounded-lg p-3 mb-6 text-center">
-          <p className="text-xs text-orange-600 font-medium">
-            🎉 You were referred by an existing affiliate!
-          </p>
-          <p className="text-xs text-orange-400 mt-1">
-            They'll earn a commission when you complete registration
-          </p>
-        </div>
-      )}
-
-      {error && (
-        <p className="text-red-500 text-xs text-center mb-4">{error}</p>
-      )}
-
-      {/* CTA */}
-      <Button
-        variant="primary"
-        onClick={onPay}
-        loading={isLoading}
-        className="w-full"
-      >
-        {isLoading ? "Processing..." : "Pay ₱999 with Maya Wallet"}
-      </Button>
-
-      <p className="text-gray-400 text-xs text-center mt-4 flex items-center justify-center gap-1">
-        <Lock className="w-3 h-3" />
-        Secured by PayMongo. Your payment is encrypted and safe.
-      </p>
-    </Card>
-  </div>
-);
-
 // Reusable Fallback component
 const AffiliateOnboardingFallback = () => (
   <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center">
@@ -289,185 +190,95 @@ const AffiliateOnboardingContent = () => {
   const searchParams = useSearchParams();
   const paymentStatus = searchParams?.get("status");
   const isPaid = paymentStatus === "paid";
+  const router = useRouter();
+
+  // Redirect to dashboard if user is an active affiliate
+  useEffect(() => {
+    const { user, isActiveAffiliate } = useAuthStore.getState();
+    if (user?.isAffiliate && isActiveAffiliate()) {
+      router.replace("/affiliate/dashboard");
+    }
+  }, [router]);
 
   // Capture referral code from URL (e.g., ?ref=CODE) or sessionStorage fallback
   // (sessionStorage is set by useRegister when a user signs up via a referral link)
-  const urlRef = searchParams?.get("ref") || null;
+  // const urlRef = searchParams?.get("ref") || null; // Not used in current implementation
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  const hasSessionStorage = typeof sessionStorage !== "undefined";
-  const sessionRef = hasSessionStorage
-    ? sessionStorage.getItem("affiliate_ref")
-    : null;
-  const referralCode = urlRef || sessionRef || null;
+  // const hasSessionStorage = typeof sessionStorage !== "undefined";
+  // const sessionRef = hasSessionStorage
+  //   ? sessionStorage.getItem("affiliate_ref")
+  //   : null;
+  // const referralCode = urlRef || sessionRef || null; // Not used in current implementation
 
   const { user } = useAuthStore();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // QR code state
-  const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
-  const [pollStatus, setPollStatus] = useState<
-    "waiting" | "paid" | "failed" | "timeout"
-  >("waiting");
-
   const initial = user?.fullName?.[0]?.toUpperCase() ?? "A";
-
-  const handlePay = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const result = await affiliateDashboardService.register(
-        referralCode || undefined,
-      );
-
-      // Clear the sessionStorage ref now that it has been consumed by the
-      // payment creation request — prevents stale refs on future visits.
-      try {
-        sessionStorage.removeItem("affiliate_ref");
-      } catch {
-        // ignore
-      }
-
-      // Priority: Maya Wallet deep link > QR code (fallback)
-      // Maya Wallet opens the app directly via deep link
-      if (result.redirectUrl) {
-        // Direct redirect to Maya Wallet - this opens the Maya app
-        globalThis.location.href = result.redirectUrl;
-      } else if (result.qrCodeUrl) {
-        setQrCodeUrl(result.qrCodeUrl);
-        setPaymentIntentId(result.paymentIntentId);
-      } else {
-        console.error("[Onboarding] No payment URLs returned:", result);
-        setError("No payment method available. Please try again.");
-      }
-    } catch (err: unknown) {
-      console.error("[Onboarding] Payment error:", err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to initiate payment. Please try again.",
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Poll for payment confirmation when QR code is shown
-  const checkPaymentStatus = async () => {
-    if (!paymentIntentId || pollStatus !== "waiting") return;
-
-    try {
-      const result = await affiliateDashboardService.verifyRegistrationPayment(
-        paymentIntentId,
-        user?.id,
-      );
-
-      // Backend may return { status } or { message: "Payment status: <status>" }
-      // Normalize the status field from either source (same as checkout callback)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const res = result as Record<string, unknown>;
-      const status: string =
-        (res.status as string) ||
-        (typeof res.message === "string"
-          ? res.message.replace("Payment status: ", "")
-          : "");
-
-      if (status === "succeeded" || result.alreadyConfirmed) {
-        setPollStatus("paid");
-        // Redirect directly to dashboard - affiliate is activated immediately
-        setTimeout(() => {
-          globalThis.location.href = "/affiliate/dashboard";
-        }, 1500);
-      } else if (status === "payment_intent.payment_failed") {
-        setPollStatus("failed");
-      }
-      // awaiting_next_action or other intermediate states — keep polling
-    } catch (err) {
-      console.error("[Onboarding] Payment check error:", err);
-      // Don't change status on error - keep polling
-    }
-  };
-
-  // Track polling attempts to implement timeout
-  const pollAttempts = useRef(0);
-
-  const handleCloseQr = () => {
-    setQrCodeUrl(null);
-    setPaymentIntentId(null);
-    setPollStatus("waiting");
-    pollAttempts.current = 0;
-  };
-
-  // Poll for payment status when QR code is shown
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    // Only poll if QR is shown and we're still waiting
-    if (qrCodeUrl && paymentIntentId && !isPaid && pollStatus === "waiting") {
-      // Check immediately
-      checkPaymentStatus();
-
-      // Then poll every 3 seconds, up to max attempts
-      intervalRef.current = setInterval(() => {
-        pollAttempts.current++;
-
-        // Check if we've exceeded max attempts
-        if (pollAttempts.current >= MAX_POLL_ATTEMPTS) {
-          if (intervalRef.current) {
-            clearInterval(intervalRef.current);
-          }
-          setPollStatus("timeout");
-          return;
-        }
-
-        checkPaymentStatus();
-      }, POLL_INTERVAL_MS);
-    }
-
-    // Cleanup on unmount or when polling should stop
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-      pollAttempts.current = 0;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [qrCodeUrl, paymentIntentId, isPaid]);
 
   // Show "waiting for approval" UI when payment is successful
   if (isPaid) {
     return <PaymentSuccessCard initial={initial} />;
   }
 
-  // Show QR code if available
-  if (qrCodeUrl) {
-    return (
-      <QRCard
-        qrCodeUrl={qrCodeUrl}
-        pollStatus={pollStatus}
-        onCheckPayment={checkPaymentStatus}
-        onTryAgain={() => {
-          pollAttempts.current = 0;
-          setPollStatus("waiting");
-        }}
-        onCheckAgain={() => {
-          pollAttempts.current = 0;
-          setPollStatus("waiting");
-        }}
-        onClose={handleCloseQr}
-      />
-    );
-  }
-
-  // Show payment UI for pending affiliates (default)
+  // Always show pending approval UI (no payment required)
   return (
-    <OnboardingCard
-      isLoading={isLoading}
-      error={error}
-      onPay={handlePay}
-      referralCode={referralCode}
-    />
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex flex-col items-center justify-center px-4 py-12">
+      <BrandHeader initial={initial} />
+
+      <Card className="w-full max-w-sm p-7">
+        <CardContent className="text-center mb-6">
+          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <CheckCircle2 className="w-8 h-8 text-blue-600" />
+          </div>
+          <h2 className="text-xl font-extrabold text-gray-900">
+            Registration Successful!
+          </h2>
+          <p className="text-gray-400 text-sm mt-1">
+            Your affiliate registration has been submitted
+          </p>
+        </CardContent>
+
+        <div className="bg-blue-50 rounded-xl py-5 text-center mb-6">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <Clock className="w-5 h-5 text-blue-600" />
+            <p className="text-lg font-bold text-blue-600">Pending Approval</p>
+          </div>
+          <p className="text-blue-400 text-sm">
+            Our team is reviewing your application. You'll be notified once
+            approved. Please send proof of payment to admin for verification.
+          </p>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          <Button
+            variant="outline"
+            onClick={() => {
+              authService
+                .logout()
+                .then(() => {
+                  globalThis.window.location.href = "/";
+                })
+                .catch((error) => {
+                  console.error("Logout failed:", error);
+                  // Fallback: clear state and redirect anyway
+                  useAuthStore.getState().clearUser();
+                  globalThis.window.location.href = "/";
+                });
+            }}
+            className="w-full text-sm"
+          >
+            Sign Out
+          </Button>
+        </div>
+
+        <p className="text-gray-400 text-xs text-center mb-4">
+          Please check your email for confirmation. You will receive a
+          confirmation email once your registration is processed.
+        </p>
+
+        <p className="text-gray-400 text-xs text-center">
+          You can check back later or contact support if you have questions.
+        </p>
+      </Card>
+    </div>
   );
 };
 
