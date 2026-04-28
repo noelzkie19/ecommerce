@@ -1,4 +1,4 @@
-export type AffiliateStatus = "pending" | "active" | "suspended";
+export type AffiliateStatus = "pending" | "active" | "suspended" | "rejected";
 export type PaymentStatus = "unpaid" | "paid";
 export type CommissionType = "percentage" | "fixed";
 
@@ -18,6 +18,13 @@ export interface Affiliate {
   productCount?: number;
   totalSales?: number;
   totalCommissions?: number;
+  // Approval-related fields
+  paymentProofUrl?: string | null;
+  paymentProofRef?: string | null;
+  paymentProofSubmittedAt?: string | null;
+  approvedBy?: string | null;
+  approvedAt?: string | null;
+  rejectionReason?: string | null;
 }
 
 // ── Affiliate Product assignment ──────────────────────────────────────────────

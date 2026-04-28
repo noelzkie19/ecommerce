@@ -30,6 +30,7 @@ export function Navbar() {
   const scrolled = useScrolled();
   const pathname = usePathname();
   const isShopPage = pathname?.startsWith("/shop");
+  const isAffiliatePage = pathname?.startsWith("/affiliate");
 
   useEffect(() => {
     const handler = () => {
@@ -191,41 +192,45 @@ export function Navbar() {
               <LayoutDashboard size={14} /> Admin
             </Link>
           )}
+          {/* Cart - only on shop page */}
           {isShopPage && (
-            <>
-              {/* Cart link */}
-              <Link
-                href="/cart"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 text-sm font-semibold text-gray-300 hover:text-orange-400 py-3 border-b border-white/5 transition-colors"
-              >
-                <ShoppingCart size={14} />
-                Cart
-                {cart.totalQty > 0 && (
-                  <span className="ml-auto bg-orange-500 text-white text-[10px] font-bold rounded-full px-2 py-0.5">
-                    {cart.totalQty > 9 ? "9+" : cart.totalQty}
-                  </span>
-                )}
-              </Link>
-              {user ? (
-                <>
-                  <div className="py-3 border-b border-white/5">
-                    <p className="text-xs text-gray-500">Signed in as</p>
-                    <p className="text-sm font-semibold text-white">
-                      {user.fullName}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setMobileOpen(false);
-                      handleSignOut();
-                    }}
-                    className="flex items-center gap-2 text-sm font-semibold text-red-400 hover:text-red-300 py-3 w-full transition-colors"
-                  >
-                    <LogOut size={14} /> Sign Out
-                  </button>
-                </>
-              ) : (
+            <Link
+              href="/cart"
+              onClick={() => setMobileOpen(false)}
+              className="flex items-center gap-2 text-sm font-semibold text-gray-300 hover:text-orange-400 py-3 border-b border-white/5 transition-colors"
+            >
+              <ShoppingCart size={14} />
+              Cart
+              {cart.totalQty > 0 && (
+                <span className="ml-auto bg-orange-500 text-white text-[10px] font-bold rounded-full px-2 py-0.5">
+                  {cart.totalQty > 9 ? "9+" : cart.totalQty}
+                </span>
+              )}
+            </Link>
+          )}
+
+          {/* User actions for shop and affiliate pages */}
+          {(isShopPage || isAffiliatePage) &&
+            (user ? (
+              <>
+                <div className="py-3 border-b border-white/5">
+                  <p className="text-xs text-gray-500">Signed in as</p>
+                  <p className="text-sm font-semibold text-white">
+                    {user.fullName}
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    handleSignOut();
+                  }}
+                  className="flex items-center gap-2 text-sm font-semibold text-red-400 hover:text-red-300 py-3 w-full transition-colors"
+                >
+                  <LogOut size={14} /> Sign Out
+                </button>
+              </>
+            ) : (
+              isShopPage && (
                 <>
                   {guestId && (
                     <div className="flex items-center gap-2 py-3 border-b border-white/5">
@@ -245,9 +250,8 @@ export function Navbar() {
                     Sign In
                   </Link>
                 </>
-              )}
-            </>
-          )}
+              )
+            ))}
         </div>
       </div>
     </header>

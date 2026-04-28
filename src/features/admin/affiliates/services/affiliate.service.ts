@@ -98,4 +98,30 @@ export const affiliatesService = {
     const response = await affiliatesApi.getAuthUsers();
     return getData<AuthUser[]>(response);
   },
+
+  approve: async (id: string): Promise<Affiliate> => {
+    const response = await affiliatesApi.approve(id);
+    return getData<Affiliate>(response);
+  },
+
+  reject: async (id: string, reason?: string): Promise<Affiliate> => {
+    const response = await affiliatesApi.reject(id, reason);
+    return getData<Affiliate>(response);
+  },
+
+  uploadPaymentProofImage: async (
+    id: string,
+    file: File,
+    reference?: string,
+  ): Promise<{ paymentProofUrl: string; paymentProofRef: string }> => {
+    const formData = new FormData();
+    formData.append("image", file); // Must match multer.single("image") in backend
+    if (reference?.trim()) {
+      formData.append("proofRef", reference.trim());
+    }
+    const response = await affiliatesApi.uploadPaymentProofImage(id, formData);
+    return getData<{ paymentProofUrl: string; paymentProofRef: string }>(
+      response,
+    );
+  },
 };

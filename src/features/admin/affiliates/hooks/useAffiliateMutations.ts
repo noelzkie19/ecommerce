@@ -41,6 +41,12 @@ export const useAffiliateMutations = (onSuccess?: () => void) => {
   const activateAffiliate = (id: string) =>
     handleAsync(() => affiliatesService.activate(id).then(() => {}));
 
+  const approveAffiliate = (id: string) =>
+    handleAsync(() => affiliatesService.approve(id).then(() => {}));
+
+  const rejectAffiliate = (id: string, reason?: string) =>
+    handleAsync(() => affiliatesService.reject(id, reason).then(() => {}));
+
   const assignProduct = (affiliateId: string, dto: AssignProductDTO) =>
     handleAsync(() =>
       affiliatesService.assignProduct(affiliateId, dto).then(() => {}),
@@ -48,6 +54,17 @@ export const useAffiliateMutations = (onSuccess?: () => void) => {
 
   const removeProduct = (affiliateId: string, productId: string) =>
     handleAsync(() => affiliatesService.removeProduct(affiliateId, productId));
+
+  const uploadPaymentProofImage = (
+    id: string,
+    file: File,
+    reference?: string,
+  ) =>
+    handleAsync(() =>
+      affiliatesService
+        .uploadPaymentProofImage(id, file, reference)
+        .then(() => {}),
+    );
 
   const clearError = () => setError(null);
 
@@ -57,8 +74,11 @@ export const useAffiliateMutations = (onSuccess?: () => void) => {
     deleteAffiliate,
     suspendAffiliate,
     activateAffiliate,
+    approveAffiliate,
+    rejectAffiliate,
     assignProduct,
     removeProduct,
+    uploadPaymentProofImage,
     clearError,
     isLoading,
     error,

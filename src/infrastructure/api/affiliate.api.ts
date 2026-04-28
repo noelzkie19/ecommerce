@@ -36,6 +36,25 @@ export const affiliatesApi = {
   activate: (id: string) =>
     apiClient.patch<Affiliate>(`/api/affiliates/${id}/activate`),
 
+  approve: (id: string) =>
+    apiClient.post<Affiliate>(`/api/affiliates/${id}/approve`),
+
+  reject: (id: string, reason?: string) =>
+    apiClient.post<Affiliate>(`/api/affiliates/${id}/reject`, { reason }),
+
+  // ── Payment Proof Upload ────────────────────────────────────────────────────
+
+  uploadPaymentProofImage: (id: string, formData: FormData) =>
+    apiClient.post<{ paymentProofUrl: string; paymentProofRef: string }>(
+      `/api/affiliates/${id}/payment-proof-image`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    ),
+
   // ── Affiliate Products ──────────────────────────────────────────────────────
 
   getProducts: (affiliateId: string) =>

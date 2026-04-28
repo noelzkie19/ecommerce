@@ -81,8 +81,11 @@ const AffiliatesPage = () => {
           affiliates={affiliates}
           onSuspend={(a) => mutations.suspendAffiliate(a.id)}
           onActivate={(a) => mutations.activateAffiliate(a.id)}
+          onApprove={(a) => mutations.approveAffiliate(a.id)}
+          onReject={(a, reason) => mutations.rejectAffiliate(a.id, reason)}
           onDelete={(a) => setAffiliateToDelete(a)}
           onRefetch={refetch}
+          onUploadPaymentProof={refetch}
         />
         {meta && meta.totalPages > 1 && (
           <AffiliatePagination meta={meta} onPageChange={setPage} />
@@ -133,6 +136,7 @@ const AffiliatesPage = () => {
           <option value="pending">Pending</option>
           <option value="active">Active</option>
           <option value="suspended">Suspended</option>
+          <option value="rejected">Rejected</option>
         </select>
       </div>
 
